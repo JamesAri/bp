@@ -1,6 +1,5 @@
 # Zásady pro vypracování:
 ---
-- Prozkoumejte, co je Android Jetpack a jaké možnosti přináší při vytváření mobilních aplikací na platformě Android.
-- Podrobně popište Android Jetpack a analyzujte výhody, které přináší.
-- Navrhněte vhodnou aplikaci, na které ukážete použití Android JetPacku.
-- Navrženou aplikaci realizujte, ověřte její funkcionalitu na platformě Android a navrhněte další možná rozšíření aplikace.
+- Prozkoumejte, jaké možnosti a výhody Android Jetpack přináší při vytváření mobilních aplikací na platformě Android.
+- Navrhněte vhodnou netriviální aplikaci, na které ukážete použití Android JetPacku.
+- Navrženou aplikaci realizujte, ověřte její funkcionalitu reprezentativní sadou testů na platformě Android a navrhněte další možná rozšíření aplikace.
