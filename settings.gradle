@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "BP"
+rootProject.name = "JetpackComposeTestProject"
 include ':app'

@@ -1,4 +1,4 @@
-package cz.zcu.students.slechta
+package cz.zcu.students.jetpackcomposetestproject
 
 import org.junit.Test
 

@@ -1,9 +1,3 @@
 <resources>
-    <string name="app_name">BP</string>
-    <string name="scanner_logo">Scanner logo</string>
-    <string name="take_photo_text">Camera demo</string>
-    <string name="capture_image">Capture image</string>
-    <string name="recognition_result_placeholder">Result placeholder</string>
-    <string name="detect_text">Detect</string>
-    <string name="prompt_snap">Snap</string>
+    <string name="app_name">JetpackComposeTestProject</string>
 </resources>

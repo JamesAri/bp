@@ -1,4 +1,4 @@
-package cz.zcu.students.slechta
+package cz.zcu.students.jetpackcomposetestproject
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("cz.zcu.students.slechta", appContext.packageName)
+        assertEquals("cz.zcu.students.jetpackcomposetestproject", appContext.packageName)
     }
 }
