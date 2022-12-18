@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,17 +19,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,9 +33,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.accompanist.permissions.shouldShowRationale
+import cz.zcu.students.jetpackcomposetestproject.ui.LocalSpacing
+import cz.zcu.students.jetpackcomposetestproject.ui.spacing
 import cz.zcu.students.jetpackcomposetestproject.ui.theme.JetpackComposeTestProjectTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -47,16 +51,98 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            JetpackComposeTestProjectTheme {
+            JetpackComposeTestProjectTheme(
+                dynamicColor = false,
+                content = {
 //                CardDemo()
 //                ScaffoldDemo()
 //                LazyColumnDemo()
 //                FlowDemo()
 //                AnimationDemo()
 //                Navigation()
-                BottomNavigationDemo()
+//                BottomNavigationDemo()
+                    ProperPermissionHandlingDemo()
+                }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun ProperPermissionHandlingDemo() {
+    val permissionsState = rememberMultiplePermissionsState(
+        permissions = listOf(
+            android.Manifest.permission.CAMERA,
+            android.Manifest.permission.RECORD_AUDIO
+        )
+    )
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(key1 = lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_START) {
+                permissionsState.launchMultiplePermissionRequest()
             }
         }
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        permissionsState.permissions.forEach { permission ->
+            when (permission.permission) {
+                android.Manifest.permission.CAMERA -> {
+                    when {
+                        permission.status.isGranted -> {
+                            Text(text = "Camera permission accepted, yeey")
+                        }
+                        permission.status.shouldShowRationale -> {
+                            Text(text = "Camera permission is needed to take a picture of *...*.")
+                        }
+                        // declined for the second time
+                        permission.isPermanentlyDenied() -> {
+                            Text(
+                                text = "Camera permission was permanently denied." +
+                                        System.lineSeparator() +
+                                        "You can enable it in the app settings."
+                            )
+                        }
+                    }
+                }
+                android.Manifest.permission.RECORD_AUDIO -> {
+                    when {
+                        permission.status.isGranted -> {
+                            Text(text = "Record audio permission accepted, yeey")
+                        }
+                        permission.status.shouldShowRationale -> {
+                            Text(
+                                text = "Record audio permission is needed to take a audio " +
+                                        "record of *...*."
+                            )
+                        }
+                        // declined for the second time
+                        permission.isPermanentlyDenied() -> {
+                            Text(
+                                text = "Record audio permission was permanently denied." +
+                                        System.lineSeparator() +
+                                        "You can enable it in the app settings."
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        Text(text = "X : Camera permission accepted")
+        Text(text = "X : Record Audio permission accepted")
     }
 }
 
@@ -202,7 +288,8 @@ fun SnackBar(
             },
             modifier = Modifier.fillMaxWidth(),
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
+        Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
         Button(onClick = {
             scopeCoroutine.launch {
                 snackBarHostState.showSnackbar("Hello $textFieldState")
@@ -224,7 +311,9 @@ fun ScaffoldDemo() {
         snackbarHost = { SnackbarHost(snackBarHostState) },
         content = { innerPadding ->
             SnackBar(
-                Modifier.padding(innerPadding), textFieldState = textFieldState, updateText = {
+                modifier = Modifier.padding(innerPadding),
+                textFieldState = textFieldState,
+                updateText = {
                     textFieldState = it
                 }, snackBarHostState, scopeCoroutine
             )

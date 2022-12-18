@@ -41,12 +41,12 @@ fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     onItemClick: (BottomNavItem) -> Unit
 ) {
-    val backStackEntry = navController.currentBackStackEntryAsState()
+    val backStackEntryState = navController.currentBackStackEntryAsState()
     NavigationBar(
     ) {
         items.forEach { item ->
-//            val selected = item.route == navController.currentDestination?.route
-            val selected = item.route == backStackEntry.value?.destination?.route
+//            val selected = item.route == navController.currentDestination?.route // wont work, not a state
+            val selected = item.route == backStackEntryState.value?.destination?.route
             NavigationBarItem(
                 selected = selected,
                 onClick = { onItemClick(item) },
@@ -71,7 +71,8 @@ fun BottomNavigationBar(
                             )
                         } else {
                             Icon(
-                                item.icon, contentDescription = item.name
+                                item.icon,
+                                contentDescription = item.name
                             )
                         }
                         if (selected) {
