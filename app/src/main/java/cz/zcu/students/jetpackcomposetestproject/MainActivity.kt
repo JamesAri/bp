@@ -61,12 +61,57 @@ class MainActivity : ComponentActivity() {
 //                AnimationDemo()
 //                Navigation()
 //                BottomNavigationDemo()
-                    ProperPermissionHandlingDemo()
+//                ProperPermissionHandlingDemo()
+                    CompilerOptimizationTest()
                 }
             )
         }
     }
 }
+
+@Composable
+fun CompilerOptimizationTest() {
+    var counter by remember {
+        mutableStateOf(0)
+    }
+    // counter2 marked as stable - primitive - won't trigger recomposition
+    // complex objects (ViewModel for example) might trigger recomposition in some cases -
+    // for example when passing handlers in  lambda functions and we're fetching data from that model
+    var counter2 = 0
+    // SO: Lambda memoization is done automatically by the compiler by generating a remember call
+    // implicitly based on the stable values captured by the lambda. You only need remember
+    // explicitly if one or more of the captured values is not considered stable by the compiler.
+
+    // Optimization tips:
+    // 1) External modules marked as unstable
+    //  -> convert to local module objects, extract primitive types, ...
+    // 2) ViewModel and other complex objects marked also as unstable
+    //  -> use remember, viewModel::fn, ...
+    // 3) In forEach, map, filter use key(some_identifier) { @Composable }
+    //  -> won't trigger recomposition if only layout changed
+
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize(),
+    ) {
+        Column {
+            Button(onClick = {
+                counter++
+            }) {
+                Text(text = "$counter $counter2")
+            }
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+            Button(onClick = {
+                counter2++
+            }) {
+                Text(text = counter2.toString())
+            }
+        }
+    }
+}
+
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -289,7 +334,6 @@ fun SnackBar(
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
-        Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
         Button(onClick = {
             scopeCoroutine.launch {
                 snackBarHostState.showSnackbar("Hello $textFieldState")
@@ -315,7 +359,9 @@ fun ScaffoldDemo() {
                 textFieldState = textFieldState,
                 updateText = {
                     textFieldState = it
-                }, snackBarHostState, scopeCoroutine
+                },
+                snackBarHostState = snackBarHostState,
+                scopeCoroutine = scopeCoroutine
             )
         })
 }

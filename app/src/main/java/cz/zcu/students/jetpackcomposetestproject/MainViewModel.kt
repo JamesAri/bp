@@ -7,6 +7,10 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
+
+    private val _state = MutableStateFlow("")
+    val state = _state.asStateFlow()
+
     val countDownFlow = flow<Int> {
         val startValue = 10
         var currentValue = startValue
