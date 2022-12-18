@@ -18,6 +18,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
@@ -33,6 +37,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import cz.zcu.students.jetpackcomposetestproject.ui.theme.JetpackComposeTestProjectTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -47,9 +53,33 @@ class MainActivity : ComponentActivity() {
 //                LazyColumnDemo()
 //                FlowDemo()
 //                AnimationDemo()
-                Navigation()
+//                Navigation()
+                BottomNavigationDemo()
             }
         }
+    }
+}
+
+@Composable
+fun BottomNavigationDemo() {
+    val navController = rememberNavController()
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(
+                items = listOf(
+                    BottomNavItem.Home,
+                    BottomNavItem.Notifications,
+                    BottomNavItem.Settings,
+                ),
+                navController = navController,
+                onItemClick = {
+                    navController.navigate(it.route)
+                }
+            )
+        }
+    ) {
+        MyBottomNavigation(navController = navController)
+        println(it)
     }
 }
 
