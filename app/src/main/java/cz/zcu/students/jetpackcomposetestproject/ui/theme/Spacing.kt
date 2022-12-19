@@ -1,4 +1,4 @@
-package cz.zcu.students.jetpackcomposetestproject.ui
+package cz.zcu.students.jetpackcomposetestproject.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

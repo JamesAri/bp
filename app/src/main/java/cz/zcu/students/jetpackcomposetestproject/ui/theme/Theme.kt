@@ -15,8 +15,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
-import cz.zcu.students.jetpackcomposetestproject.ui.LocalSpacing
-import cz.zcu.students.jetpackcomposetestproject.ui.Spacing
 
 private val DarkColorScheme = darkColorScheme(
     primary = PrimaryGreen,

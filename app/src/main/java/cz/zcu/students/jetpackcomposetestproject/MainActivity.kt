@@ -4,6 +4,7 @@ package cz.zcu.students.jetpackcomposetestproject
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -41,15 +42,20 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
-import cz.zcu.students.jetpackcomposetestproject.ui.LocalSpacing
-import cz.zcu.students.jetpackcomposetestproject.ui.spacing
+import cz.zcu.students.jetpackcomposetestproject.ui.screen.DependencyScreen
 import cz.zcu.students.jetpackcomposetestproject.ui.theme.JetpackComposeTestProjectTheme
+import cz.zcu.students.jetpackcomposetestproject.ui.theme.LocalSpacing
+import cz.zcu.students.jetpackcomposetestproject.ui.theme.spacing
+import cz.zcu.students.jetpackcomposetestproject.ui.viewmodel.DependencyViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModel: DependencyViewModel by viewModels()
         setContent {
             JetpackComposeTestProjectTheme(
                 dynamicColor = false,
@@ -62,7 +68,9 @@ class MainActivity : ComponentActivity() {
 //                Navigation()
 //                BottomNavigationDemo()
 //                ProperPermissionHandlingDemo()
-                    CompilerOptimizationTest()
+//                    CompilerOptimizationTest()
+
+                    DependencyScreen(viewModel)
                 }
             )
         }
