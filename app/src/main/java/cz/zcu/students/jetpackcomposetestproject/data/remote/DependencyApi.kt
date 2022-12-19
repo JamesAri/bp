@@ -1,11 +1,10 @@
-package cz.zcu.students.jetpackcomposetestproject.data.api
+package cz.zcu.students.jetpackcomposetestproject.data.remote
 
 import android.content.Context
 import cz.zcu.students.jetpackcomposetestproject.R
 import javax.inject.Inject
 
-class DependencyApi
-@Inject constructor(
+class DependencyApi @Inject constructor(
     private val context: Context
 ) {
     fun getString(): String {

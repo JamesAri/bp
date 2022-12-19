@@ -5,10 +5,11 @@ import cz.zcu.students.jetpackcomposetestproject.data.repository.DependencyRepos
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+// Lazy<DependencyRepository> will create repository on usage, not on injection
+
 @HiltViewModel
-class DependencyViewModel
-@Inject constructor(
-    repository: DependencyRepository
+class DependencyViewModel @Inject constructor(
+    repository: DependencyRepository,
 ) : ViewModel() {
     val dependencyString = repository.getString()
     val stringOne = repository.getStringOne()

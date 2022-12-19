@@ -55,7 +55,6 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel: DependencyViewModel by viewModels()
         setContent {
             JetpackComposeTestProjectTheme(
                 dynamicColor = false,
@@ -68,8 +67,9 @@ class MainActivity : ComponentActivity() {
 //                Navigation()
 //                BottomNavigationDemo()
 //                ProperPermissionHandlingDemo()
-//                    CompilerOptimizationTest()
+//                CompilerOptimizationTest()
 
+                    val viewModel: DependencyViewModel by viewModels()
                     DependencyScreen(viewModel)
                 }
             )
