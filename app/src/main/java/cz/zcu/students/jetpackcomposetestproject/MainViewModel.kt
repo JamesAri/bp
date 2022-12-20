@@ -1,17 +1,27 @@
 package cz.zcu.students.jetpackcomposetestproject
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    savedStateHandle: SavedStateHandle, // save state here to prevent process death bugs
+) : ViewModel() {
+
+    val color = savedStateHandle.getStateFlow("color", 0xFFFFFFFF)
 
     private val _state = MutableStateFlow("")
     val state = _state.asStateFlow()
 
     val countDownFlow = flow<Int> {
+        val newColor = Random.nextLong(0xFFFFFFFF)
+        savedStateHandle["color"] = newColor
+
+
         val startValue = 10
         var currentValue = startValue
 

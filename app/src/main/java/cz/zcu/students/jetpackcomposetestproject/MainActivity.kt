@@ -68,7 +68,6 @@ class MainActivity : ComponentActivity() {
 //                BottomNavigationDemo()
 //                ProperPermissionHandlingDemo()
 //                CompilerOptimizationTest()
-
                     val viewModel: DependencyViewModel by viewModels()
                     DependencyScreen(viewModel)
                 }
