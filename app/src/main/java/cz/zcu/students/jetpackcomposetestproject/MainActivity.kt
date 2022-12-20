@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -58,7 +59,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComposeTestProjectTheme(
                 dynamicColor = false,
-                content = {
+            ) {
 //                CardDemo()
 //                ScaffoldDemo()
 //                LazyColumnDemo()
@@ -68,10 +69,9 @@ class MainActivity : ComponentActivity() {
 //                BottomNavigationDemo()
 //                ProperPermissionHandlingDemo()
 //                CompilerOptimizationTest()
-                    val viewModel: DependencyViewModel by viewModels()
-                    DependencyScreen(viewModel)
-                }
-            )
+                val viewModel: DependencyViewModel = hiltViewModel()
+                DependencyScreen(viewModel)
+            }
         }
     }
 }
