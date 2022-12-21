@@ -1,10 +1,16 @@
 //@file:OptIn(ExperimentalMaterial3Api::class) // added opt-in for the whole module, see build.gradle
 package cz.zcu.students.jetpackcomposetestproject
 
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -26,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -34,6 +41,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -43,17 +53,18 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
-import cz.zcu.students.jetpackcomposetestproject.ui.screen.DependencyScreen
 import cz.zcu.students.jetpackcomposetestproject.ui.theme.JetpackComposeTestProjectTheme
 import cz.zcu.students.jetpackcomposetestproject.ui.theme.LocalSpacing
 import cz.zcu.students.jetpackcomposetestproject.ui.theme.spacing
 import cz.zcu.students.jetpackcomposetestproject.ui.viewmodel.DependencyViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -69,8 +80,60 @@ class MainActivity : ComponentActivity() {
 //                BottomNavigationDemo()
 //                ProperPermissionHandlingDemo()
 //                CompilerOptimizationTest()
-                val viewModel: DependencyViewModel = hiltViewModel()
-                DependencyScreen(viewModel)
+                NotificationDemo { showNotification() }
+
+//                val viewModel: DependencyViewModel = hiltViewModel()
+//                DependencyScreen(viewModel)
+            }
+        }
+    }
+
+    private fun showNotification() {
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notification = NotificationCompat.Builder(applicationContext, "channel_id")
+            .setContentText("This is some content text.")
+            .setContentTitle("Some title")
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .build()
+        manager.notify(1, notification)
+    }
+}
+
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@Composable
+fun NotificationDemo(onNotification: () -> Unit) {
+    val context = LocalContext.current
+    var hasNotificationPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                context, // we are in Activity, so we can use this keyword
+                android.Manifest.permission.POST_NOTIFICATIONS,
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+
+    // should use accompanist
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            hasNotificationPermission = isGranted
+        },
+    )
+
+    Box(Modifier.fillMaxSize()) {
+        Row(modifier = Modifier.padding(20.dp)) {
+            Button(onClick = {
+                permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }) {
+                Text(text = "Request permission")
+            }
+            Button(onClick = {
+                if (hasNotificationPermission) {
+                    onNotification()
+                }
+            }) {
+                Text(text = "Show notification")
             }
         }
     }
