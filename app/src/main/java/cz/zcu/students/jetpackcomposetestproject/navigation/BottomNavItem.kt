@@ -1,4 +1,4 @@
-package cz.zcu.students.jetpackcomposetestproject
+package cz.zcu.students.jetpackcomposetestproject.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

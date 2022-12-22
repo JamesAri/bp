@@ -1,4 +1,4 @@
-package cz.zcu.students.jetpackcomposetestproject
+package cz.zcu.students.jetpackcomposetestproject.utils
 
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState

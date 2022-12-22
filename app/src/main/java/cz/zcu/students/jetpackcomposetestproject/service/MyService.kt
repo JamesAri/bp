@@ -1,12 +1,10 @@
-package cz.zcu.students.jetpackcomposetestproject
+package cz.zcu.students.jetpackcomposetestproject.service
 
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import cz.zcu.students.jetpackcomposetestproject.domain.repository.MyRepository
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 // Won't work

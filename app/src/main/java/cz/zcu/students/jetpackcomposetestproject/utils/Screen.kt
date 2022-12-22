@@ -1,4 +1,4 @@
-package cz.zcu.students.jetpackcomposetestproject
+package cz.zcu.students.jetpackcomposetestproject.utils
 
 sealed class Screen(val route: String) {
     object MainScreen : Screen("main_screen")

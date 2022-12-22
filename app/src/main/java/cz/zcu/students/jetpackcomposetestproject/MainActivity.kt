@@ -43,8 +43,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -53,12 +51,15 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
+import cz.zcu.students.jetpackcomposetestproject.navigation.BottomNavItem
+import cz.zcu.students.jetpackcomposetestproject.navigation.BottomNavigationBar
+import cz.zcu.students.jetpackcomposetestproject.navigation.MyBottomNavigation
 import cz.zcu.students.jetpackcomposetestproject.ui.theme.JetpackComposeTestProjectTheme
 import cz.zcu.students.jetpackcomposetestproject.ui.theme.LocalSpacing
 import cz.zcu.students.jetpackcomposetestproject.ui.theme.spacing
-import cz.zcu.students.jetpackcomposetestproject.ui.viewmodel.DependencyViewModel
+import cz.zcu.students.jetpackcomposetestproject.ui.viewmodel.MainViewModel
+import cz.zcu.students.jetpackcomposetestproject.utils.isPermanentlyDenied
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

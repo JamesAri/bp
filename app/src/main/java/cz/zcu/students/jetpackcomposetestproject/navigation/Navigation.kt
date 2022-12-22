@@ -1,4 +1,4 @@
-package cz.zcu.students.jetpackcomposetestproject
+package cz.zcu.students.jetpackcomposetestproject.navigation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import cz.zcu.students.jetpackcomposetestproject.utils.Screen
 
 @Composable
 fun Navigation() {

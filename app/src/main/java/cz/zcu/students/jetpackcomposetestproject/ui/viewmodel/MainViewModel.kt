@@ -1,4 +1,4 @@
-package cz.zcu.students.jetpackcomposetestproject
+package cz.zcu.students.jetpackcomposetestproject.ui.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -33,7 +33,7 @@ class MainViewModel(
         }
     }
 
-    val dishFlow = flow<String> {
+    private val dishFlow = flow<String> {
         delay(250L)
         emit("Appetizer")
         delay(1000L)
