@@ -1,4 +1,4 @@
-package cz.zcu.students.jetpackcomposetestproject.ui.theme
+package cz.zcu.students.jetpackcomposetestproject.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

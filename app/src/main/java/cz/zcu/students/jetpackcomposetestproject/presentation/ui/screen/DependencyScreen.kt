@@ -1,4 +1,4 @@
-package cz.zcu.students.jetpackcomposetestproject.ui.screen
+package cz.zcu.students.jetpackcomposetestproject.presentation.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
-import cz.zcu.students.jetpackcomposetestproject.ui.viewmodel.DependencyViewModel
+import cz.zcu.students.jetpackcomposetestproject.presentation.ui.viewmodel.DependencyViewModel
 
 @Composable
 fun DependencyScreen(

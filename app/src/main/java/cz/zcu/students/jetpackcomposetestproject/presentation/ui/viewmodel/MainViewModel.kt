@@ -1,4 +1,4 @@
-package cz.zcu.students.jetpackcomposetestproject.ui.viewmodel
+package cz.zcu.students.jetpackcomposetestproject.presentation.ui.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package cz.zcu.students.jetpackcomposetestproject.ui.theme
+package cz.zcu.students.jetpackcomposetestproject.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

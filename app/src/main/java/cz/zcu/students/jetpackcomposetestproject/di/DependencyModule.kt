@@ -5,7 +5,7 @@ import android.content.Context
 import cz.zcu.students.jetpackcomposetestproject.data.remote.DependencyApi
 import cz.zcu.students.jetpackcomposetestproject.data.repository.DependencyRepository
 import cz.zcu.students.jetpackcomposetestproject.domain.repository.MyRepository
-import cz.zcu.students.jetpackcomposetestproject.ui.viewmodel.DependencyViewModel
+import cz.zcu.students.jetpackcomposetestproject.presentation.ui.viewmodel.DependencyViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

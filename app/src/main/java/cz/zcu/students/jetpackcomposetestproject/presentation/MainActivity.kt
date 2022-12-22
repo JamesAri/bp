@@ -1,6 +1,7 @@
 //@file:OptIn(ExperimentalMaterial3Api::class) // added opt-in for the whole module, see build.gradle
-package cz.zcu.students.jetpackcomposetestproject
+package cz.zcu.students.jetpackcomposetestproject.presentation
 
+import android.Manifest
 import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
@@ -9,28 +10,28 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -38,8 +39,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -51,13 +54,12 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
+import cz.zcu.students.jetpackcomposetestproject.R
 import cz.zcu.students.jetpackcomposetestproject.navigation.BottomNavItem
 import cz.zcu.students.jetpackcomposetestproject.navigation.BottomNavigationBar
 import cz.zcu.students.jetpackcomposetestproject.navigation.MyBottomNavigation
-import cz.zcu.students.jetpackcomposetestproject.ui.theme.JetpackComposeTestProjectTheme
-import cz.zcu.students.jetpackcomposetestproject.ui.theme.LocalSpacing
-import cz.zcu.students.jetpackcomposetestproject.ui.theme.spacing
-import cz.zcu.students.jetpackcomposetestproject.ui.viewmodel.MainViewModel
+import cz.zcu.students.jetpackcomposetestproject.presentation.ui.theme.*
+import cz.zcu.students.jetpackcomposetestproject.presentation.ui.viewmodel.MainViewModel
 import cz.zcu.students.jetpackcomposetestproject.utils.isPermanentlyDenied
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -65,9 +67,27 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+//                val depViewModel: DependencyViewModel = hiltViewModel()
+
+    private val weatherViewModel: WeatherViewModel by viewModels()
+    private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        permissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) {
+            weatherViewModel.loadWeatherInfo()
+        }
+        permissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
+        )
+
         setContent {
             JetpackComposeTestProjectTheme(
                 dynamicColor = false,
@@ -81,10 +101,9 @@ class MainActivity : ComponentActivity() {
 //                BottomNavigationDemo()
 //                ProperPermissionHandlingDemo()
 //                CompilerOptimizationTest()
-                NotificationDemo { showNotification() }
-
-//                val viewModel: DependencyViewModel = hiltViewModel()
-//                DependencyScreen(viewModel)
+//                NotificationDemo { showNotification() }
+//                DependencyScreen(depViewModel)
+                WeatherAppDemo(weatherViewModel)
             }
         }
     }
@@ -97,6 +116,37 @@ class MainActivity : ComponentActivity() {
             .setSmallIcon(R.drawable.ic_launcher_background)
             .build()
         manager.notify(1, notification)
+    }
+}
+
+@Composable
+fun WeatherAppDemo(viewModel: WeatherViewModel) {
+    Box(Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(DarkBlue)
+        ) {
+            WeatherCard(
+                state = viewModel.state,
+                backgroundColor = DeepBlue
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            WeatherForecast(state = viewModel.state)
+        }
+        if (viewModel.state.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+        viewModel.state.error?.let { error ->
+            Text(
+                text = error,
+                color = Color.Red,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
     }
 }
 
