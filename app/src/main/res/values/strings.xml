@@ -1,4 +1,0 @@
-<resources>
-    <string name="app_name">JetpackComposeTestProject</string>
-    <string name="dependency_string"><![CDATA[I got this string from DI using Hilt <3]]></string>
-</resources>
