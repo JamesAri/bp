@@ -8,6 +8,8 @@ plugins {
     // Hilt
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    // Firebase
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -63,7 +65,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_runtime_version"
     implementation "androidx.activity:activity-compose:$activity_version"
-    // Testing
+    // Testing dependencies
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$junit_espresso_version"
@@ -97,6 +99,16 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    // Google Sign In SDK
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
+    // Firebase SDK
+    implementation platform('com.google.firebase:firebase-bom:30.3.2')
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    // Firebase UI Library
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
 
 //    implementation 'androidx.core:core-ktx:1.7.0'
 //    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
