@@ -8,8 +8,6 @@
 
 ## Development notes
 
----
-
 ### Emulator version and Firestore
 
 If you are using emulator version above `31.2.10` I recommend switching to older version since  
@@ -34,8 +32,6 @@ service cloud.firestore {
 ```
 
 Accounted for: kubaslechtaaa@gmail.com
-
----
 
 ## Personal notes
 
