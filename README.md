@@ -1,16 +1,14 @@
 # Android Jetpack Lost & Found Application
 
----
-
 ## Zásady pro vypracování
 
 - Prozkoumejte, jaké možnosti a výhody Android Jetpack přináší při vytváření mobilních aplikací na platformě Android.
 - Navrhněte vhodnou netriviální aplikaci, na které ukážete použití Android JetPacku.
 - Navrženou aplikaci realizujte, ověřte její funkcionalitu reprezentativní sadou testů na platformě Android a navrhněte další možná rozšíření aplikace.
 
----  
-
 ## Development notes
+
+---
 
 ### Emulator version and Firestore
 
@@ -20,7 +18,7 @@ You can check more on this issue [here](https://stackoverflow.com/questions/7337
 
 To download older version of emulator you can navigate [here](https://developer.android.com/studio/emulator_archive).
 
-## Firestore rules
+### Firestore rules
 
 Current Firestore development rules:
 
