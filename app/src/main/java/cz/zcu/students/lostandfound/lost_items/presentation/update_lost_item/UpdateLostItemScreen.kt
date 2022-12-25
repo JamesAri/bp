@@ -9,14 +9,14 @@ import cz.zcu.students.lostandfound.lost_items.presentation.lost_items.LostItemV
 @Composable
 fun UpdatePostScreen(
     viewModel: LostItemViewModel = hiltViewModel(),
-    postId: Int,
+    lostItemId: String,
     navigateBack: () -> Unit
 ) {
     LaunchedEffect(Unit) {
-        viewModel.getLostItem(postId)
+        viewModel.getLostItem(lostItemId)
     }
 
-    Log.i("zcu", "Updating ${viewModel.lostItemState.lostItem}")
+    Log.i("zcu", "Updating ${viewModel.lostItemState.data}")
 
     /* TODO: Components */
 }

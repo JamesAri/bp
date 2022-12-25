@@ -8,82 +8,42 @@ import androidx.lifecycle.viewModelScope
 import cz.zcu.students.lostandfound.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.lost_items.domain.repository.LostItemRepository
 import cz.zcu.students.lostandfound.lost_items.domain.util.Resource
+import cz.zcu.students.lostandfound.lost_items.presentation.util.ResourceState
+import cz.zcu.students.lostandfound.lost_items.presentation.util.collectResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-//TODO: make generic Resource handling
-
 @HiltViewModel
 class LostItemViewModel @Inject constructor(
     private val repo: LostItemRepository
 ) : ViewModel() {
 
-    private val _lostItemsState = MutableStateFlow(LostItemsState())
-    val postsState = _lostItemsState.asStateFlow()
+    private val _lostItemsState = MutableStateFlow(ResourceState<Flow<List<LostItem>>>())
+    val lostItemsState = _lostItemsState.asStateFlow()
 
-    var lostItemState by mutableStateOf(LostItemState())
+    var lostItemState by mutableStateOf(ResourceState<LostItem>())
         private set
 
 
     fun loadLostItems() {
+        _lostItemsState.collectResource(viewModelScope, repo::getLostItemListFlow)
+    }
+
+    fun getLostItem(
+        id: String
+    ) {
+        // TODO
+    }
+
+    fun createLostItem(
+        lostItem: LostItem
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            _lostItemsState.update {
-                it.copy(
-                    isLoading = true,
-                    error = null,
-                )
-            }
-            when (val result = repo.getLostItemList()) {
-                is Resource.Success -> {
-                    _lostItemsState.update {
-                        it.copy(
-                            lostItems = result.data,
-                            isLoading = false,
-                            error = null,
-                        )
-                    }
-                }
-                is Resource.Error -> {
-                    _lostItemsState.update {
-                        it.copy(
-                            lostItems = null,
-                            isLoading = false,
-                            error = result.message,
-                        )
-                    }
-                }
-            }
+            repo.createLostItem(lostItem) // todo: error handling
         }
-    }
-
-    fun getLostItem(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        lostItemState = lostItemState.copy(
-            isLoading = true,
-            error = null,
-        )
-        when (val result = repo.getLostItem(id)) {
-            is Resource.Success -> {
-                lostItemState = lostItemState.copy(
-                    lostItem = result.data,
-                    isLoading = false,
-                    error = null,
-                )
-            }
-            is Resource.Error -> {
-                lostItemState = lostItemState.copy(
-                    lostItem = null,
-                    isLoading = false,
-                    error = result.message,
-                )
-            }
-        }
-    }
-
-    fun createLostItem(lostItem: LostItem) = viewModelScope.launch(Dispatchers.IO){
-        repo.createLostItem(lostItem) // todo: error handling
     }
 
 }

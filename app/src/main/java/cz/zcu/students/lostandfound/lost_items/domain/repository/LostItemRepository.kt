@@ -2,9 +2,12 @@ package cz.zcu.students.lostandfound.lost_items.domain.repository
 
 import cz.zcu.students.lostandfound.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.lost_items.domain.util.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface LostItemRepository {
-    suspend fun getLostItemList(): Resource<List<LostItem>>
-    suspend fun getLostItem(id: Int): Resource<LostItem>
-    suspend fun createLostItem(lostItem: LostItem): Unit
+    suspend fun getLostItemListFlow(): Resource<Flow<List<LostItem>>>
+
+    suspend fun getLostItem(id: String): Resource<LostItem>
+
+    suspend fun createLostItem(lostItem: LostItem)
 }

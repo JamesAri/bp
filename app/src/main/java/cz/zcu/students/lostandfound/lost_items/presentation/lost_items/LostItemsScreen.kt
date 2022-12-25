@@ -10,7 +10,7 @@ fun PostsScreen(
     viewModel: LostItemViewModel = hiltViewModel(),
     navigateToUpdatePostScreen: (postId: Int) -> Unit
 ) {
-    val posts by viewModel.postsState.collectAsState()
+    val posts by viewModel.lostItemsState.collectAsState()
 
     /* TODO: Components */
 }
