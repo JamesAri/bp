@@ -18,8 +18,8 @@ class LostItemRepositoryImpl @Inject constructor(
     override suspend fun getLostItemListFlow(): Resource<Flow<List<LostItem>>> {
         return try {
             Resource.Success(
-                data = api.getLostItemListFlow().map { lostItems ->
-                    lostItems.map { item ->
+                data = api.getLostItemListFlow().map {
+                    it.lostItems.map { item ->
                         item.toLostItem()
                     }
                 }
@@ -41,7 +41,10 @@ class LostItemRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun createLostItem(lostItem: LostItem): Unit {
-        api.createLostItem(lostItem.toLostItemDto())
+    override suspend fun createLostItem(
+        lostItem: LostItem,
+        callback: (String) -> Unit
+    ) {
+        api.createLostItem(lostItem.toLostItemDto(), callback)
     }
 }

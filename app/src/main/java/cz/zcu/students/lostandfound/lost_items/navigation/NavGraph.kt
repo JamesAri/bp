@@ -1,9 +1,9 @@
 package cz.zcu.students.lostandfound.lost_items.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType.Companion.IntType
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import cz.zcu.students.lostandfound.lost_items.core.Constants.Companion.LOST_ITEM_ID

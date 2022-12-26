@@ -9,5 +9,5 @@ interface LostItemRepository {
 
     suspend fun getLostItem(id: String): Resource<LostItem>
 
-    suspend fun createLostItem(lostItem: LostItem)
+    suspend fun createLostItem(lostItem: LostItem, callback: (String) -> Unit)
 }

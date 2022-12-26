@@ -1,5 +1,6 @@
 package cz.zcu.students.lostandfound.lost_items.presentation.lost_items
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,8 +11,11 @@ import cz.zcu.students.lostandfound.lost_items.domain.repository.LostItemReposit
 import cz.zcu.students.lostandfound.lost_items.domain.util.Resource
 import cz.zcu.students.lostandfound.lost_items.presentation.util.ResourceState
 import cz.zcu.students.lostandfound.lost_items.presentation.util.collectResource
+import cz.zcu.students.lostandfound.lost_items.presentation.util.setData
+import cz.zcu.students.lostandfound.lost_items.presentation.util.setLoading
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,7 +46,9 @@ class LostItemViewModel @Inject constructor(
         lostItem: LostItem
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.createLostItem(lostItem) // todo: error handling
+            repo.createLostItem(lostItem) {
+                Log.d("LostItemViewModel", "createLostItem id: $it")
+            }
         }
     }
 
