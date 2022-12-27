@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.lost_items.domain.util
+package cz.zcu.students.lostandfound.util
 
 sealed class Resource<T>(
     val data: T? = null,

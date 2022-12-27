@@ -5,7 +5,7 @@ import cz.zcu.students.lostandfound.lost_items.data.mappers.toLostItemDto
 import cz.zcu.students.lostandfound.lost_items.data.remote.LostItemApi
 import cz.zcu.students.lostandfound.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.lost_items.domain.repository.LostItemRepository
-import cz.zcu.students.lostandfound.lost_items.domain.util.Resource
+import cz.zcu.students.lostandfound.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

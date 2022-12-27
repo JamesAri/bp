@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.lost_items.presentation
+package cz.zcu.students.lostandfound
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,7 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cz.zcu.students.lostandfound.lost_items.domain.location.LocationCoordinates
 import cz.zcu.students.lostandfound.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.lost_items.presentation.lost_items.LostItemViewModel
+import cz.zcu.students.lostandfound.navigation.NavGraph
 import cz.zcu.students.lostandfound.ui.theme.LostAndFoundTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,9 +35,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LostAndFoundTheme {
-                RealtimeObserving()
+                NavGraph()
+//                RealtimeObserving()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        //todo check if user logged in
     }
 }
 

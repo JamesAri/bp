@@ -1,6 +1,6 @@
 package cz.zcu.students.lostandfound.lost_items.presentation.util
 
-import cz.zcu.students.lostandfound.lost_items.domain.util.Resource
+import cz.zcu.students.lostandfound.util.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update

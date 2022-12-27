@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.lost_items.di
+package cz.zcu.students.lostandfound.di
 
 import cz.zcu.students.lostandfound.lost_items.data.repository.LostItemRepositoryImpl
 import cz.zcu.students.lostandfound.lost_items.domain.repository.LostItemRepository
@@ -10,10 +10,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
+abstract class LostItemRepositoryModule {
     @Binds
     @Singleton
     abstract fun bindPostRepository(
-        postRepositoryImpl: LostItemRepositoryImpl,
+        lostItemRepositoryImpl: LostItemRepositoryImpl,
     ): LostItemRepository
 }

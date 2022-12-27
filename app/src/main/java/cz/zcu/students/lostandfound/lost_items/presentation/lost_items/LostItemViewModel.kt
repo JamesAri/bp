@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cz.zcu.students.lostandfound.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.lost_items.domain.repository.LostItemRepository
-import cz.zcu.students.lostandfound.lost_items.domain.util.Resource
+import cz.zcu.students.lostandfound.util.Resource
 import cz.zcu.students.lostandfound.lost_items.presentation.util.ResourceState
 import cz.zcu.students.lostandfound.lost_items.presentation.util.collectResource
 import cz.zcu.students.lostandfound.lost_items.presentation.util.setData
@@ -30,7 +30,6 @@ class LostItemViewModel @Inject constructor(
 
     var lostItemState by mutableStateOf(ResourceState<LostItem>())
         private set
-
 
     fun loadLostItems() {
         _lostItemsState.collectResource(viewModelScope, repo::getLostItemListFlow)

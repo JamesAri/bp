@@ -5,6 +5,7 @@ buildscript {
         hilt_version = '2.44'
         hilt_navigation_version = '1.0.0'
         accompanist_permissions_version = '0.28.0'
+        appcompat_version = '1.5.1'
         compose_lifecycle_runtime_version = '2.6.0-alpha03'
         androidx_lifecycle_runtime_version = '2.5.1'
         mateiral3_version = '1.1.0-alpha03'
@@ -18,7 +19,11 @@ buildscript {
         junit_espresso_version = '3.5.0'
         viewmodel_lifecycle_version = '2.5.1'
         compose_navigation_version = '2.5.3'
-        multidex_version = "2.0.1"
+        multidex_version = '2.0.1'
+        firebase_bom_version = '30.3.2'
+        firebase_ui_auth_version = '8.0.1'
+        firestore_version = '24.4.1' // don't let bom specify version since we need new features
+        google_sign_in_sdk_version = '20.4.0'
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.14'

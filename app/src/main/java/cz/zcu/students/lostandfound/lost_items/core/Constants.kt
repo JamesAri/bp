@@ -13,6 +13,7 @@ class Constants {
         const val LOST_ITEM_ID_UNINITIALIZED_KEY = "uninitialized"
 
         //Screens
+        const val AUTH_SCREEN = "Auth"
         const val POSTS_SCREEN = "Posts"
         const val UPDATE_POST_SCREEN = "Update post"
 

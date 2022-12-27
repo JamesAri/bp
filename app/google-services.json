@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "490708805854-utbijmr8cvc2qo34okk3ppascva10sef.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cz.zcu.students.lostandfound",
+            "certificate_hash": "921f7bcc57b228c0fa9b8bc37777e80681038ba9"
+          }
+        },
+        {
           "client_id": "490708805854-68edueua1gd7a62aa16c0u22hisq4k9k.apps.googleusercontent.com",
           "client_type": 3
         }

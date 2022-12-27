@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.lost_items.di
+package cz.zcu.students.lostandfound.di
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object LostItemsModule {
 
     @Provides
     @Singleton
