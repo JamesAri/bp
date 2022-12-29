@@ -1,34 +1,54 @@
 package cz.zcu.students.lostandfound.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 
-// Set of Material typography styles to start with
+// TODO: custom font family
+// Follow guidelines: https://m3.material.io/styles/typography/type-scale-tokens
+
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
+//    displayLarge = TextStyle(
+//
+//    ),
+//    displayMedium = TextStyle(
+//
+//    ),
+//    displaySmall = TextStyle(
+//
+//    ),
+//    headlineLarge = TextStyle(
+//
+//    ),
+//    headlineSmall = TextStyle(
+//
+//    ),
+//    headlineMedium = TextStyle(
+//
+//    ),
+//    titleLarge = TextStyle(
+//
+//    ),
+//    titleMedium = TextStyle(
+//
+//    ),
+//    titleSmall = TextStyle(
+//
+//    ),
+//    bodyLarge = TextStyle(
+//
+//    ),
+//    bodyMedium = TextStyle(
+//
+//    ),
+//    bodySmall = TextStyle(
+//
+//    ),
+//    labelLarge = TextStyle(
+//
+//    ),
+//    labelMedium = TextStyle(
+//
+//    ),
+//    labelSmall = TextStyle(
+//
+//    ),
 )

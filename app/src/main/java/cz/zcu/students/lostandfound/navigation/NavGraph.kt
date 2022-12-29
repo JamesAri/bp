@@ -8,17 +8,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cz.zcu.students.lostandfound.auth.presentation.login.AuthScreen
-import cz.zcu.students.lostandfound.lost_items.shared.Constants.Companion.LOST_ITEM_ID
 import cz.zcu.students.lostandfound.lost_items.presentation.lost_items.PostsScreen
 import cz.zcu.students.lostandfound.lost_items.presentation.update_lost_item.UpdatePostScreen
+import cz.zcu.students.lostandfound.lost_items.shared.Constants.Companion.LOST_ITEM_ID
 
 @Composable
 fun NavGraph(
     navController: NavHostController = rememberNavController(),
+    startDestination: String = Screen.LostItemsScreen.route,
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.AuthScreen.route
+        startDestination = startDestination
     ) {
         composable(
             route = Screen.AuthScreen.route

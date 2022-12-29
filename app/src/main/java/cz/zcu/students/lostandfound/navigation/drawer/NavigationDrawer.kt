@@ -17,6 +17,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import cz.zcu.students.lostandfound.ui.theme.spacing
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -26,7 +28,8 @@ fun NavigationDrawer(
     modifier: Modifier = Modifier,
     drawerState: DrawerState,
     coroutineScope: CoroutineScope,
-//    children: @Composable () -> Unit
+    navController: NavHostController,
+    content: @Composable () -> Unit
 ) {
 
 // icons to mimic drawer destinations
@@ -36,8 +39,10 @@ fun NavigationDrawer(
         modifier = modifier,
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
-                Spacer(Modifier.height(12.dp))
+            ModalDrawerSheet(
+                drawerContainerColor = MaterialTheme.colorScheme.primary,
+            ) {
+                Spacer(Modifier.height(MaterialTheme.spacing.small))
                 items.forEach { item ->
                     NavigationDrawerItem(
                         icon = { Icon(item, contentDescription = null) },
@@ -49,10 +54,10 @@ fun NavigationDrawer(
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                     )
+                    Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
                 }
             }
         },
-        content = {
-        }
+        content = content
     )
 }

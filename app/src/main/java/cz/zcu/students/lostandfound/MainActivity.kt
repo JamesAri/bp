@@ -9,10 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import cz.zcu.students.lostandfound.common.Constants.Companion.SPLASHSCREEN_DURATION
-import cz.zcu.students.lostandfound.navigation.app_bar.TopAppBar
+import cz.zcu.students.lostandfound.navigation.App
 import cz.zcu.students.lostandfound.ui.theme.LostAndFoundTheme
 import dagger.hilt.android.AndroidEntryPoint
-
 
 
 @AndroidEntryPoint
@@ -22,8 +21,7 @@ class MainActivity : ComponentActivity() {
         handleSplashScreen()
         setContent {
             LostAndFoundTheme {
-//                NavGraph()
-                TopAppBar()
+                App()
             }
         }
     }

@@ -1,64 +1,79 @@
 package cz.zcu.students.lostandfound.navigation.app_bar
 
-import android.app.Application
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import cz.zcu.students.lostandfound.R
-import cz.zcu.students.lostandfound.navigation.drawer.NavigationDrawer
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun TopAppBar(
+fun NavigationAppBars(
+    drawerState: DrawerState,
+    coroutineScope: CoroutineScope,
+    navController: NavHostController,
+    content: @Composable () -> Unit,
 ) {
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
-
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "Lost and Found",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            scope.launch {
-                                if (drawerState.isClosed)
-                                    drawerState.open()
-                                else
-                                    drawerState.close()
-                            }
-                        })
-                    {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = "Localized description"
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(47.dp)
+            ) {
+                CenterAlignedTopAppBar(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(32.dp))
+                        .fillMaxWidth(0.95f),
+                    title = {
+                        Text(
+                            "Lost and Found",
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.AccountCircle,
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                ),
-            )
+                    },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                coroutineScope.launch {
+                                    if (drawerState.isClosed)
+                                        drawerState.open()
+                                    else
+                                        drawerState.close()
+                                }
+                            })
+                        {
+                            Icon(
+                                imageVector = Icons.Filled.Menu,
+                                contentDescription = "Localized description"
+                            )
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = { /* doSomething() */ }) {
+                            Icon(
+                                imageVector = Icons.Filled.AccountCircle,
+                                contentDescription = "Localized description"
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ),
+                )
+            }
         },
         bottomBar = {
             var selectedItem by remember { mutableStateOf(0) }
@@ -69,7 +84,9 @@ fun TopAppBar(
                 Icons.Filled.Favorite,
                 ImageVector.vectorResource(id = R.drawable.ic_more_horiz)
             )
-            NavigationBar {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.primary,
+            ) {
                 items.forEachIndexed { index, item ->
                     NavigationBarItem(
                         icon = { Icon(icons[index], contentDescription = item) },
@@ -80,12 +97,14 @@ fun TopAppBar(
                 }
             }
         },
-        content = { innerPadding ->
-            NavigationDrawer(
-                Modifier.padding(innerPadding),
-                drawerState,
-                scope,
-            )
+        content = { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                content()
+            }
         }
     )
 }

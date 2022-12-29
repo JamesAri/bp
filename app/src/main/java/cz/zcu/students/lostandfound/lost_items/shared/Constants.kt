@@ -14,8 +14,8 @@ class Constants {
 
         //Screens
         const val AUTH_SCREEN = "Auth"
-        const val POSTS_SCREEN = "Posts"
-        const val UPDATE_POST_SCREEN = "Update post"
+        const val LOST_ITEMS_SCREEN = "Posts"
+        const val UPDATE_LOST_ITEM_SCREEN = "Update"
 
         //Arguments
         const val LOST_ITEM_ID = "id"
