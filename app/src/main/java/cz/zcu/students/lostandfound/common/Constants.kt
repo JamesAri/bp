@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.core
+package cz.zcu.students.lostandfound.common
 
 class Constants {
     companion object {
