@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cz.zcu.students.lostandfound.auth.presentation.login.AuthScreen
-import cz.zcu.students.lostandfound.lost_items.core.Constants.Companion.LOST_ITEM_ID
+import cz.zcu.students.lostandfound.lost_items.shared.Constants.Companion.LOST_ITEM_ID
 import cz.zcu.students.lostandfound.lost_items.presentation.lost_items.PostsScreen
 import cz.zcu.students.lostandfound.lost_items.presentation.update_lost_item.UpdatePostScreen
 

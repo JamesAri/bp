@@ -83,8 +83,9 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
     // Safely collect flows in compose
     implementation "androidx.lifecycle:lifecycle-runtime-compose:$compose_lifecycle_runtime_version"
-    // Accompanist - permissions
-    implementation "com.google.accompanist:accompanist-permissions:$accompanist_permissions_version"
+    // Accompanist
+    implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
@@ -110,19 +111,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     // Firebase UI Library
     implementation "com.firebaseui:firebase-ui-auth:$firebase_ui_auth_version"
-
-//    implementation 'androidx.core:core-ktx:1.7.0'
-//    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-//    implementation 'androidx.activity:activity-compose:1.3.1'
-//    implementation "androidx.compose.ui:ui:$compose_version"
-//    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-//    implementation 'androidx.compose.material3:material3:1.0.0-alpha02'
-//    testImplementation 'junit:junit:4.13.2'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
-//    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-//    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-//    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    // Splashscreen
+    implementation "androidx.core:core-splashscreen:$core_splashscreen_version"
 }
 
 // ExperimentalMaterial3Api Opt-In for the whole module

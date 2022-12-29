@@ -25,7 +25,7 @@ val SIGN_IN_INTENT = AuthUI.getInstance()
     .createSignInIntentBuilder()
     .setAvailableProviders(PROVIDERS)
     .setLogo(R.drawable.login_logo)
-    .setTheme(R.style.LoginTheme)
+    .setTheme(R.style.Theme_App_Login)
     .build()
 
 

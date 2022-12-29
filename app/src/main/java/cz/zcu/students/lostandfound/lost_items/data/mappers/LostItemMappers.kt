@@ -1,6 +1,6 @@
 package cz.zcu.students.lostandfound.lost_items.data.mappers
 
-import cz.zcu.students.lostandfound.lost_items.core.Constants.Companion.NO_VALUE
+import cz.zcu.students.lostandfound.lost_items.shared.Constants.Companion.NO_VALUE
 import cz.zcu.students.lostandfound.lost_items.data.remote.LostItemDto
 import cz.zcu.students.lostandfound.lost_items.domain.location.LocationCoordinates
 import cz.zcu.students.lostandfound.lost_items.domain.lost_item.LostItem

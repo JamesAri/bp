@@ -3,7 +3,7 @@ package cz.zcu.students.lostandfound.lost_items.data.remote
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.snapshots
-import cz.zcu.students.lostandfound.lost_items.core.Constants.Companion.LOST_ITEM_COLLECTION_KEY
+import cz.zcu.students.lostandfound.lost_items.shared.Constants.Companion.LOST_ITEM_COLLECTION_KEY
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

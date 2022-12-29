@@ -9,21 +9,24 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Primary,
+    primary = PrimaryDark,
     secondary = Secondary,
     tertiary = Tertiary
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Primary,
-    secondary = SecondaryDark,
+    primary = PrimaryLight,
+    secondary = Secondary,
     tertiary = Tertiary
 
     /* Other default colors to override
@@ -39,26 +42,35 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun LostAndFoundTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = false,
+//    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
+
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = !darkTheme
+
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
-        }
+
+    LaunchedEffect(systemUiController, useDarkIcons) {
+        // Update all of the system bar colors to be transparent, and use
+        // dark icons if we're in light theme
+        systemUiController.setSystemBarsColor(
+            color = colorScheme.primary,
+            darkIcons = useDarkIcons
+        )
     }
+
+//    val view = LocalView.current
+//    if (!view.isInEditMode) {
+//        SideEffect {
+//            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
+//            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
+//        }
+//    }
 
     MaterialTheme(
         colorScheme = colorScheme,

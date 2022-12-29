@@ -2,7 +2,7 @@ package cz.zcu.students.lostandfound.auth.data.mappers
 
 import com.google.firebase.auth.FirebaseUser
 import cz.zcu.students.lostandfound.auth.domain.user.User
-import cz.zcu.students.lostandfound.lost_items.core.Constants.Companion.NO_VALUE
+import cz.zcu.students.lostandfound.lost_items.shared.Constants.Companion.NO_VALUE
 
 fun FirebaseUser.toUser(): User? {
 //    if (email == null)
