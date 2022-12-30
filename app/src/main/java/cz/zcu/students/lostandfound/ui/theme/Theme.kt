@@ -8,9 +8,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
-
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF35363A),
+    primary = Color(0xFF33333F),
     onPrimary = Color(0xFFEAF1FB),
     primaryContainer = Color(0xFF1C1B1F),
     onPrimaryContainer = Color(0xFF35363A),
@@ -20,6 +19,7 @@ private val DarkColorScheme = darkColorScheme(
     onSecondary = Color(0xFFDCE1F7),
     secondaryContainer = Color(0xFF3F4659),
     onSecondaryContainer = Color(0xFFDCE2F8),
+    onSurfaceVariant = Color(0xFFC9CEE2),
 
     tertiary = Color(0xFFEFBAB4),
     onTertiary = Color(0xFF561614),
@@ -35,8 +35,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun LostAndFoundTheme(
-//    darkTheme: Boolean = isSystemInDarkTheme(),
-    darkTheme: Boolean = true,
+    darkTheme: Boolean = true, // isSystemInDarkTheme()
     content: @Composable () -> Unit
 ) {
 

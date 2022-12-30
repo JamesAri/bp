@@ -2,9 +2,9 @@ package cz.zcu.students.lostandfound.lost_items.data.remote
 
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.PropertyName
-import cz.zcu.students.lostandfound.lost_items.shared.Constants.Companion.LOST_ITEM_DESCRIPTION_KEY
-import cz.zcu.students.lostandfound.lost_items.shared.Constants.Companion.LOST_ITEM_LOCATION_KEY
-import cz.zcu.students.lostandfound.lost_items.shared.Constants.Companion.LOST_ITEM_TITLE_KEY
+import cz.zcu.students.lostandfound.common.Constants.Companion.LOST_ITEM_DESCRIPTION_KEY
+import cz.zcu.students.lostandfound.common.Constants.Companion.LOST_ITEM_LOCATION_KEY
+import cz.zcu.students.lostandfound.common.Constants.Companion.LOST_ITEM_TITLE_KEY
 import java.util.*
 
 data class LostItemDto(

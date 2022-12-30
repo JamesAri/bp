@@ -1,23 +1,18 @@
 package cz.zcu.students.lostandfound.navigation.drawer
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import cz.zcu.students.lostandfound.R
+import cz.zcu.students.lostandfound.navigation.NavItem
 import cz.zcu.students.lostandfound.ui.theme.spacing
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -31,10 +26,16 @@ fun NavigationDrawer(
     navController: NavHostController,
     content: @Composable () -> Unit
 ) {
+    val group1 = listOf(
+        NavItem.Home,
+        NavItem.Inbox,
+    )
+    val group2 = listOf(
+        NavItem.Settings,
+        NavItem.Help,
+    )
 
-// icons to mimic drawer destinations
-    val items = listOf(Icons.Default.Favorite, Icons.Default.Face, Icons.Default.Email)
-    val selectedItem = remember { mutableStateOf(items[0]) }
+    val backStackEntryState = navController.currentBackStackEntryAsState()
     ModalNavigationDrawer(
         modifier = modifier,
         drawerState = drawerState,
@@ -42,22 +43,70 @@ fun NavigationDrawer(
             ModalDrawerSheet(
                 drawerContainerColor = MaterialTheme.colorScheme.primary,
             ) {
-                Spacer(Modifier.height(MaterialTheme.spacing.small))
-                items.forEach { item ->
-                    NavigationDrawerItem(
-                        icon = { Icon(item, contentDescription = null) },
-                        label = { Text(item.name) },
-                        selected = item == selectedItem.value,
-                        onClick = {
-                            coroutineScope.launch { drawerState.close() }
-                            selectedItem.value = item
-                        },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 29.dp)
+                        .height(50.0.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(id = R.string.branding),
+                        style = MaterialTheme.typography.titleMedium,
                     )
-                    Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
                 }
+                Divider()
+                Spacer(Modifier.height(MaterialTheme.spacing.small))
+                IterateGroup(
+                    items = group1,
+                    navController = navController,
+                    coroutineScope = coroutineScope,
+                    drawerState = drawerState,
+                    backStackEntryState = backStackEntryState
+                )
+                Divider()
+                Spacer(Modifier.height(MaterialTheme.spacing.small))
+                IterateGroup(
+                    items = group2,
+                    navController = navController,
+                    coroutineScope = coroutineScope,
+                    drawerState = drawerState,
+                    backStackEntryState = backStackEntryState
+                )
             }
         },
         content = content
     )
+}
+
+@Composable
+fun IterateGroup(
+    items: List<NavItem>,
+    navController: NavHostController,
+    coroutineScope: CoroutineScope,
+    drawerState: DrawerState,
+    backStackEntryState: State<NavBackStackEntry?>,
+) {
+    items.forEach { item ->
+        val selected = item.route == backStackEntryState.value?.destination?.route
+        NavigationDrawerItem(
+            icon = {
+                Icon(
+                    item.icon.getIcon(),
+                    contentDescription = item.name
+                )
+            },
+            label = {
+                Text(item.name)
+            },
+            selected = selected,
+            onClick = {
+                coroutineScope.launch { drawerState.close() }
+                navController.navigate(item.route)
+            },
+            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
+    }
+
 }

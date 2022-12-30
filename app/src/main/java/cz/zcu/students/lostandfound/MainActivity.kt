@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         handleSplashScreen()
         setContent {
-            LostAndFoundTheme {
+            LostAndFoundTheme() {
                 App()
             }
         }

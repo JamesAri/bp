@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/colorPrimary</item>
+        <item name="windowSplashScreenBackground">@color/colorPrimaryDark</item>
         <item name="postSplashScreenTheme">@style/Theme.LostAndFound</item>
-        <item name="android:windowSplashScreenBrandingImage">@drawable/splash_branding_dark</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/splash_branding_light</item>
         <item name="windowSplashScreenAnimationDuration">2000</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_branding_anim_dark</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_branding_anim_light</item>
     </style>
 </resources>
