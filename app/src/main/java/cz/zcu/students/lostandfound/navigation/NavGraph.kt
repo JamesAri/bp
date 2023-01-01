@@ -13,7 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cz.zcu.students.lostandfound.auth.presentation.login.AuthScreen
-import cz.zcu.students.lostandfound.lost_items.presentation.lost_items.PostsScreen
+import cz.zcu.students.lostandfound.lost_items.presentation.lost_items.LostItemsScreen
 import cz.zcu.students.lostandfound.lost_items.presentation.update_lost_item.UpdatePostScreen
 import cz.zcu.students.lostandfound.common.Constants.Companion.LOST_ITEM_ID
 
@@ -36,7 +36,7 @@ fun NavGraph(
         composable(
             route = Screen.FindItemScreen.route
         ) {
-            PostsScreen(
+            LostItemsScreen(
                 navigateToUpdatePostScreen = { postId ->
                     navController.navigate("${Screen.UpdateLostItemScreen.route}/${postId}")
                 }

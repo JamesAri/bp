@@ -50,5 +50,4 @@ class LostItemViewModel @Inject constructor(
             }
         }
     }
-
 }
