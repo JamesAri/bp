@@ -25,7 +25,7 @@ fun BottomAppBar(
         items[3].badgeCount = 10
     }
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.primary,
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
     ) {
         items.forEach { item ->
             val selected = item.route == backStackEntryState.value?.destination?.route

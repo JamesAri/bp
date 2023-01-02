@@ -41,7 +41,7 @@ fun NavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
-                drawerContainerColor = MaterialTheme.colorScheme.primary,
+                drawerContainerColor = MaterialTheme.colorScheme.primaryContainer,
             ) {
                 Box(
                     modifier = Modifier
