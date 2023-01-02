@@ -1,16 +1,14 @@
-package cz.zcu.students.lostandfound.common.presentation
+package cz.zcu.students.lostandfound.common.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode

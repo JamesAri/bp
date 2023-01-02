@@ -1,50 +1,67 @@
 package cz.zcu.students.lostandfound.lost_items.data.repository
 
+import cz.zcu.students.lostandfound.common.Constants.Companion.NO_ITEM_FOUND_ERR
+import cz.zcu.students.lostandfound.common.extensions.isNotNull
+import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.lost_items.data.mappers.toLostItem
 import cz.zcu.students.lostandfound.lost_items.data.mappers.toLostItemDto
 import cz.zcu.students.lostandfound.lost_items.data.remote.LostItemApi
 import cz.zcu.students.lostandfound.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.lost_items.domain.repository.LostItemRepository
-import cz.zcu.students.lostandfound.util.Resource
+import cz.zcu.students.lostandfound.common.util.Response
+import cz.zcu.students.lostandfound.common.util.Response.Error
+import cz.zcu.students.lostandfound.common.util.Response.Success
+import cz.zcu.students.lostandfound.lost_items.domain.lost_item.LostItemList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
-
+@Singleton
 class LostItemRepositoryImpl @Inject constructor(
     private val api: LostItemApi
 ) : LostItemRepository {
 
-    override suspend fun getLostItemListFlow(): Resource<Flow<List<LostItem>>> {
+    override suspend fun getLostItemListFlow(
+    ): Response<Flow<LostItemList>> {
         return try {
-            Resource.Success(
-                data = api.getLostItemListFlow().map {
-                    it.lostItems.map { item ->
+            val lostItemList: Flow<LostItemList> = api
+                .getLostItemList()
+                .map {
+                    val list = it.lostItems.map { item ->
                         item.toLostItem()
                     }
+                    LostItemList(list)
                 }
-            )
+            Success(lostItemList)
         } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Error(e.message ?: "An unknown error occurred.")
+            Error(e)
         }
     }
 
-    override suspend fun getLostItem(id: String): Resource<LostItem> {
+    override suspend fun getLostItem(
+        id: String
+    ): Response<LostItem> {
         return try {
-            Resource.Success(
-                data = api.getLostItem(id).toLostItem()
-            )
+            val lostItem: LostItem? = api.getLostItem(id)?.toLostItem()
+
+            if (lostItem.isNull())
+                return Error(Exception(NO_ITEM_FOUND_ERR))
+
+            Success(lostItem)
         } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Error(e.message ?: "An unknown error occurred.")
+            Error(e)
         }
     }
 
     override suspend fun createLostItem(
         lostItem: LostItem,
-        callback: (String) -> Unit
-    ) {
-        api.createLostItem(lostItem.toLostItemDto(), callback)
+    ): Response<Boolean> {
+        return try {
+            api.createLostItem(lostItem.toLostItemDto())
+            Success(true)
+        } catch (e: Exception) {
+            Error(e)
+        }
     }
 }

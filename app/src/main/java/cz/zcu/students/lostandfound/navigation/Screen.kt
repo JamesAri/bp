@@ -1,5 +1,6 @@
 package cz.zcu.students.lostandfound.navigation
 
+import cz.zcu.students.lostandfound.common.Constants.Companion.ADD_LOST_ITEM_SCREEN
 import cz.zcu.students.lostandfound.common.Constants.Companion.AUTH_SCREEN
 import cz.zcu.students.lostandfound.common.Constants.Companion.FAVORITES_SCREEN
 import cz.zcu.students.lostandfound.common.Constants.Companion.FIND_ITEM_SCREEN
@@ -15,6 +16,7 @@ sealed class Screen(val route: String) {
     object AuthScreen : Screen(AUTH_SCREEN)
     object FindItemScreen : Screen(FIND_ITEM_SCREEN)
     object UpdateLostItemScreen : Screen(UPDATE_LOST_ITEM_SCREEN)
+    object AddLostItemScreen : Screen(ADD_LOST_ITEM_SCREEN)
     object InboxScreen : Screen(INBOX_SCREEN)
     object MyPostsScreen : Screen(MY_POSTS_SCREEN)
     object FavoritesScreen : Screen(FAVORITES_SCREEN)
@@ -26,8 +28,9 @@ sealed class Screen(val route: String) {
 
 val MappedRouteNames = mapOf(
     Screen.AuthScreen.route to "Authentication",
-    Screen.FindItemScreen.route to "Find Item",
-    Screen.UpdateLostItemScreen.route to "Update Lost Item",
+    Screen.FindItemScreen.route to "Find item",
+    Screen.UpdateLostItemScreen.route to "Update lost item",
+    Screen.AddLostItemScreen.route to "Add lost item",
     Screen.InboxScreen.route to "Inbox",
     Screen.MyPostsScreen.route to "Posts",
     Screen.FavoritesScreen.route to "Favorites",

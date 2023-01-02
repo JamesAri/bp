@@ -16,6 +16,7 @@ import cz.zcu.students.lostandfound.auth.presentation.login.AuthScreen
 import cz.zcu.students.lostandfound.lost_items.presentation.lost_items.LostItemsScreen
 import cz.zcu.students.lostandfound.lost_items.presentation.update_lost_item.UpdatePostScreen
 import cz.zcu.students.lostandfound.common.Constants.Companion.LOST_ITEM_ID
+import cz.zcu.students.lostandfound.lost_items.presentation.add_lost_item.AddLostItemScreen
 
 @Composable
 fun NavGraph(
@@ -57,6 +58,11 @@ fun NavGraph(
                     navController.popBackStack()
                 }
             )
+        }
+        composable(
+            route = Screen.AddLostItemScreen.route
+        ) {
+           AddLostItemScreen()
         }
         composable(
             route = Screen.InboxScreen.route
