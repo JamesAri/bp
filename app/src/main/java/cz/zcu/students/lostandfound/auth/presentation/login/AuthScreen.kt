@@ -17,7 +17,7 @@ val PROVIDERS = listOf(
 val SIGN_IN_INTENT = AuthUI.getInstance()
     .createSignInIntentBuilder()
     .setAvailableProviders(PROVIDERS)
-    .setLogo(R.drawable.login_logo_red)
+    .setLogo(R.drawable.login_logo)
     .setTheme(R.style.Theme_App_Login)
     .build()
 

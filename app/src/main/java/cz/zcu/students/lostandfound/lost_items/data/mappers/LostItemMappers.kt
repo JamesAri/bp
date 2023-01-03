@@ -28,7 +28,6 @@ fun LostItem.toLostItemDto(): LostItemDto {
         title = title,
         description = description,
         location = location?.toString(),
-//        createdAt = LocalDate.parse(),
         imageUrl = imageUri?.toString(),
     )
 }

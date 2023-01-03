@@ -21,7 +21,7 @@ import cz.zcu.students.lostandfound.lost_items.presentation.add_lost_item.AddLos
 @Composable
 fun NavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Screen.FindItemScreen.route,
+    startDestination: String = Screen.AuthScreen.route,
 ) {
     NavHost(
         navController = navController,
@@ -74,9 +74,7 @@ fun NavGraph(
         composable(
             route = Screen.MyPostsScreen.route
         ) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(Screen.MyPostsScreen.route)
-            }
+            AddLostItemScreen() // todo
         }
         composable(
             route = Screen.FavoritesScreen.route

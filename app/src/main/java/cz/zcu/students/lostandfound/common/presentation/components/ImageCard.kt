@@ -1,6 +1,6 @@
 package cz.zcu.students.lostandfound.common.presentation.components
 
-import androidx.compose.foundation.Image
+import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Call
@@ -9,16 +9,18 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import coil.compose.rememberAsyncImagePainter
+import androidx.compose.ui.res.painterResource
+import coil.compose.AsyncImage
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.ui.theme.spacing
-import kotlin.random.Random
 
 @Composable
 fun ImageCard(
     title: String,
     description: String,
+    uri: Uri?,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -28,15 +30,14 @@ fun ImageCard(
         ),
         shape = MaterialTheme.shapes.large
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(
-                model = "https://picsum.photos/seed/${Random.nextInt()}/300/200"
-            ),
-            contentDescription = null,
+        AsyncImage(
+            model = uri,
+            contentDescription = title,
+            error = painterResource(id = R.drawable.no_image_placeholder),
             modifier = Modifier
                 .clip(MaterialTheme.shapes.large)
                 .fillMaxWidth()
-                .aspectRatio(3f / 2f)
+//                .aspectRatio(3f/2f)
         )
         Column(
             modifier = Modifier.padding(MaterialTheme.spacing.medium)
