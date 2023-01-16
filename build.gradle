@@ -12,7 +12,7 @@ buildscript {
         retrofit_version = '2.9.0'
         logging_interceptor_version = '5.0.0-alpha.3'
         google_location_serivices_version = '21.0.1'
-        room_version = '2.4.3'
+        room_version = '2.5.0'
         activity_version = '1.6.1'
         junit_version = '4.13.2'
         junit_ext_version = '1.1.4'
@@ -26,9 +26,13 @@ buildscript {
         google_sign_in_sdk_version = '20.4.0'
         core_splashscreen_version = '1.0.0'
         coil_version = '2.2.2'
+        maxkeppeler_dialogs_version = '1.0.3'
+    }
+    repositories {
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.3.14'
+        classpath "com.google.gms:google-services:4.3.14"
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.lost_items.presentation.lost_items
+package cz.zcu.students.lostandfound.lost_items.presentation.find_lost_item
 
 import android.net.Uri
 import androidx.compose.runtime.getValue

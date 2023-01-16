@@ -12,6 +12,7 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+
 android {
     namespace 'cz.zcu.students.lostandfound'
     compileSdk 33
@@ -117,6 +118,16 @@ dependencies {
     // Coil
     implementation "io.coil-kt:coil:$coil_version"
     implementation "io.coil-kt:coil-compose:$coil_version"
+    // Data store
+    implementation "androidx.datastore:datastore:1.0.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+    // Saving lists in proto data-store
+    implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+
+    //                              3RD PARTY
+    // Dialogs: https://github.com/maxkeppeler/sheets-compose-dialogs
+    implementation "com.maxkeppeler.sheets-compose-dialogs:core:$maxkeppeler_dialogs_version"
+    implementation "com.maxkeppeler.sheets-compose-dialogs:list:$maxkeppeler_dialogs_version"
 }
 
 tasks.withType(KotlinCompile).configureEach {

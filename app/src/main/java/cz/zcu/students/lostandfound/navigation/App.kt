@@ -27,6 +27,7 @@ fun App(
                 content = {
                     NavGraph(
                         navController = navController,
+                        startDestination = Screen.SettingsScreen.route,
                     )
                 }
             )

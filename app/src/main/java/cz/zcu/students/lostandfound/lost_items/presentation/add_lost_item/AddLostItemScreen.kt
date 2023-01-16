@@ -14,7 +14,7 @@ import cz.zcu.students.lostandfound.common.Constants
 import cz.zcu.students.lostandfound.common.presentation.components.ProgressBar
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.lost_items.domain.lost_item.LostItem
-import cz.zcu.students.lostandfound.lost_items.presentation.lost_items.LostItemViewModel
+import cz.zcu.students.lostandfound.lost_items.presentation.find_lost_item.LostItemViewModel
 import cz.zcu.students.lostandfound.ui.theme.spacing
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
