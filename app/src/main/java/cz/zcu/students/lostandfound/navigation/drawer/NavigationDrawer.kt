@@ -32,7 +32,7 @@ fun NavigationDrawer(
     )
     val group2 = listOf(
         NavItem.Settings,
-        NavItem.Help,
+        NavItem.AboutApp,
     )
 
     val backStackEntryState = navController.currentBackStackEntryAsState()

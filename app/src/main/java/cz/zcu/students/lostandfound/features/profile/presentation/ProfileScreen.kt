@@ -1,7 +1,9 @@
 package cz.zcu.students.lostandfound.features.profile.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
@@ -24,13 +26,6 @@ import cz.zcu.students.lostandfound.common.auth.presentation.login.AuthViewModel
 import cz.zcu.students.lostandfound.ui.theme.PreviewTheme
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
-// Button(onClick = {
-//            authViewModel.logout()
-//            navigateToLoginScreen()
-//        }) {
-//            Text(text = "Logout")
-//        }
-
 @Composable
 fun ProfileScreen(
     authViewModel: AuthViewModel = hiltViewModel(),
@@ -40,63 +35,85 @@ fun ProfileScreen(
 
     currentUser?.let { user ->
         Column(
-            Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxSize(),
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(.5f)
-                    .aspectRatio(1f)
-                    .padding(MaterialTheme.spacing.medium),
-                contentAlignment = Alignment.Center,
+            Column(
+                Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                AsyncImage(
-                    model = user.photoUri,
-                    contentDescription = "profile picture",
-                    error = painterResource(id = R.drawable.no_image_placeholder),
-                    contentScale = ContentScale.FillBounds,
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(.80f)
+                        .fillMaxWidth(.5f)
                         .aspectRatio(1f)
-                        .clip(MaterialTheme.shapes.large),
-                )
-                IconButton(
-                    modifier = Modifier.align(Alignment.BottomEnd),
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
-                    onClick = {
-                        /*TODO*/
-                    }
+                        .padding(MaterialTheme.spacing.medium),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit",
+                    AsyncImage(
+                        model = user.photoUri,
+                        contentDescription = "profile picture",
+                        error = painterResource(id = R.drawable.no_image_placeholder),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth(.80f)
+                            .aspectRatio(1f)
+                            .clip(MaterialTheme.shapes.large)
+                            .border(
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = MaterialTheme.shapes.large
+                            ),
                     )
+                    IconButton(
+                        modifier = Modifier.align(Alignment.BottomEnd),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
+                        onClick = {
+                            /*TODO*/
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit",
+                        )
+                    }
                 }
+
+                ProfileField(
+                    icon = Icons.Default.Person,
+                    title = "Name",
+                    value = user.name,
+                )
+
+                ProfileField(
+                    icon = Icons.Default.Email,
+                    title = "Email",
+                    value = user.email,
+                )
+
+                val phoneNumber =
+                    if (user.phoneNumber.isNullOrBlank()) "not added yet" else user.phoneNumber
+
+                ProfileField(
+                    icon = Icons.Default.Phone,
+                    title = "Phone Number",
+                    value = phoneNumber,
+                )
             }
-
-            ProfileField(
-                icon = Icons.Default.Person,
-                title = "Name",
-                value = user.name,
-            )
-
-            ProfileField(
-                icon = Icons.Default.Email,
-                title = "Email",
-                value = user.email,
-            )
-
-            val phoneNumber =
-                if (user.phoneNumber.isNullOrBlank()) "not added yet" else user.phoneNumber
-
-            ProfileField(
-                icon = Icons.Default.Phone,
-                title = "Phone Number",
-                value = phoneNumber,
-            )
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .padding(MaterialTheme.spacing.medium),
+                shape = MaterialTheme.shapes.medium,
+                onClick = {
+                    authViewModel.logout()
+                    navigateToLoginScreen()
+                }) {
+                Text(text = "Logout")
+            }
         }
     }
 }

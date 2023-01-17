@@ -4,7 +4,7 @@ import cz.zcu.students.lostandfound.common.Constants.Companion.ADD_LOST_ITEM_SCR
 import cz.zcu.students.lostandfound.common.Constants.Companion.AUTH_SCREEN
 import cz.zcu.students.lostandfound.common.Constants.Companion.FAVORITES_SCREEN
 import cz.zcu.students.lostandfound.common.Constants.Companion.FIND_ITEM_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.HELP_SCREEN
+import cz.zcu.students.lostandfound.common.Constants.Companion.ABOUT_APP_SCREEN
 import cz.zcu.students.lostandfound.common.Constants.Companion.INBOX_SCREEN
 import cz.zcu.students.lostandfound.common.Constants.Companion.MY_POSTS_SCREEN
 import cz.zcu.students.lostandfound.common.Constants.Companion.NOTIFICATIONS_SCREEN
@@ -23,7 +23,7 @@ sealed class Screen(val route: String) {
     object NotificationsScreen : Screen(NOTIFICATIONS_SCREEN)
     object SettingsScreen : Screen(SETTINGS_SCREEN)
     object ProfileScreen : Screen(PROFILE_SCREEN)
-    object HelpScreen : Screen(HELP_SCREEN)
+    object AboutApp : Screen(ABOUT_APP_SCREEN)
 }
 
 val MappedRouteNames = mapOf(
@@ -37,7 +37,7 @@ val MappedRouteNames = mapOf(
     Screen.NotificationsScreen.route to "Notifications",
     Screen.SettingsScreen.route to "Settings",
     Screen.ProfileScreen.route to "Profile",
-    Screen.HelpScreen.route to "Help & feedback",
+    Screen.AboutApp.route to "About app",
 ).withDefault {
     it
 }

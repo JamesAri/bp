@@ -36,7 +36,7 @@ class Constants {
         const val NOTIFICATIONS_SCREEN = "notifications"
         const val SETTINGS_SCREEN = "settings"
         const val PROFILE_SCREEN = "profile"
-        const val HELP_SCREEN = "help"
+        const val ABOUT_APP_SCREEN = "aboutApp"
 
         // Arguments
         const val LOST_ITEM_ID = "id"

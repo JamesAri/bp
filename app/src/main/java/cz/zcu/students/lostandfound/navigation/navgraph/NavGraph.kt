@@ -108,10 +108,10 @@ fun NavGraph(
             )
         }
         composable(
-            route = Screen.HelpScreen.route
+            route = Screen.AboutApp.route
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(Screen.HelpScreen.route)
+                Text(Screen.AboutApp.route)
             }
         }
 

@@ -77,10 +77,10 @@ sealed class NavItem(
         icon = NavIcon(Icons.Filled.AccountCircle),
     )
 
-    object Help : NavItem(
-        name = MappedRouteNames.getValue(Screen.HelpScreen.route),
-        route =  Screen.HelpScreen.route,
-        icon = NavIcon(res = R.drawable.ic_help_outline),
+    object AboutApp : NavItem(
+        name = MappedRouteNames.getValue(Screen.AboutApp.route),
+        route =  Screen.AboutApp.route,
+        icon = NavIcon(Icons.Filled.Info),
     )
 
     object More : NavItem(
