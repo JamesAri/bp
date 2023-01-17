@@ -2,8 +2,11 @@ package cz.zcu.students.lostandfound.common
 
 class Constants {
     companion object {
+        // Datastore
+        const val DATASTORE_FILE_NAME = "app-settings.json"
+
         // Splash screen
-        const val SPLASHSCREEN_DURATION = 2000L // Follow 3 second rule
+        const val SPLASHSCREEN_DURATION = 2000L // follow 3 second rule
 
         // Firebase storage
         const val IMAGES_KEY = "images"

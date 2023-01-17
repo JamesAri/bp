@@ -5,14 +5,15 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import cz.zcu.students.lostandfound.common.Constants.Companion.SPLASHSCREEN_DURATION
+import cz.zcu.students.lostandfound.common.auth.presentation.login.AuthViewModel
 import cz.zcu.students.lostandfound.navigation.App
 import cz.zcu.students.lostandfound.ui.theme.LostAndFoundTheme
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -28,6 +29,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
+        val authViewModel: AuthViewModel by viewModels()
+        authViewModel.currentUser
         //todo check if user logged in
     }
 
@@ -39,10 +42,4 @@ class MainActivity : ComponentActivity() {
         Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
         installSplashScreen()
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    LostAndFoundTheme {}
 }

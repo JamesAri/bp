@@ -2,14 +2,16 @@ package cz.zcu.students.lostandfound.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val BlueGrey10 = Color(0xFF131320)
-val BlueGrey20 = Color(0xFF27273f)
-val BlueGrey25 = Color(0xFF303050)
-val BlueGrey30 = Color(0xFF3a3a5f)
-val BlueGrey40 = Color(0xFF4e4e7e)
-val BlueGrey80 = Color(0xFFc0c0d8)
-val BlueGrey85 = Color(0xFFcfcfe2)
-val BlueGrey90 = Color(0xFFdfdfec)
+val BlueGrey10 = Color(0xFF001433)
+val BlueGrey20 = Color(0xFF002966)
+val BlueGrey25 = Color(0xFF003380)
+val BlueGrey30 = Color(0xFF003d99)
+val BlueGrey40 = Color(0xFF0052cc)
+val BlueGrey45 = Color(0xFF005ce6)
+val BlueGrey70 = Color(0xFF69a4fc)
+val BlueGrey80 = Color(0xFF99c2ff)
+val BlueGrey85 = Color(0xFFb3d1ff)
+val BlueGrey90 = Color(0xFFcce0ff)
 
 val PurpleGrey10 = Color(0xff0a0a29)
 val PurpleGrey20 = Color(0xff141452)

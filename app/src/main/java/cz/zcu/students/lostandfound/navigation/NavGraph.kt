@@ -12,12 +12,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import cz.zcu.students.lostandfound.auth.presentation.login.AuthScreen
-import cz.zcu.students.lostandfound.lost_items.presentation.find_lost_item.LostItemsScreen
-import cz.zcu.students.lostandfound.lost_items.presentation.update_lost_item.UpdatePostScreen
+import cz.zcu.students.lostandfound.common.auth.presentation.login.AuthScreen
+import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.LostItemsScreen
+import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.UpdatePostScreen
 import cz.zcu.students.lostandfound.common.Constants.Companion.LOST_ITEM_ID
-import cz.zcu.students.lostandfound.lost_items.presentation.add_lost_item.AddLostItemScreen
-import cz.zcu.students.lostandfound.lost_items.presentation.settings.SettingsScreen
+import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.AddLostItemScreen
+import cz.zcu.students.lostandfound.features.settings.presentation.settings.SettingsScreen
 
 @Composable
 fun NavGraph(

@@ -10,6 +10,8 @@ plugins {
     id("com.google.dagger.hilt.android")
     // Firebase
     id 'com.google.gms.google-services'
+    // Datastore
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 
@@ -124,7 +126,7 @@ dependencies {
     // Saving lists in proto data-store
     implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 
-    //                              3RD PARTY
+    // ======================================= 3RD PARTY ===========================================
     // Dialogs: https://github.com/maxkeppeler/sheets-compose-dialogs
     implementation "com.maxkeppeler.sheets-compose-dialogs:core:$maxkeppeler_dialogs_version"
     implementation "com.maxkeppeler.sheets-compose-dialogs:list:$maxkeppeler_dialogs_version"

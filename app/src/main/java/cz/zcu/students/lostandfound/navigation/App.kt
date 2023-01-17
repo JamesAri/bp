@@ -5,7 +5,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import cz.zcu.students.lostandfound.navigation.app_bar.NavigationAppBars
+import cz.zcu.students.lostandfound.navigation.app_bars.NavigationAppBars
 import cz.zcu.students.lostandfound.navigation.drawer.NavigationDrawer
 
 @Composable
