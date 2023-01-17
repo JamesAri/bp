@@ -1,6 +1,7 @@
 package cz.zcu.students.lostandfound.common.auth.presentation.login
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import cz.zcu.students.lostandfound.common.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,11 +24,18 @@ class AuthViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch(Dispatchers.IO) {
             auth.logout()
+            currentUser = auth.getCurrentUser()
         }
     }
 
     var currentUser by mutableStateOf<User?>(null)
         private set
+
+    init {
+        viewModelScope.launch {
+            currentUser = auth.getCurrentUser()
+        }
+    }
 
     fun onSignInResult(
         result: FirebaseAuthUIAuthenticationResult,

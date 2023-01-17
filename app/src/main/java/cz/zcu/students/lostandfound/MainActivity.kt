@@ -3,6 +3,7 @@ package cz.zcu.students.lostandfound
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -25,13 +26,6 @@ class MainActivity : ComponentActivity() {
                 App()
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val authViewModel: AuthViewModel by viewModels()
-        authViewModel.currentUser
-        //todo check if user logged in
     }
 
     private fun handleSplashScreen() {

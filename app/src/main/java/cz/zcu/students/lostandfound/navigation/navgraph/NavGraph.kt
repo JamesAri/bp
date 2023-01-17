@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.navigation
+package cz.zcu.students.lostandfound.navigation.navgraph
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,12 +12,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import cz.zcu.students.lostandfound.common.Constants.Companion.LOST_ITEM_ID
 import cz.zcu.students.lostandfound.common.auth.presentation.login.AuthScreen
+import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.AddLostItemScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.LostItemsScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.UpdatePostScreen
-import cz.zcu.students.lostandfound.common.Constants.Companion.LOST_ITEM_ID
-import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.AddLostItemScreen
+import cz.zcu.students.lostandfound.features.profile.presentation.ProfileScreen
 import cz.zcu.students.lostandfound.features.settings.presentation.settings.SettingsScreen
+import cz.zcu.students.lostandfound.navigation.Screen
 
 @Composable
 fun NavGraph(
@@ -26,13 +28,13 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = Screen.AuthScreen.route
     ) {
         composable(
             route = Screen.AuthScreen.route
         ) {
             AuthScreen(navigateToMainScreen = {
-                navController.navigate(Screen.FindItemScreen.route)
+                navController.navigate(startDestination)
             })
         }
         composable(
@@ -63,13 +65,13 @@ fun NavGraph(
         composable(
             route = Screen.AddLostItemScreen.route
         ) {
-           AddLostItemScreen()
+            AddLostItemScreen()
         }
         composable(
             route = Screen.InboxScreen.route
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-               Text(Screen.InboxScreen.route)
+                Text(Screen.InboxScreen.route)
             }
         }
         composable(
@@ -99,9 +101,11 @@ fun NavGraph(
         composable(
             route = Screen.ProfileScreen.route
         ) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(Screen.ProfileScreen.route)
-            }
+            ProfileScreen(
+                navigateToLoginScreen = {
+                    navController.navigate(Screen.AuthScreen.route)
+                }
+            )
         }
         composable(
             route = Screen.HelpScreen.route

@@ -13,8 +13,8 @@ fun FirebaseUser.toUser(): User {
     // todo
     return User(
         id = uid,
-        email = email ?: NO_VALUE,
-        name = displayName ?: NO_VALUE,
+        email = email ?: "NO_VALUE",
+        name = displayName ?: "NO_VALUE",
         phoneNumber = phoneNumber,
         photoUri = photoUrl
     )

@@ -25,13 +25,13 @@ val SIGN_IN_INTENT = AuthUI.getInstance()
 @Composable
 fun AuthScreen(
     viewModel: AuthViewModel = hiltViewModel(),
-    navigateToMainScreen: () -> Unit
+    navigateToMainScreen: () -> Unit,
 ) {
     val signInLauncher = rememberLauncherForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { result ->
         viewModel.onSignInResult(result)
-        Log.d("AuthActivity", "onCreate: $result")
+        Log.d("AuthScreen", "onCreate: $result")
     }
 
     val currentUser = viewModel.currentUser
