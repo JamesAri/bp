@@ -1,182 +1,94 @@
 package cz.zcu.students.lostandfound.features.profile.presentation
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import cz.zcu.students.lostandfound.R
+import cz.zcu.students.lostandfound.common.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.auth.presentation.ResponseHandler
 import cz.zcu.students.lostandfound.common.auth.presentation.login.AuthViewModel
-import cz.zcu.students.lostandfound.ui.theme.PreviewTheme
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable
 fun ProfileScreen(
-    authViewModel: AuthViewModel = hiltViewModel(),
     navigateToLoginScreen: () -> Unit,
 ) {
-    val currentUser = authViewModel.currentUser
-
-    currentUser?.let { user ->
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            Column(
-                Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(.5f)
-                        .aspectRatio(1f)
-                        .padding(MaterialTheme.spacing.medium),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    AsyncImage(
-                        model = user.photoUri,
-                        contentDescription = "profile picture",
-                        error = painterResource(id = R.drawable.no_image_placeholder),
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxWidth(.80f)
-                            .aspectRatio(1f)
-                            .clip(MaterialTheme.shapes.large)
-                            .border(
-                                width = 2.dp,
-                                color = MaterialTheme.colorScheme.primary,
-                                shape = MaterialTheme.shapes.large
-                            ),
-                    )
-                    IconButton(
-                        modifier = Modifier.align(Alignment.BottomEnd),
-                        colors = IconButtonDefaults.iconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                        ),
-                        onClick = {
-                            /*TODO*/
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit",
-                        )
-                    }
-                }
-
-                ProfileField(
-                    icon = Icons.Default.Person,
-                    title = "Name",
-                    value = user.name,
-                )
-
-                ProfileField(
-                    icon = Icons.Default.Email,
-                    title = "Email",
-                    value = user.email,
-                )
-
-                val phoneNumber =
-                    if (user.phoneNumber.isNullOrBlank()) "not added yet" else user.phoneNumber
-
-                ProfileField(
-                    icon = Icons.Default.Phone,
-                    title = "Phone Number",
-                    value = phoneNumber,
-                )
-            }
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .padding(MaterialTheme.spacing.medium),
-                shape = MaterialTheme.shapes.medium,
-                onClick = {
-                    authViewModel.logout()
-                    navigateToLoginScreen()
-                }) {
-                Text(text = "Logout")
-            }
-        }
-    }
+    LoadUser(navigateToLoginScreen = navigateToLoginScreen)
 }
 
 @Composable
-fun ProfileField(
-    icon: ImageVector,
-    title: String,
-    value: String,
+fun LoadUser(
+    viewModel: AuthViewModel = hiltViewModel(),
+    navigateToLoginScreen: () -> Unit,
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(90.dp)
-            .padding(MaterialTheme.spacing.medium)
-            .clip(MaterialTheme.shapes.medium)
-            .background(color = MaterialTheme.colorScheme.primaryContainer)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = MaterialTheme.spacing.small),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = title,
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-            Divider(
-                modifier = Modifier
-                    .width(1.dp)
-                    .fillMaxHeight(0.8f),
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-            Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(MaterialTheme.spacing.small)
-            ) {
-                Text(
-                    text = title,
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.labelMedium
-                )
-                Text(
-                    text = value,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
+    ResponseHandler(
+        response = viewModel.currentUser,
+    ) { user ->
+        DisplayUserData(
+            user = user,
+            navigateToLoginScreen = navigateToLoginScreen,
+        )
     }
-
 }
 
-
-@Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
-    PreviewTheme() {
-        ProfileScreen() {}
+fun DisplayUserData(
+    user: User,
+    viewModel: AuthViewModel = hiltViewModel(),
+    navigateToLoginScreen: () -> Unit,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Column(
+            Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ProfileImageIcon(
+                photoUri = user.photoUri
+            )
+
+            ProfileField(
+                icon = Icons.Default.Person,
+                title = "Name",
+                value = user.name,
+            )
+
+            ProfileField(
+                icon = Icons.Default.Email,
+                title = "Email",
+                value = user.email,
+            )
+
+            val phoneNumber =
+                if (user.phoneNumber.isNullOrBlank()) "not added yet" else user.phoneNumber
+
+            ProfileField(
+                icon = Icons.Default.Phone,
+                title = "Phone Number",
+                value = phoneNumber,
+            )
+        }
+        Button(
+            modifier = Modifier
+                .fillMaxWidth(0.5f)
+                .padding(MaterialTheme.spacing.medium),
+            shape = MaterialTheme.shapes.medium,
+            onClick = {
+                viewModel.logout()
+                navigateToLoginScreen()
+            }) {
+            Text(text = "Logout")
+        }
     }
 }

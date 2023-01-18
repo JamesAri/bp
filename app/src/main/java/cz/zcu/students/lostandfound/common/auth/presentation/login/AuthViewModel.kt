@@ -1,7 +1,6 @@
 package cz.zcu.students.lostandfound.common.auth.presentation.login
 
 import android.app.Activity
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,46 +10,47 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import cz.zcu.students.lostandfound.common.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.auth.domain.user.User
 import cz.zcu.students.lostandfound.common.util.Response
+import cz.zcu.students.lostandfound.common.util.Response.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    val auth: AuthRepository,
+    private val repo: AuthRepository,
 ) : ViewModel() {
 
-    fun logout() {
-        viewModelScope.launch(Dispatchers.IO) {
-            auth.logout()
-            currentUser = auth.getCurrentUser()
+    var authenticatedState by mutableStateOf(repo.isUserAuthenticated())
+        private set
+
+    var currentUser by mutableStateOf<Response<User>>(Loading)
+        private set
+
+
+    init {
+        fetchCurrentUser()
+    }
+
+    private fun fetchCurrentUser() {
+        authenticatedState = repo.isUserAuthenticated()
+        viewModelScope.launch {
+            currentUser = repo.getCurrentUser()
         }
     }
 
-    var currentUser by mutableStateOf<User?>(null)
-        private set
-
-    init {
-        viewModelScope.launch {
-            currentUser = auth.getCurrentUser()
-        }
+    fun logout() {
+        repo.logout()
+        fetchCurrentUser()
     }
 
     fun onSignInResult(
         result: FirebaseAuthUIAuthenticationResult,
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = result.idpResponse
-            currentUser = if (result.resultCode == Activity.RESULT_OK) {
-                auth.getCurrentUser()
-            } else {
-                null
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
-            }
+        if (result.resultCode == Activity.RESULT_OK) {
+            fetchCurrentUser()
+        } else {
+            currentUser = Error(Exception("sign in failed, couldn't load user data"))
         }
     }
 }

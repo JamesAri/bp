@@ -1,7 +1,6 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -11,20 +10,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import cz.zcu.students.lostandfound.common.Constants
-import cz.zcu.students.lostandfound.common.components.ProgressBar
-import cz.zcu.students.lostandfound.common.util.Response
+import cz.zcu.students.lostandfound.common.auth.presentation.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.LostItemViewModel
 import cz.zcu.students.lostandfound.ui.theme.spacing
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 
 @Composable
 fun AddLostItemScreen(
     viewModel: LostItemViewModel = hiltViewModel(),
 ) {
-    val scopeCoroutine = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
     var uriState by remember {
@@ -59,7 +54,6 @@ fun AddLostItemScreen(
                 )
                 CreateLostItem(
                     snackbarHostState = snackbarHostState,
-                    scopeCoroutine = scopeCoroutine,
                 )
             }
         })
@@ -131,29 +125,12 @@ fun LostItemForm(
 fun CreateLostItem(
     viewModel: LostItemViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState,
-    scopeCoroutine: CoroutineScope,
 ) {
-    when (val createItemResponse = viewModel.createdLostItemState) {
-        is Response.Loading -> ProgressBar()
-        is Response.Success -> createItemResponse.data?.let { result ->
-
-            if (result) {
-                scopeCoroutine.launch {
-                    snackbarHostState.showSnackbar("Successfully created new item")
-                }
-            } else {
-                scopeCoroutine.launch {
-                    snackbarHostState.showSnackbar("Failed to create new item")
-                }
-            }
-        }
-        is Response.Error -> LaunchedEffect(Unit) {
-            Log.d(
-                "LoadLostItems",
-                "Error: ${createItemResponse.error.message}"
-            )
-        }
-    }
-
+    ResponseSnackBarHandler(
+        response = viewModel.createdLostItemState,
+        onTrueMessage = "Successfully created new item",
+        onFalseMessage = "Failed to create new item",
+        snackbarHostState = snackbarHostState,
+    )
 }
 

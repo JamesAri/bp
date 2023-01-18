@@ -2,10 +2,12 @@ package cz.zcu.students.lostandfound.common.auth.presentation.login
 
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.google.firebase.auth.FirebaseAuth
 import cz.zcu.students.lostandfound.R
 
 
@@ -34,10 +36,8 @@ fun AuthScreen(
         Log.d("AuthScreen", "onCreate: $result")
     }
 
-    val currentUser = viewModel.currentUser
-
-    LaunchedEffect(currentUser) {
-        if (currentUser == null) {
+    LaunchedEffect(viewModel.authenticatedState) {
+        if (FirebaseAuth.getInstance().currentUser == null) {
             signInLauncher.launch(SIGN_IN_INTENT)
         } else {
             navigateToMainScreen()

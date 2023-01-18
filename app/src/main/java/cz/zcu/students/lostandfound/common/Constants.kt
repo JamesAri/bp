@@ -16,7 +16,7 @@ class Constants {
         //File types
         const val ALL_IMAGES = "image/*"
 
-        // Firestore
+        // Firestore - Lost items
         const val LOST_ITEM_COLLECTION_KEY = "lostItems"
         const val LOST_ITEM_TITLE_KEY = "title"
         const val LOST_ITEM_DESCRIPTION_KEY = "description"
@@ -24,6 +24,10 @@ class Constants {
         const val LOST_ITEM_LOCATION_KEY = "location"
         const val LOST_ITEM_CREATED_AT_KEY = "createdAt"
 
+        // Firestore - Users
+        const val USER_COLLECTION_KEY = "users"
+        const val USER_PHONE_NUMBER = "phoneNumber"
+        const val USER_CREATED_AT_KEY = "createdAt"
 
         // Screens
         const val AUTH_SCREEN = "auth"
