@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.common.auth.presentation.login
+package cz.zcu.students.lostandfound.common.features.auth.presentation.login
 
 import android.app.Activity
 import androidx.compose.runtime.getValue
@@ -7,8 +7,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
-import cz.zcu.students.lostandfound.common.auth.domain.repository.AuthRepository
-import cz.zcu.students.lostandfound.common.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
+import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,10 +27,8 @@ class AuthViewModel @Inject constructor(
     var currentUser by mutableStateOf<Response<User>>(Loading)
         private set
 
-
-    init {
-        fetchCurrentUser()
-    }
+    var updateCurrentUserStatus by mutableStateOf<Response<Boolean>>(Success(null))
+        private set
 
     private fun fetchCurrentUser() {
         authenticatedState = repo.isUserAuthenticated()
@@ -39,9 +37,22 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    init {
+        fetchCurrentUser()
+    }
+
     fun logout() {
         repo.logout()
         fetchCurrentUser()
+    }
+
+    fun updateCurrentUser(user: User) {
+        viewModelScope.launch {
+            updateCurrentUserStatus = Loading
+            val updateStatus = repo.updateCurrentUser(user)
+            currentUser = repo.getCurrentUser()
+            updateCurrentUserStatus = updateStatus
+        }
     }
 
     fun onSignInResult(

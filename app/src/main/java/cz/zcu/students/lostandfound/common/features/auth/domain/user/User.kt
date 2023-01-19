@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.common.auth.domain.user
+package cz.zcu.students.lostandfound.common.features.auth.domain.user
 
 import android.net.Uri
 

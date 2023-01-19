@@ -1,6 +1,6 @@
-package cz.zcu.students.lostandfound.common.auth.domain.repository
+package cz.zcu.students.lostandfound.common.features.auth.domain.repository
 
-import cz.zcu.students.lostandfound.common.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
 import cz.zcu.students.lostandfound.common.util.Response
 
 interface AuthRepository {

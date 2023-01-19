@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import cz.zcu.students.lostandfound.ui.theme.spacing
@@ -19,6 +20,7 @@ fun ProfileField(
     icon: ImageVector,
     title: String,
     value: String,
+    endComponent: @Composable () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
@@ -47,23 +49,46 @@ fun ProfileField(
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(MaterialTheme.spacing.small)
-            ) {
-                Text(
-                    text = title,
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.labelMedium
-                )
-                Text(
-                    text = value,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
+            EditableRow(
+                title = title,
+                value = value,
+                endComponent = endComponent,
+            )
         }
+    }
+}
+
+@Composable
+fun EditableRow(
+    title: String,
+    value: String,
+    endComponent: @Composable () -> Unit,
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxSize(),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(MaterialTheme.spacing.small)
+        ) {
+            Text(
+                text = title,
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.labelMedium
+            )
+            Text(
+                text = value,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+        endComponent()
     }
 
 }

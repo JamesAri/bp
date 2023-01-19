@@ -1,7 +1,7 @@
 package cz.zcu.students.lostandfound.di.auth
 
 import com.google.firebase.firestore.FirebaseFirestore
-import cz.zcu.students.lostandfound.common.auth.data.remote.UserApi
+import cz.zcu.students.lostandfound.common.features.auth.data.remote.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

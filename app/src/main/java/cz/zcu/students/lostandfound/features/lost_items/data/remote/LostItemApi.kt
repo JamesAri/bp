@@ -2,7 +2,7 @@ package cz.zcu.students.lostandfound.features.lost_items.data.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.snapshots
-import cz.zcu.students.lostandfound.common.Constants.Companion.LOST_ITEM_COLLECTION_KEY
+import cz.zcu.students.lostandfound.common.constants.General.Companion.LOST_ITEM_COLLECTION_KEY
 import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemDto
 import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemListDto
 import kotlinx.coroutines.Dispatchers

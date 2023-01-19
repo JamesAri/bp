@@ -24,8 +24,6 @@ fun SettingsScreen() {
         ThemeSettingsItem()
         Divider()
     }
-
-
 }
 
 @Composable

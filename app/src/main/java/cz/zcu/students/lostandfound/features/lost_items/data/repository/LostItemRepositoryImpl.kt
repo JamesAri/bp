@@ -1,7 +1,6 @@
 package cz.zcu.students.lostandfound.features.lost_items.data.repository
 
-import cz.zcu.students.lostandfound.common.Constants.Companion.NO_ITEM_FOUND_ERR
-import cz.zcu.students.lostandfound.common.extensions.isNotNull
+import cz.zcu.students.lostandfound.common.constants.General.Companion.NO_ITEM_FOUND_ERR
 import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.features.lost_items.data.mappers.toLostItem
 import cz.zcu.students.lostandfound.features.lost_items.data.mappers.toLostItemDto

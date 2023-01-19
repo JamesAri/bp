@@ -1,6 +1,6 @@
-package cz.zcu.students.lostandfound.common
+package cz.zcu.students.lostandfound.common.constants
 
-class Constants {
+class General {
     companion object {
         // Datastore
         const val DATASTORE_FILE_NAME = "app-settings.json"
@@ -41,6 +41,7 @@ class Constants {
         const val SETTINGS_SCREEN = "settings"
         const val PROFILE_SCREEN = "profile"
         const val ABOUT_APP_SCREEN = "aboutApp"
+        const val EDIT_PHONE_NUMBER_SCREEN = "editPhoneNumber"
 
         // Arguments
         const val LOST_ITEM_ID = "id"
@@ -65,5 +66,9 @@ class Constants {
         // Errors
         const val NO_ITEM_FOUND_ERR = "No such item found"
         const val UNKNOWN_ERR = "An unknown error occurred"
+
+        // Validation
+        const val MAX_PHONE_NUMBER_LENGTH = 13
+
     }
 }

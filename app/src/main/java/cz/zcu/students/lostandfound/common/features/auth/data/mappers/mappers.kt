@@ -1,8 +1,8 @@
-package cz.zcu.students.lostandfound.common.auth.data.mappers
+package cz.zcu.students.lostandfound.common.features.auth.data.mappers
 
-import cz.zcu.students.lostandfound.common.auth.data.remote.dto.DbUserDto
-import cz.zcu.students.lostandfound.common.auth.data.remote.dto.UserDto
-import cz.zcu.students.lostandfound.common.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.DbUserDto
+import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.UserDto
+import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
 import cz.zcu.students.lostandfound.common.extensions.isNull
 
 fun UserDto.toUser(): User {

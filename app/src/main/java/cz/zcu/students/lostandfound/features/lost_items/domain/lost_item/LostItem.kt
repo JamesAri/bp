@@ -1,8 +1,7 @@
 package cz.zcu.students.lostandfound.features.lost_items.domain.lost_item
 
 import android.net.Uri
-import com.google.firebase.firestore.FieldValue
-import cz.zcu.students.lostandfound.common.Constants.Companion.ITEM_DESCRIPTION_DEFAULT
+import cz.zcu.students.lostandfound.common.constants.General.Companion.ITEM_DESCRIPTION_DEFAULT
 import cz.zcu.students.lostandfound.features.lost_items.domain.location.LocationCoordinates
 import java.util.*
 

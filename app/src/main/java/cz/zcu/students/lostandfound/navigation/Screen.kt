@@ -1,16 +1,17 @@
 package cz.zcu.students.lostandfound.navigation
 
-import cz.zcu.students.lostandfound.common.Constants.Companion.ADD_LOST_ITEM_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.AUTH_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.FAVORITES_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.FIND_ITEM_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.ABOUT_APP_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.INBOX_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.MY_POSTS_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.NOTIFICATIONS_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.PROFILE_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.SETTINGS_SCREEN
-import cz.zcu.students.lostandfound.common.Constants.Companion.UPDATE_LOST_ITEM_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.ADD_LOST_ITEM_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.AUTH_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.FAVORITES_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.FIND_ITEM_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.ABOUT_APP_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.EDIT_PHONE_NUMBER_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.INBOX_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.MY_POSTS_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.NOTIFICATIONS_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.PROFILE_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.SETTINGS_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.UPDATE_LOST_ITEM_SCREEN
 
 sealed class Screen(val route: String) {
     object AuthScreen : Screen(AUTH_SCREEN)
@@ -23,6 +24,7 @@ sealed class Screen(val route: String) {
     object NotificationsScreen : Screen(NOTIFICATIONS_SCREEN)
     object SettingsScreen : Screen(SETTINGS_SCREEN)
     object ProfileScreen : Screen(PROFILE_SCREEN)
+    object EditPhoneNumber : Screen(EDIT_PHONE_NUMBER_SCREEN)
     object AboutApp : Screen(ABOUT_APP_SCREEN)
 }
 
@@ -37,6 +39,7 @@ val MappedRouteNames = mapOf(
     Screen.NotificationsScreen.route to "Notifications",
     Screen.SettingsScreen.route to "Settings",
     Screen.ProfileScreen.route to "Profile",
+    Screen.EditPhoneNumber.route to "Change phone number",
     Screen.AboutApp.route to "About app",
 ).withDefault {
     it

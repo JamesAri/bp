@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.common.auth.data.remote.dto
+package cz.zcu.students.lostandfound.common.features.auth.data.remote.dto
 
 import com.google.firebase.auth.FirebaseUser
 

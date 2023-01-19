@@ -9,10 +9,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import cz.zcu.students.lostandfound.common.Constants
-import cz.zcu.students.lostandfound.common.auth.presentation.ResponseSnackBarHandler
+import cz.zcu.students.lostandfound.common.constants.General
+import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.LostItemViewModel
+import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 
@@ -20,8 +21,6 @@ import cz.zcu.students.lostandfound.ui.theme.spacing
 fun AddLostItemScreen(
     viewModel: LostItemViewModel = hiltViewModel(),
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
-
     var uriState by remember {
         mutableStateOf<Uri?>(null)
     }
@@ -33,30 +32,21 @@ fun AddLostItemScreen(
             }
         }
 
-    Scaffold(modifier = Modifier.fillMaxSize(),
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-
-        content = { innerPadding ->
-            Box(modifier = Modifier.padding(innerPadding)) {
-                LostItemForm(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(MaterialTheme.spacing.medium),
-                    openGallery = {
-                        galleryLauncher.launch(Constants.ALL_IMAGES)
-                    },
-                    onCreateItem = { lostItem ->
-                        viewModel.createLostItem(
-                            lostItem = lostItem,
-                            imageUri = uriState
-                        )
-                    }
-                )
-                CreateLostItem(
-                    snackbarHostState = snackbarHostState,
-                )
-            }
-        })
+    LostItemForm(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(MaterialTheme.spacing.medium),
+        openGallery = {
+            galleryLauncher.launch(General.ALL_IMAGES)
+        },
+        onCreateItem = { lostItem ->
+            viewModel.createLostItem(
+                lostItem = lostItem,
+                imageUri = uriState
+            )
+        }
+    )
+    CreateLostItem()
 }
 
 @Composable
@@ -124,13 +114,12 @@ fun LostItemForm(
 @Composable
 fun CreateLostItem(
     viewModel: LostItemViewModel = hiltViewModel(),
-    snackbarHostState: SnackbarHostState,
 ) {
     ResponseSnackBarHandler(
         response = viewModel.createdLostItemState,
         onTrueMessage = "Successfully created new item",
         onFalseMessage = "Failed to create new item",
-        snackbarHostState = snackbarHostState,
+        snackbarHostState = LocalSnackbarHostState.current,
     )
 }
 

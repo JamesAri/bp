@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.profile.presentation
+package cz.zcu.students.lostandfound.features.profile.presentation.preview
 
 import android.net.Uri
 import androidx.compose.foundation.border

@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationDrawer(
-    modifier: Modifier = Modifier,
     drawerState: DrawerState,
     coroutineScope: CoroutineScope,
     navController: NavHostController,
@@ -37,7 +36,6 @@ fun NavigationDrawer(
 
     val backStackEntryState = navController.currentBackStackEntryAsState()
     ModalNavigationDrawer(
-        modifier = modifier,
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
@@ -75,7 +73,7 @@ fun NavigationDrawer(
                 )
             }
         },
-        content = content
+        content = content,
     )
 }
 

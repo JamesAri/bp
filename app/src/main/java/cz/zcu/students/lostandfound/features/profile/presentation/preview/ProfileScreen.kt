@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.profile.presentation
+package cz.zcu.students.lostandfound.features.profile.presentation.preview
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -8,42 +8,54 @@ import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import cz.zcu.students.lostandfound.common.auth.domain.user.User
-import cz.zcu.students.lostandfound.common.auth.presentation.ResponseHandler
-import cz.zcu.students.lostandfound.common.auth.presentation.login.AuthViewModel
+import cz.zcu.students.lostandfound.common.components.ResponseHandler
+import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
+import cz.zcu.students.lostandfound.features.profile.presentation.ProfileField
+import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable
 fun ProfileScreen(
     navigateToLoginScreen: () -> Unit,
+    navigateToEditPhoneNumber: () -> Unit,
 ) {
-    LoadUser(navigateToLoginScreen = navigateToLoginScreen)
+    LoadUserPreview(
+        navigateToLoginScreen = navigateToLoginScreen,
+        navigateToEditPhoneNumber = navigateToEditPhoneNumber,
+    )
 }
 
 @Composable
-fun LoadUser(
+fun LoadUserPreview(
     viewModel: AuthViewModel = hiltViewModel(),
     navigateToLoginScreen: () -> Unit,
+    navigateToEditPhoneNumber: () -> Unit,
 ) {
     ResponseHandler(
         response = viewModel.currentUser,
+        snackbarHostState = LocalSnackbarHostState.current
     ) { user ->
         DisplayUserData(
             user = user,
             navigateToLoginScreen = navigateToLoginScreen,
+            navigateToEditPhoneNumber = navigateToEditPhoneNumber,
         )
     }
 }
+
 
 @Composable
 fun DisplayUserData(
     user: User,
     viewModel: AuthViewModel = hiltViewModel(),
     navigateToLoginScreen: () -> Unit,
+    navigateToEditPhoneNumber: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,7 +89,13 @@ fun DisplayUserData(
                 icon = Icons.Default.Phone,
                 title = "Phone Number",
                 value = phoneNumber,
-            )
+            ) {
+                TextButton(
+                    onClick = navigateToEditPhoneNumber,
+                ) {
+                    Text(text = "Edit")
+                }
+            }
         }
         Button(
             modifier = Modifier
@@ -92,3 +110,4 @@ fun DisplayUserData(
         }
     }
 }
+

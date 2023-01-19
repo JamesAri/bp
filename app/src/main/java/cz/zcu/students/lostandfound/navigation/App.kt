@@ -1,42 +1,62 @@
 package cz.zcu.students.lostandfound.navigation
 
-import android.util.Log
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.rememberDrawerState
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import cz.zcu.students.lostandfound.common.auth.presentation.login.AuthScreen
-import cz.zcu.students.lostandfound.common.auth.presentation.login.AuthViewModel
-import cz.zcu.students.lostandfound.common.extensions.isNull
-import cz.zcu.students.lostandfound.navigation.app_bars.NavigationAppBars
+import cz.zcu.students.lostandfound.navigation.app_bars.BottomAppBar
+import cz.zcu.students.lostandfound.navigation.app_bars.TopAppBar
 import cz.zcu.students.lostandfound.navigation.drawer.NavigationDrawer
 import cz.zcu.students.lostandfound.navigation.navgraph.NavGraph
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+
+val LocalSnackbarHostState: ProvidableCompositionLocal<SnackbarHostState> =
+    compositionLocalOf { error("No SnackbarHostState provided") }
+
 
 @Composable
-fun App(
-    navController: NavHostController = rememberNavController(),
-) {
+fun App() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
+    val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
+    val navController: NavHostController = rememberNavController()
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
-    NavigationDrawer(
-        drawerState = drawerState,
-        coroutineScope = scope,
-        navController = navController,
-        content = {
-            NavigationAppBars(
-                drawerState = drawerState,
-                coroutineScope = scope,
-                navController = navController,
-                content = {
-                    NavGraph(
-                        navController = navController,
-                        startDestination =  Screen.ProfileScreen.route,
-                    )
-                }
-            )
-        }
-    )
+    CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
+        NavigationDrawer(
+            drawerState = drawerState,
+            coroutineScope = coroutineScope,
+            navController = navController,
+            content = {
+                Scaffold(
+                    snackbarHost = { SnackbarHost(snackbarHostState) },
+                    topBar = {
+                        TopAppBar(
+                            drawerState = drawerState,
+                            coroutineScope = coroutineScope,
+                            navController = navController,
+                        )
+                    },
+                    bottomBar = {
+                        BottomAppBar(
+                            navController = navController
+                        )
+                    },
+                    content = { paddingValues ->
+                        NavGraph(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(paddingValues),
+                            navController = navController,
+                            startDestination = Screen.ProfileScreen.route,
+                            coroutineScope = coroutineScope,
+                        )
+                    }
+                )
+            }
+        )
+    }
 }

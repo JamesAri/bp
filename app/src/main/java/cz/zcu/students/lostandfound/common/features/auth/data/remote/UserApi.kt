@@ -1,8 +1,8 @@
-package cz.zcu.students.lostandfound.common.auth.data.remote
+package cz.zcu.students.lostandfound.common.features.auth.data.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
-import cz.zcu.students.lostandfound.common.Constants
-import cz.zcu.students.lostandfound.common.auth.data.remote.dto.DbUserDto
+import cz.zcu.students.lostandfound.common.constants.General
+import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.DbUserDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -11,7 +11,7 @@ import javax.inject.Inject
 class UserApi @Inject constructor(
     db: FirebaseFirestore,
 ) {
-    private val collectionRef = db.collection(Constants.USER_COLLECTION_KEY)
+    private val collectionRef = db.collection(General.USER_COLLECTION_KEY)
 
     suspend fun getUser(id: String): DbUserDto? {
         return withContext(Dispatchers.IO) {
@@ -21,10 +21,6 @@ class UserApi @Inject constructor(
                 .await()
                 .toObject(DbUserDto::class.java)
         }
-    }
-
-    suspend fun createUser(user: DbUserDto) {
-        updateDbUser(user) // same call with fire store
     }
 
     suspend fun updateDbUser(user: DbUserDto) {

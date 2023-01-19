@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.common.auth.presentation.login
+package cz.zcu.students.lostandfound.common.features.auth.presentation.login
 
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
