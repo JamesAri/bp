@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.profile.presentation.edit_phone_number
+package cz.zcu.students.lostandfound.features.profile.presentation.change_phone_number
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -9,10 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.common.constants.General.Companion.MAX_PHONE_NUMBER_LENGTH
-import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
 import cz.zcu.students.lostandfound.features.profile.presentation.util.validatePhoneNumber
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
@@ -24,7 +22,7 @@ fun EditPhoneNumberScreen(
     coroutineScope: CoroutineScope,
     navigateToProfile: () -> Unit,
 ) {
-    LoadUser()
+    ChangePhoneNumberForm()
 
     EmailChangeListener(
         navigateToProfile = navigateToProfile,
@@ -48,24 +46,8 @@ fun EmailChangeListener(
     )
 }
 
-
-@Composable
-fun LoadUser(
-    viewModel: AuthViewModel = hiltViewModel(),
-) {
-    ResponseHandler(
-        response = viewModel.currentUser,
-        snackbarHostState = LocalSnackbarHostState.current
-    ) { user ->
-        ChangePhoneNumberForm(
-            user = user,
-        )
-    }
-}
-
 @Composable
 fun ChangePhoneNumberForm(
-    user: User,
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     var phoneNumber by remember { mutableStateOf("") }
@@ -117,10 +99,8 @@ fun ChangePhoneNumberForm(
                 enabled = validationState,
                 onClick = {
                     if (validationState) {
-                        authViewModel.updateCurrentUser(
-                            user = user.copy(
-                                phoneNumber = phoneNumber,
-                            )
+                        authViewModel.updateCurrentUserPhoneNumber(
+                            phoneNumber = phoneNumber,
                         )
                     }
                 },

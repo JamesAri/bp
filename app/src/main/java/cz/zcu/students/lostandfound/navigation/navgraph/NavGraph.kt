@@ -2,7 +2,6 @@ package cz.zcu.students.lostandfound.navigation.navgraph
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -11,16 +10,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType.Companion.IntType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cz.zcu.students.lostandfound.common.constants.General.Companion.LOST_ITEM_ID
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.AddLostItemScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.LostItemsScreen
+import cz.zcu.students.lostandfound.features.lost_items.presentation.my_posts.MyPostsScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.UpdatePostScreen
-import cz.zcu.students.lostandfound.features.profile.presentation.edit_phone_number.EditPhoneNumberScreen
-import cz.zcu.students.lostandfound.features.profile.presentation.preview.ProfileScreen
+import cz.zcu.students.lostandfound.features.profile.presentation.change_phone_number.EditPhoneNumberScreen
+import cz.zcu.students.lostandfound.features.profile.presentation.profile_view.ProfileScreen
 import cz.zcu.students.lostandfound.features.settings.presentation.settings.SettingsScreen
 import cz.zcu.students.lostandfound.navigation.Screen
 import kotlinx.coroutines.CoroutineScope
@@ -84,7 +83,11 @@ fun NavGraph(
         composable(
             route = Screen.MyPostsScreen.route
         ) {
-            AddLostItemScreen() // todo
+            MyPostsScreen(
+                navigateToAddPosts = {
+                    navController.navigate(Screen.AddLostItemScreen.route)
+                }
+            )
         }
         composable(
             route = Screen.FavoritesScreen.route
@@ -112,13 +115,13 @@ fun NavGraph(
                 navigateToLoginScreen = {
                     navController.navigate(Screen.AuthScreen.route)
                 },
-                navigateToEditPhoneNumber = {
-                    navController.navigate(Screen.EditPhoneNumber.route)
+                navigateToChangePhoneNumber = {
+                    navController.navigate(Screen.ChangePhoneNumberScreen.route)
                 }
             )
         }
         composable(
-            route = Screen.EditPhoneNumber.route
+            route = Screen.ChangePhoneNumberScreen.route
         ) {
             EditPhoneNumberScreen(
                 coroutineScope = coroutineScope,
@@ -128,12 +131,12 @@ fun NavGraph(
             )
         }
         composable(
-            route = Screen.AboutApp.route
+            route = Screen.AboutAppScreen.route
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(Screen.AboutApp.route)
+                Text(Screen.AboutAppScreen.route)
             }
         }
-
     }
 }
+

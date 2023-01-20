@@ -30,9 +30,20 @@ class AuthRepositoryImpl @Inject constructor(
         authInstance.signOut()
     }
 
+    override suspend fun createNewUser(): Response<Boolean> {
+        return try {
+            val authUser = authInstance.currentUser ?: throw Exception("not logged in")
+            val dbUserDto = authUser.toDbUserDto()
+            dbUserDto.photoUri = "soon" // todo
+            api.updateDbUser(dbUserDto)
+            Success(true)
+        } catch (e: Exception) {
+            Error(e)
+        }
+    }
+
     override suspend fun getCurrentUser(): Response<User> {
         return try {
-            // authUser is local, no need for async call with dbUser
             val authUser = authInstance.currentUser ?: return Success(null)
             val dbUser = api.getUser(authUser.uid)
             val user = UserDto(dbUser = dbUser, authUser = authUser).toUser()
@@ -53,6 +64,4 @@ class AuthRepositoryImpl @Inject constructor(
             Error(e)
         }
     }
-
-
 }

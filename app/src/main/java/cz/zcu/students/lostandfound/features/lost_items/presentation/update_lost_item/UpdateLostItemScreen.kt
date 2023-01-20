@@ -3,7 +3,7 @@ package cz.zcu.students.lostandfound.features.lost_items.presentation.update_los
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
-import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.LostItemViewModel
+import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 
 @Composable
 fun UpdatePostScreen(

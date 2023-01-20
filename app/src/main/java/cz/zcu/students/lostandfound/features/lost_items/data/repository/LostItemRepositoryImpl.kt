@@ -1,5 +1,6 @@
 package cz.zcu.students.lostandfound.features.lost_items.data.repository
 
+import android.util.Log
 import cz.zcu.students.lostandfound.common.constants.General.Companion.NO_ITEM_FOUND_ERR
 import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.features.lost_items.data.mappers.toLostItem
@@ -12,7 +13,9 @@ import cz.zcu.students.lostandfound.common.util.Response.Error
 import cz.zcu.students.lostandfound.common.util.Response.Success
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,10 +29,19 @@ class LostItemRepositoryImpl @Inject constructor(
         return try {
             val lostItemList: Flow<LostItemList> = api
                 .getLostItemList()
-                .map {
-                    val list = it.lostItems.map { item ->
-                        item.toLostItem()
-                    }
+                .map { lostItemDtoList ->
+                    val list = lostItemDtoList.lostItems
+                        .mapNotNull { item ->
+                            try {
+                                item.toLostItem()
+                            } catch (e: Exception) {
+                                Log.e(
+                                    "LostItemRepositoryImpl",
+                                    "getLostItemListFlow: ${e.message}"
+                                )
+                                null
+                            }
+                        }
                     LostItemList(list)
                 }
             Success(lostItemList)

@@ -50,7 +50,7 @@ sealed class NavItem(
     object MyPosts : NavItem(
         name = MappedRouteNames.getValue(Screen.MyPostsScreen.route),
         route =  Screen.MyPostsScreen.route,
-        icon = NavIcon(Icons.Filled.Add),
+        icon = NavIcon(res = R.drawable.ic_post_add),
     )
 
     object Favorites : NavItem(
@@ -78,8 +78,8 @@ sealed class NavItem(
     )
 
     object AboutApp : NavItem(
-        name = MappedRouteNames.getValue(Screen.AboutApp.route),
-        route =  Screen.AboutApp.route,
+        name = MappedRouteNames.getValue(Screen.AboutAppScreen.route),
+        route =  Screen.AboutAppScreen.route,
         icon = NavIcon(Icons.Filled.Info),
     )
 

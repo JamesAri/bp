@@ -7,8 +7,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.google.firebase.auth.FirebaseAuth
 import cz.zcu.students.lostandfound.R
+import cz.zcu.students.lostandfound.common.components.ProgressBar
+import cz.zcu.students.lostandfound.common.util.Response
 
 
 val PROVIDERS = listOf(
@@ -26,21 +27,28 @@ val SIGN_IN_INTENT = AuthUI.getInstance()
 
 @Composable
 fun AuthScreen(
-    viewModel: AuthViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel = hiltViewModel(),
     navigateToMainScreen: () -> Unit,
 ) {
     val signInLauncher = rememberLauncherForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { result ->
-        viewModel.onSignInResult(result)
+        authViewModel.onSignInResult(result)
         Log.d("AuthScreen", "onCreate: $result")
     }
 
-    LaunchedEffect(viewModel.authenticatedState) {
-        if (FirebaseAuth.getInstance().currentUser == null) {
+    when (val currentUser = authViewModel.currentUser) {
+        Response.Loading -> ProgressBar()
+        is Response.Error -> LaunchedEffect(currentUser) {
+            Log.e("auth", "AuthScreen: ${currentUser.error}")
             signInLauncher.launch(SIGN_IN_INTENT)
-        } else {
-            navigateToMainScreen()
+        }
+        is Response.Success -> LaunchedEffect(currentUser) {
+            if (currentUser.data == null) {
+                signInLauncher.launch(SIGN_IN_INTENT)
+            } else {
+                navigateToMainScreen()
+            }
         }
     }
 }

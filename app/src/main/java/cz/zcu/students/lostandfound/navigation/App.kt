@@ -12,7 +12,6 @@ import cz.zcu.students.lostandfound.navigation.app_bars.TopAppBar
 import cz.zcu.students.lostandfound.navigation.drawer.NavigationDrawer
 import cz.zcu.students.lostandfound.navigation.navgraph.NavGraph
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 val LocalSnackbarHostState: ProvidableCompositionLocal<SnackbarHostState> =
     compositionLocalOf { error("No SnackbarHostState provided") }

@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item
+package cz.zcu.students.lostandfound.features.lost_items.presentation
 
 import android.net.Uri
 import androidx.compose.runtime.getValue
@@ -8,10 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cz.zcu.students.lostandfound.common.constants.General.Companion.UNKNOWN_ERR
 import cz.zcu.students.lostandfound.common.extensions.isNull
+import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.util.Response
-import cz.zcu.students.lostandfound.common.util.Response.Error
-import cz.zcu.students.lostandfound.common.util.Response.Loading
-import cz.zcu.students.lostandfound.common.util.Response.Success
+import cz.zcu.students.lostandfound.common.util.Response.*
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemImageRepository
@@ -24,10 +23,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class LostItemViewModel @Inject constructor(
     private val dbRepo: LostItemRepository,
     private val storageRepo: LostItemImageRepository,
+    private val authRepo: AuthRepository,
 ) : ViewModel() {
 
     private val _lostItemsState = MutableStateFlow<Response<Flow<LostItemList>>>(Success(null))
@@ -53,32 +54,51 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
-    fun createLostItem(lostItem: LostItem, imageUri: Uri?) {
+    fun createLostItem(title: String, description: String, imageUri: Uri?) {
         viewModelScope.launch {
             createdLostItemState = Loading
-
-            createdLostItemState = if (imageUri.isNull()) {
-                dbRepo.createLostItem(
-                    lostItem.copy(
-                        imageUri = null,
+            when (val currentUser = authRepo.getCurrentUser()) {
+                is Error -> createdLostItemState = Error(currentUser.error)
+                Loading -> {}
+                is Success -> {
+                    if (currentUser.data == null) {
+                        createdLostItemState = Error(Exception("user not logged in"))
+                        return@launch
+                    }
+                    val lostItem = LostItem(
+                        title = title,
+                        description = description,
+                        imageUri = imageUri,
+                        postOwnerId = currentUser.data.id,
                     )
-                )
-            } else {
-                when (val uriResponse = storageRepo.addImageToStorage(imageUri!!, lostItem.id)) {
-                    is Loading -> {
-                        Error(Exception(UNKNOWN_ERR))
-                    }
-                    is Success -> {
-                        // Item got assigned uri from firebase storage, so we can save it in
-                        // lightweight database now.
-                        val lostItemWithAssignedUri = lostItem.copy(imageUri = uriResponse.data)
-                        dbRepo.createLostItem(lostItemWithAssignedUri)
-                    }
-                    is Error -> {
-                        Error(uriResponse.error)
-                    }
+                    postLostItem(lostItem)
                 }
             }
         }
     }
+
+    private suspend fun postLostItem(lostItem: LostItem) {
+        val imageUri = lostItem.imageUri
+        createdLostItemState = if (imageUri.isNull()) {
+            dbRepo.createLostItem(lostItem = lostItem)
+        } else {
+            when (val uriResponse =
+                storageRepo.addImageToStorage(
+                    imageUri = imageUri!!,
+                    lostItemId = lostItem.id,
+                )
+            ) {
+                is Loading -> Error(Exception(UNKNOWN_ERR))
+                is Success -> {
+                    // Item got assigned uri from firebase storage, so we can save it in
+                    // lightweight database now.
+                    val lostItemWithAssignedUri = lostItem.copy(imageUri = uriResponse.data)
+                    dbRepo.createLostItem(lostItem = lostItemWithAssignedUri)
+                }
+                is Error -> Error(uriResponse.error)
+            }
+        }
+
+    }
 }
+

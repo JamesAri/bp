@@ -8,27 +8,6 @@ class General {
         // Splash screen
         const val SPLASHSCREEN_DURATION = 2000L // follow 3 second rule
 
-        // Firebase storage
-        const val IMAGES_KEY = "images"
-        const val URL = "url"
-        const val CREATED_AT = "createdAt"
-
-        //File types
-        const val ALL_IMAGES = "image/*"
-
-        // Firestore - Lost items
-        const val LOST_ITEM_COLLECTION_KEY = "lostItems"
-        const val LOST_ITEM_TITLE_KEY = "title"
-        const val LOST_ITEM_DESCRIPTION_KEY = "description"
-        const val LOST_ITEM_URL_KEY = "imageUrl"
-        const val LOST_ITEM_LOCATION_KEY = "location"
-        const val LOST_ITEM_CREATED_AT_KEY = "createdAt"
-
-        // Firestore - Users
-        const val USER_COLLECTION_KEY = "users"
-        const val USER_PHONE_NUMBER = "phoneNumber"
-        const val USER_CREATED_AT_KEY = "createdAt"
-
         // Screens
         const val AUTH_SCREEN = "auth"
         const val FIND_ITEM_SCREEN = "findItem"
@@ -41,7 +20,9 @@ class General {
         const val SETTINGS_SCREEN = "settings"
         const val PROFILE_SCREEN = "profile"
         const val ABOUT_APP_SCREEN = "aboutApp"
-        const val EDIT_PHONE_NUMBER_SCREEN = "editPhoneNumber"
+        const val CHANGE_PHONE_NUMBER_SCREEN = "editPhoneNumber"
+        const val CHANGE_PROFILE_PICTURE_SCREEN = "changeProfilePicture"
+
 
         // Arguments
         const val LOST_ITEM_ID = "id"
@@ -61,7 +42,7 @@ class General {
         const val NO_VALUE = ""
 
         // Defaults
-        const val ITEM_DESCRIPTION_DEFAULT = "no description"
+        const val NO_ITEM_DESCRIPTION_DEFAULT = "no description"
 
         // Errors
         const val NO_ITEM_FOUND_ERR = "No such item found"
@@ -69,6 +50,5 @@ class General {
 
         // Validation
         const val MAX_PHONE_NUMBER_LENGTH = 13
-
     }
 }

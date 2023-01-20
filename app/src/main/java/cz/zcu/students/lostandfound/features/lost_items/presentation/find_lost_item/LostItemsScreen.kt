@@ -14,6 +14,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cz.zcu.students.lostandfound.common.components.ProgressBar
 import cz.zcu.students.lostandfound.common.util.Response.*
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
+import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.ui.theme.spacing
 import kotlinx.coroutines.flow.Flow
 

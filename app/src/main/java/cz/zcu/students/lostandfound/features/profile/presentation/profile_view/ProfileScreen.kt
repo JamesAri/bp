@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.profile.presentation.preview
+package cz.zcu.students.lostandfound.features.profile.presentation.profile_view
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -23,28 +23,28 @@ import cz.zcu.students.lostandfound.ui.theme.spacing
 @Composable
 fun ProfileScreen(
     navigateToLoginScreen: () -> Unit,
-    navigateToEditPhoneNumber: () -> Unit,
+    navigateToChangePhoneNumber: () -> Unit,
 ) {
     LoadUserPreview(
         navigateToLoginScreen = navigateToLoginScreen,
-        navigateToEditPhoneNumber = navigateToEditPhoneNumber,
+        navigateToChangePhoneNumber = navigateToChangePhoneNumber,
     )
 }
 
 @Composable
 fun LoadUserPreview(
-    viewModel: AuthViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel = hiltViewModel(),
     navigateToLoginScreen: () -> Unit,
-    navigateToEditPhoneNumber: () -> Unit,
+    navigateToChangePhoneNumber: () -> Unit,
 ) {
     ResponseHandler(
-        response = viewModel.currentUser,
+        response = authViewModel.currentUser,
         snackbarHostState = LocalSnackbarHostState.current
     ) { user ->
         DisplayUserData(
             user = user,
             navigateToLoginScreen = navigateToLoginScreen,
-            navigateToEditPhoneNumber = navigateToEditPhoneNumber,
+            navigateToChangePhoneNumber = navigateToChangePhoneNumber,
         )
     }
 }
@@ -55,7 +55,7 @@ fun DisplayUserData(
     user: User,
     viewModel: AuthViewModel = hiltViewModel(),
     navigateToLoginScreen: () -> Unit,
-    navigateToEditPhoneNumber: () -> Unit,
+    navigateToChangePhoneNumber: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -91,9 +91,9 @@ fun DisplayUserData(
                 value = phoneNumber,
             ) {
                 TextButton(
-                    onClick = navigateToEditPhoneNumber,
+                    onClick = navigateToChangePhoneNumber,
                 ) {
-                    Text(text = "Edit")
+                    Text(text = "Change")
                 }
             }
         }

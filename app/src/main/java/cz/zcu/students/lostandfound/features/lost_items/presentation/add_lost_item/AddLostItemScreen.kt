@@ -4,23 +4,23 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import cz.zcu.students.lostandfound.common.constants.General
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
-import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.LostItemViewModel
+import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.ALL_IMAGES
+import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 
 @Composable
-fun AddLostItemScreen(
-    viewModel: LostItemViewModel = hiltViewModel(),
-) {
+fun AddLostItemScreen() {
     var uriState by remember {
         mutableStateOf<Uri?>(null)
     }
@@ -37,14 +37,9 @@ fun AddLostItemScreen(
             .fillMaxSize()
             .padding(MaterialTheme.spacing.medium),
         openGallery = {
-            galleryLauncher.launch(General.ALL_IMAGES)
+            galleryLauncher.launch(ALL_IMAGES)
         },
-        onCreateItem = { lostItem ->
-            viewModel.createLostItem(
-                lostItem = lostItem,
-                imageUri = uriState
-            )
-        }
+        uriState = uriState,
     )
     CreateLostItem()
 }
@@ -53,7 +48,8 @@ fun AddLostItemScreen(
 fun LostItemForm(
     modifier: Modifier = Modifier,
     openGallery: () -> Unit,
-    onCreateItem: (lostItem: LostItem) -> Unit,
+    lostItemViewModel: LostItemViewModel = hiltViewModel(),
+    uriState: Uri?,
 ) {
 
     var title by remember { mutableStateOf("") }
@@ -93,11 +89,10 @@ fun LostItemForm(
         ) {
             Button(
                 onClick = {
-                    onCreateItem(
-                        LostItem(
-                            title = title,
-                            description = description,
-                        )
+                    lostItemViewModel.createLostItem(
+                        title = title,
+                        description = description,
+                        imageUri = uriState,
                     )
                 }) {
                 Text(text = "Create")

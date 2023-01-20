@@ -1,6 +1,7 @@
 package cz.zcu.students.lostandfound.common.features.auth.presentation.login
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,7 +14,6 @@ import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,19 +21,20 @@ class AuthViewModel @Inject constructor(
     private val repo: AuthRepository,
 ) : ViewModel() {
 
-    var authenticatedState by mutableStateOf(repo.isUserAuthenticated())
-        private set
-
-    var currentUser by mutableStateOf<Response<User>>(Loading)
+    var currentUser by mutableStateOf<Response<User>>(Success(null))
         private set
 
     var updateCurrentUserStatus by mutableStateOf<Response<Boolean>>(Success(null))
         private set
 
     private fun fetchCurrentUser() {
-        authenticatedState = repo.isUserAuthenticated()
-        viewModelScope.launch {
-            currentUser = repo.getCurrentUser()
+        if (repo.isUserAuthenticated()) {
+            currentUser = Loading
+            viewModelScope.launch {
+                currentUser = repo.getCurrentUser()
+            }
+        } else {
+            currentUser = Success(null)
         }
     }
 
@@ -43,10 +44,10 @@ class AuthViewModel @Inject constructor(
 
     fun logout() {
         repo.logout()
-        fetchCurrentUser()
+        currentUser = Success(null)
     }
 
-    fun updateCurrentUser(user: User) {
+    private fun updateCurrentUser(user: User) {
         viewModelScope.launch {
             updateCurrentUserStatus = Loading
             val updateStatus = repo.updateCurrentUser(user)
@@ -55,11 +56,31 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun updateCurrentUserPhoneNumber(phoneNumber: String) {
+        when (val currentUserSnapshot = currentUser) {
+            Loading -> updateCurrentUserStatus = Error(Exception("not logged in"))
+            is Error -> updateCurrentUserStatus = Error(currentUserSnapshot.error)
+            is Success -> {
+                currentUserSnapshot.data?.let {
+                    updateCurrentUser(
+                        it.copy(
+                            phoneNumber = phoneNumber,
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     fun onSignInResult(
         result: FirebaseAuthUIAuthenticationResult,
     ) {
         if (result.resultCode == Activity.RESULT_OK) {
-            fetchCurrentUser()
+            viewModelScope.launch {
+                if (result.idpResponse?.isNewUser == true)
+                    repo.createNewUser()
+                fetchCurrentUser()
+            }
         } else {
             currentUser = Error(Exception("sign in failed, couldn't load user data"))
         }

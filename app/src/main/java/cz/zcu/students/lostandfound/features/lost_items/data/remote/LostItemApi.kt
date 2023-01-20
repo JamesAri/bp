@@ -2,9 +2,9 @@ package cz.zcu.students.lostandfound.features.lost_items.data.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.snapshots
-import cz.zcu.students.lostandfound.common.constants.General.Companion.LOST_ITEM_COLLECTION_KEY
+import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_COLLECTION_KEY
 import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemDto
-import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemListDto
+import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemDtoList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,7 +17,7 @@ class LostItemApi @Inject constructor(
 ) {
     private val collectionRef = db.collection(LOST_ITEM_COLLECTION_KEY)
 
-    suspend fun getLostItemList(): Flow<LostItemListDto> {
+    suspend fun getLostItemList(): Flow<LostItemDtoList> {
         return withContext(Dispatchers.IO) {
             return@withContext collectionRef
                 .snapshots()
@@ -31,7 +31,7 @@ class LostItemApi @Inject constructor(
                             }
                         }
                     }
-                    LostItemListDto(lostItems)
+                    LostItemDtoList(lostItems)
                 }
         }
     }
