@@ -2,6 +2,8 @@ package cz.zcu.students.lostandfound.common.constants
 
 class General {
     companion object {
+        // App version
+        const val APP_VERSION = "1.0.0"
         // Datastore
         const val DATASTORE_FILE_NAME = "app-settings.json"
 

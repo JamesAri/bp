@@ -90,15 +90,14 @@ fun LostItemDetail(
             )
         }
         Box(
+            contentAlignment = Alignment.BottomCenter,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(MaterialTheme.spacing.medium),
-            contentAlignment = Alignment.BottomCenter
         ) {
             ContactAndShareAssistChips(
                 modifier = Modifier.fillMaxWidth(),
                 mainAxisAlignment = FlowMainAxisAlignment.SpaceAround,
-                onContactPerson = { },
+                onContactPerson = {},
                 onShareWithOthers = {},
             )
         }

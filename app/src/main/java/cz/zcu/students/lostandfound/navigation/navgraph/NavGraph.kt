@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cz.zcu.students.lostandfound.common.constants.General.Companion.LOST_ITEM_ID
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthScreen
+import cz.zcu.students.lostandfound.features.about_app.presentation.AboutAppScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.AddLostItemScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.FindLostItemScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.lost_item_detail.LostItemDetailScreen
@@ -145,9 +146,7 @@ fun NavGraph(
         composable(
             route = Screen.AboutAppScreen.route
         ) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(Screen.AboutAppScreen.route)
-            }
+            AboutAppScreen()
         }
     }
 }

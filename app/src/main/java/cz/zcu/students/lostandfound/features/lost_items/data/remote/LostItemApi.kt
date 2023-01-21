@@ -5,6 +5,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_COLLECTION_KEY
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_CREATED_AT_KEY
+import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_IS_FOUND_KEY
 import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemDto
 import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemDtoList
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,7 @@ class LostItemApi @Inject constructor(
     suspend fun getLostItemList(): Flow<LostItemDtoList> {
         return withContext(Dispatchers.IO) {
             return@withContext collectionRef
+                .whereEqualTo(LOST_ITEM_IS_FOUND_KEY, false)
                 .orderBy(LOST_ITEM_CREATED_AT_KEY, Query.Direction.DESCENDING)
                 .snapshots()
                 .map { snapshot ->
