@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.lost_items.data.remote
+package cz.zcu.students.lostandfound.common.features.storage.data.remote
 
 import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage
@@ -7,18 +7,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class LostItemImageApi(
+class ImageStorageApi(
     storage: FirebaseStorage,
 ) {
     private val imagesRef = storage.reference.child(IMAGES_KEY)
 
     suspend fun addImageToFirebaseStorage(
         imageUri: Uri,
-        lostItemId: String,
+        name: String,
     ): Uri {
         return withContext(Dispatchers.IO) {
             return@withContext imagesRef
-                .child("$lostItemId.jpg")
+                .child("$name.jpg")
                 .putFile(imageUri)
                 .await()
                 .storage

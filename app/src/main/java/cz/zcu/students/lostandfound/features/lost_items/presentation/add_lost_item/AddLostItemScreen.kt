@@ -41,7 +41,7 @@ fun AddLostItemScreen() {
         },
         uriState = uriState,
     )
-    CreateLostItem()
+    CreateLostItemListener()
 }
 
 @Composable
@@ -107,7 +107,7 @@ fun LostItemForm(
 
 
 @Composable
-fun CreateLostItem(
+fun CreateLostItemListener(
     viewModel: LostItemViewModel = hiltViewModel(),
 ) {
     ResponseSnackBarHandler(

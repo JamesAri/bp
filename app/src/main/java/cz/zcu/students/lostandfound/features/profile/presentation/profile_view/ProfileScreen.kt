@@ -53,7 +53,7 @@ fun LoadUserPreview(
 @Composable
 fun DisplayUserData(
     user: User,
-    viewModel: AuthViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel = hiltViewModel(),
     navigateToLoginScreen: () -> Unit,
     navigateToChangePhoneNumber: () -> Unit,
 ) {
@@ -66,9 +66,8 @@ fun DisplayUserData(
             Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ProfileImageIcon(
-                photoUri = user.photoUri
-            )
+
+            EditableProfileImageIcon(user)
 
             ProfileField(
                 icon = Icons.Default.Person,
@@ -103,7 +102,7 @@ fun DisplayUserData(
                 .padding(MaterialTheme.spacing.medium),
             shape = MaterialTheme.shapes.medium,
             onClick = {
-                viewModel.logout()
+                authViewModel.logout()
                 navigateToLoginScreen()
             }) {
             Text(text = "Logout")

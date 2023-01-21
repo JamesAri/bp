@@ -20,7 +20,7 @@ fun LostItemDto.toLostItem(): LostItem {
         isFound = isFound!!,
         imageUri = imageUri?.let { Uri.parse(it) },
         location = LocationCoordinates(0.0, 0.0), // todo
-        createdAt = createdAt?.toString(),
+        createdAt = createdAt?.seconds,
         postOwnerId = postOwnerId!!,
         itemOwnerId = itemOwnerId,
     )

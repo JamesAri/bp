@@ -1,5 +1,6 @@
 package cz.zcu.students.lostandfound.navigation.app_bars
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -26,10 +27,10 @@ fun TopAppBar(
 ) {
     val backStackEntryState = navController.currentBackStackEntryAsState()
 
-    val screenTitleState by remember(backStackEntryState) {
+    val screenTitleState by remember {
         derivedStateOf {
             backStackEntryState.value?.destination?.route?.let {
-                MappedRouteNames.getValue(key = it)
+                MappedRouteNames.getValue(key = it.split('/')[0])
             } ?: ""
         }
     }

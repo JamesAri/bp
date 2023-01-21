@@ -13,6 +13,7 @@ class General {
         const val FIND_ITEM_SCREEN = "findItem"
         const val UPDATE_LOST_ITEM_SCREEN = "updateLostItem"
         const val ADD_LOST_ITEM_SCREEN = "addLostItem"
+        const val LOST_ITEM_DETAIL_SCREEN = "lostItemDetail"
         const val INBOX_SCREEN = "inbox"
         const val MY_POSTS_SCREEN = "myPosts"
         const val FAVORITES_SCREEN = "favorites"

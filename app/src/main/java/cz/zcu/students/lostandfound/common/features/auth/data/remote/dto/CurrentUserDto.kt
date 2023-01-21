@@ -2,7 +2,7 @@ package cz.zcu.students.lostandfound.common.features.auth.data.remote.dto
 
 import com.google.firebase.auth.FirebaseUser
 
-data class UserDto(
+data class CurrentUserDto(
     val authUser: FirebaseUser,
-    val dbUser: DbUserDto?,
+    val dbUser: DbUserDto,
 )

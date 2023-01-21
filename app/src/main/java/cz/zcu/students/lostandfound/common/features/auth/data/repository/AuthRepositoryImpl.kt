@@ -1,23 +1,24 @@
 package cz.zcu.students.lostandfound.common.features.auth.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
+import cz.zcu.students.lostandfound.common.features.auth.data.util.getRandomProfileAvatarUri
 import cz.zcu.students.lostandfound.common.features.auth.data.mappers.toDbUserDto
 import cz.zcu.students.lostandfound.common.features.auth.data.mappers.toUser
 import cz.zcu.students.lostandfound.common.features.auth.data.remote.UserApi
-import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.DbUserDto
-import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.UserDto
+import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.CurrentUserDto
 import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
-import cz.zcu.students.lostandfound.common.extensions.isNotNull
+import cz.zcu.students.lostandfound.common.features.storage.data.remote.ImageStorageApi
 import cz.zcu.students.lostandfound.common.util.Response
-import cz.zcu.students.lostandfound.common.util.Response.Success
 import cz.zcu.students.lostandfound.common.util.Response.Error
+import cz.zcu.students.lostandfound.common.util.Response.Success
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
-    private val api: UserApi,
+    private val userApi: UserApi,
+    private val imageStorageApi: ImageStorageApi,
 ) : AuthRepository {
 
     private val authInstance = FirebaseAuth.getInstance()
@@ -34,8 +35,14 @@ class AuthRepositoryImpl @Inject constructor(
         return try {
             val authUser = authInstance.currentUser ?: throw Exception("not logged in")
             val dbUserDto = authUser.toDbUserDto()
-            dbUserDto.photoUri = "soon" // todo
-            api.updateDbUser(dbUserDto)
+            val randomAvatarUri = getRandomProfileAvatarUri()
+            // TODO (feature) - save just index and not the whole image
+            val storageUri = imageStorageApi.addImageToFirebaseStorage(
+                imageUri = randomAvatarUri,
+                name = dbUserDto.id
+            )
+            dbUserDto.photoUri = storageUri.toString()
+            userApi.updateDbUser(dbUserDto)
             Success(true)
         } catch (e: Exception) {
             Error(e)
@@ -44,9 +51,9 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun getCurrentUser(): Response<User> {
         return try {
-            val authUser = authInstance.currentUser ?: return Success(null)
-            val dbUser = api.getUser(authUser.uid)
-            val user = UserDto(dbUser = dbUser, authUser = authUser).toUser()
+            val authUser = authInstance.currentUser ?: throw Exception("not logged in")
+            val dbUser = userApi.getUser(authUser.uid) ?: throw Exception("missing user db reference")
+            val user = CurrentUserDto(dbUser = dbUser, authUser = authUser).toUser()
             Success(user)
         } catch (e: Exception) {
             Error(e)
@@ -58,8 +65,18 @@ class AuthRepositoryImpl @Inject constructor(
             val authUser = authInstance.currentUser ?: throw Exception("not logged in")
             val dbUserDto = user.toDbUserDto()
             if (authUser.uid != dbUserDto.id) throw Exception("access denied, cannot update user")
-            api.updateDbUser(dbUserDto)
+            userApi.updateDbUser(dbUserDto)
             Success(true)
+        } catch (e: Exception) {
+            Error(e)
+        }
+    }
+
+    override suspend fun getUser(postOwnerId: String): Response<User> {
+        return try {
+            val dbUser = userApi.getUser(postOwnerId)
+            val user = dbUser?.toUser()
+            Success(user)
         } catch (e: Exception) {
             Error(e)
         }

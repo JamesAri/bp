@@ -81,7 +81,7 @@ fun ThemeDialog(
                 ),
             ),
             positiveButton = null,
-        ) { index, option ->
+        ) { index, _ ->
             when (index) {
                 0 -> appSettingsViewModel.setTheme(ThemeOptions.SYSTEM)
                 1 -> appSettingsViewModel.setTheme(ThemeOptions.DARK)

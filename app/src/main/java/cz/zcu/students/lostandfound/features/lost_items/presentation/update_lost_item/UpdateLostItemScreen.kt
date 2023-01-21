@@ -1,5 +1,6 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -8,12 +9,13 @@ import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemVie
 @Composable
 fun UpdatePostScreen(
     viewModel: LostItemViewModel = hiltViewModel(),
-    lostItemId: String,
-    navigateBack: () -> Unit
+    lostItemId: String?,
 ) {
     LaunchedEffect(Unit) {
-        viewModel.getLostItem(lostItemId)
+        if(lostItemId != null) {
+            viewModel.getLostItem(lostItemId)
+        }
     }
 
-    /* TODO: Components */
+    Text(text = "Hello there")
 }

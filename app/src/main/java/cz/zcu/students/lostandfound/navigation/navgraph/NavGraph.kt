@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType.Companion.IntType
+import androidx.navigation.NavType.Companion.StringType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -15,7 +15,8 @@ import androidx.navigation.navArgument
 import cz.zcu.students.lostandfound.common.constants.General.Companion.LOST_ITEM_ID
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.AddLostItemScreen
-import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.LostItemsScreen
+import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.FindLostItemScreen
+import cz.zcu.students.lostandfound.features.lost_items.presentation.lost_item_detail.LostItemDetailScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.my_posts.MyPostsScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.UpdatePostScreen
 import cz.zcu.students.lostandfound.features.profile.presentation.change_phone_number.EditPhoneNumberScreen
@@ -44,28 +45,39 @@ fun NavGraph(
             })
         }
         composable(
-            route = Screen.FindItemScreen.route
+            route = Screen.FindLostItemScreen.route
         ) {
-            LostItemsScreen(
-                navigateToUpdatePostScreen = { postId ->
-                    navController.navigate("${Screen.UpdateLostItemScreen.route}/${postId}")
+            FindLostItemScreen(
+                navigateToLostItemDetail = { id ->
+                    navController.navigate("${Screen.LostItemDetailScreen.route}/${id}")
                 }
             )
         }
         composable(
-            route = "${Screen.UpdateLostItemScreen.route}/{$LOST_ITEM_ID}",
+            route = "${Screen.LostItemDetailScreen.route}/{$LOST_ITEM_ID}",
             arguments = listOf(
                 navArgument(LOST_ITEM_ID) {
-                    type = IntType
+                    type = StringType
                 }
             )
         ) { backStackEntry ->
-            val lostItemId = backStackEntry.arguments?.getString(LOST_ITEM_ID) ?: ""
+            val lostItemId = backStackEntry.arguments?.getString(LOST_ITEM_ID)
+            LostItemDetailScreen(
+                lostItemId = lostItemId,
+            )
+        }
+
+        composable(
+            route = "${Screen.UpdateLostItemScreen.route}/{$LOST_ITEM_ID}",
+            arguments = listOf(
+                navArgument(LOST_ITEM_ID) {
+                    type = StringType
+                }
+            )
+        ) { backStackEntry ->
+            val lostItemId = backStackEntry.arguments?.getString(LOST_ITEM_ID)
             UpdatePostScreen(
                 lostItemId = lostItemId,
-                navigateBack = {
-                    navController.popBackStack()
-                }
             )
         }
         composable(

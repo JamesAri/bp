@@ -9,4 +9,5 @@ interface AuthRepository {
     suspend fun createNewUser(): Response<Boolean>
     suspend fun getCurrentUser(): Response<User>
     suspend fun updateCurrentUser(user: User): Response<Boolean>
+    suspend fun getUser(postOwnerId: String): Response<User>
 }

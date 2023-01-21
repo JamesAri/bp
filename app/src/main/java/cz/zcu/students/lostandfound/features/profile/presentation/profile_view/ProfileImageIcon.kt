@@ -26,6 +26,7 @@ import cz.zcu.students.lostandfound.ui.theme.spacing
 @Composable
 fun ProfileImageIcon(
     photoUri: Uri?,
+    onEditClick: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -55,9 +56,7 @@ fun ProfileImageIcon(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
             ),
-            onClick = {
-                /*TODO*/
-            }
+            onClick = onEditClick,
         ) {
             Icon(
                 imageVector = Icons.Default.Edit,

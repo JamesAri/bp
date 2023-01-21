@@ -11,7 +11,7 @@ data class LostItem(
     val postOwnerId: String,
     val description: String = NO_ITEM_DESCRIPTION_DEFAULT,
     val isFound: Boolean = false,
-    val createdAt: String? = null,
+    val createdAt: Long? = null,
     val imageUri: Uri? = null,
     val location: LocationCoordinates? = null,
     val itemOwnerId: String? = null,

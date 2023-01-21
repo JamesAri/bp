@@ -19,9 +19,9 @@ import cz.zcu.students.lostandfound.ui.theme.spacing
 import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun LostItemsScreen(
+fun FindLostItemScreen(
     viewModel: LostItemViewModel = hiltViewModel(),
-    navigateToUpdatePostScreen: (postId: Int) -> Unit
+    navigateToLostItemDetail: (String) -> Unit,
 ) {
 
     LaunchedEffect(Unit) {
@@ -31,20 +31,26 @@ fun LostItemsScreen(
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
-        LoadLostItems()
+        LoadLostItems(
+            navigateToLostItemDetail = navigateToLostItemDetail,
+        )
     }
 }
 
 @Composable
 fun LoadLostItems(
     viewModel: LostItemViewModel = hiltViewModel(),
+    navigateToLostItemDetail: (String) -> Unit,
 ) {
     when (val loadLostItemsFromDatabaseResponse =
         viewModel.lostItemsState.collectAsStateWithLifecycle().value) {
 
         is Loading -> ProgressBar()
         is Success -> loadLostItemsFromDatabaseResponse.data?.let { lostItemsFlow ->
-            LostItemCards(lostItemsFlow)
+            LostItemCards(
+                lostItemsFlow = lostItemsFlow,
+                navigateToLostItemDetail = navigateToLostItemDetail,
+            )
         }
         is Error -> LaunchedEffect(Unit) {
             Log.d(
@@ -57,7 +63,8 @@ fun LoadLostItems(
 
 @Composable
 fun LostItemCards(
-    lostItemsFlow: Flow<LostItemList>
+    lostItemsFlow: Flow<LostItemList>,
+    navigateToLostItemDetail: (String) -> Unit,
 ) {
     val lostItemListState = lostItemsFlow.collectAsState(initial = LostItemList(listOf()))
 
@@ -65,10 +72,9 @@ fun LostItemCards(
     ) {
         items(lostItemListState.value.lostItems) { item ->
             ImageCard(
-                title = item.title,
-                description = item.description,
-                uri = item.imageUri,
-                modifier = Modifier.padding(MaterialTheme.spacing.medium)
+                lostItem = item,
+                modifier = Modifier.padding(MaterialTheme.spacing.medium),
+                navigateToLostItemDetail = navigateToLostItemDetail,
             )
         }
     }

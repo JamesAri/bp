@@ -9,11 +9,11 @@ import androidx.lifecycle.viewModelScope
 import cz.zcu.students.lostandfound.common.constants.General.Companion.UNKNOWN_ERR
 import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
+import cz.zcu.students.lostandfound.common.features.storage.domain.repository.ImageStorageRepository
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.*
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
-import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemImageRepository
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LostItemViewModel @Inject constructor(
     private val dbRepo: LostItemRepository,
-    private val storageRepo: LostItemImageRepository,
+    private val storageRepo: ImageStorageRepository,
     private val authRepo: AuthRepository,
 ) : ViewModel() {
 
@@ -85,7 +85,7 @@ class LostItemViewModel @Inject constructor(
             when (val uriResponse =
                 storageRepo.addImageToStorage(
                     imageUri = imageUri!!,
-                    lostItemId = lostItem.id,
+                    name = lostItem.id,
                 )
             ) {
                 is Loading -> Error(Exception(UNKNOWN_ERR))

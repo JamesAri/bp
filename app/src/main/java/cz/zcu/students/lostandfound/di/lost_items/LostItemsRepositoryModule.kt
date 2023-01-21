@@ -1,8 +1,6 @@
 package cz.zcu.students.lostandfound.di.lost_items
 
-import cz.zcu.students.lostandfound.features.lost_items.data.repository.LostItemImageRepositoryImpl
 import cz.zcu.students.lostandfound.features.lost_items.data.repository.LostItemRepositoryImpl
-import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemImageRepository
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
 import dagger.Binds
 import dagger.Module
@@ -18,11 +16,4 @@ abstract class LostItemsRepositoryModule {
     abstract fun bindLostItemRepository(
         lostItemRepositoryImpl: LostItemRepositoryImpl,
     ): LostItemRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindLostItemImageRepository(
-        lostItemImageRepositoryImpl: LostItemImageRepositoryImpl,
-    ): LostItemImageRepository
-
 }
