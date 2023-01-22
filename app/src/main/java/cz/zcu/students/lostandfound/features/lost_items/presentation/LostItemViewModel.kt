@@ -1,9 +1,7 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation
 
 import android.net.Uri
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cz.zcu.students.lostandfound.common.constants.General.Companion.UNKNOWN_ERR
@@ -16,11 +14,10 @@ import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostIte
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -31,8 +28,8 @@ class LostItemViewModel @Inject constructor(
     private val authRepo: AuthRepository,
 ) : ViewModel() {
 
-    private val _lostItemsState = MutableStateFlow<Response<Flow<LostItemList>>>(Success(null))
-    val lostItemsState = _lostItemsState.asStateFlow()
+    private val _lostItemListState = MutableStateFlow<Response<LostItemList>>(Success(null))
+    val lostItemListState = _lostItemListState.asStateFlow()
 
     var createdLostItemState by mutableStateOf<Response<Boolean>>(Success(null))
         private set
@@ -40,11 +37,58 @@ class LostItemViewModel @Inject constructor(
     var lostItemState by mutableStateOf<Response<LostItem>>(Success(null))
         private set
 
+    val filters = mutableStateListOf<String>()
 
     fun loadLostItems() {
         viewModelScope.launch {
-            _lostItemsState.update { Loading }
-            _lostItemsState.update { dbRepo.getLostItemListFlow() }
+            _lostItemListState.update { Loading }
+            when (val apiFlowResponse = dbRepo.getLostItemListFlow()) {
+                is Error -> _lostItemListState.update { Error(apiFlowResponse.error) }
+                is Success -> {
+                    if (apiFlowResponse.data != null) {
+                        apiFlowResponse.data
+                            .collect { lostItemList ->
+                                val filteredList = filterLostItemList(lostItemList)
+                                _lostItemListState.update { Success(filteredList) }
+                            }
+                    } else {
+                        _lostItemListState.update { Success(null) }
+                    }
+                }
+                Loading -> {} // do nothing
+            }
+        }
+    }
+
+    /**
+     * Future application should use a dedicated third-party search service.
+     * These services provide advanced indexing and search capabilities far beyond
+     * what any simple database query can offer and what in this case is an overkill.
+     *
+     * As temporary solution (and as we except small user base) we will compute these
+     * queries locally.
+     *
+     * Empty [filters] results in loading the whole dataset.
+     */
+    private suspend fun filterLostItemList(
+        lostItemList: LostItemList,
+    ): LostItemList {
+        if (filters.isEmpty()) return lostItemList
+        return withContext(Dispatchers.Default) {
+            val filteredList = lostItemList.lostItems.filter { lostItem ->
+                val targets = listOf(lostItem.title, lostItem.description)
+                anyStringsContainsTargets(terms = filters, targets = targets)
+            }
+            return@withContext LostItemList(filteredList)
+        }
+    }
+
+
+    private fun anyStringsContainsTargets(terms: List<String>, targets: List<String>): Boolean {
+        return targets.any { target ->
+            terms.any { term ->
+                term in target
+            }
         }
     }
 
@@ -98,7 +142,6 @@ class LostItemViewModel @Inject constructor(
                 is Error -> Error(uriResponse.error)
             }
         }
-
     }
 }
 

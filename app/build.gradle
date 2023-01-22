@@ -130,7 +130,6 @@ dependencies {
     // Dialogs: https://github.com/maxkeppeler/sheets-compose-dialogs
     implementation "com.maxkeppeler.sheets-compose-dialogs:core:$maxkeppeler_dialogs_version"
     implementation "com.maxkeppeler.sheets-compose-dialogs:list:$maxkeppeler_dialogs_version"
-    implementation "com.maxkeppeler.sheets-compose-dialogs:input:$maxkeppeler_dialogs_version"
 }
 
 tasks.withType(KotlinCompile).configureEach {
