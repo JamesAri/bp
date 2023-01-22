@@ -15,7 +15,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.flowlayout.FlowCrossAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
@@ -23,29 +22,24 @@ import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
-import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
 import cz.zcu.students.lostandfound.common.util.getFormattedDateString
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
-import cz.zcu.students.lostandfound.features.lost_items.presentation.components.ContactAndShareAssistChips
+import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.ContactAndShareAssistChips
+import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.dialogs.ContactPersonDialog
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable
 fun ImageCard(
     modifier: Modifier = Modifier,
-    lostItem: LostItem,
-    authViewModel: AuthViewModel = hiltViewModel(),
+    lostItemData: Pair<LostItem, User>,
     navigateToLostItemDetail: (String) -> Unit,
 ) {
-    var postOwner by remember { mutableStateOf<User?>(null) }
-
-    LaunchedEffect(Unit) {
-        postOwner = authViewModel.getUser(lostItem.postOwnerId)
-    }
+    val (lostItem, postOwner) = lostItemData
 
     ImageCardWithPostInfo(
         modifier = modifier,
         lostItem = lostItem,
-        owner = postOwner,
+        postOwner = postOwner,
         navigateToLostItemDetail = navigateToLostItemDetail
     )
 }
@@ -54,7 +48,7 @@ fun ImageCard(
 fun ImageCardWithPostInfo(
     modifier: Modifier = Modifier,
     lostItem: LostItem,
-    owner: User?,
+    postOwner: User,
     navigateToLostItemDetail: (String) -> Unit,
 ) {
     Card(
@@ -69,7 +63,7 @@ fun ImageCardWithPostInfo(
     ) {
 
         CardHeader(
-            owner = owner,
+            owner = postOwner,
             lostItem = lostItem
         )
 
@@ -85,7 +79,7 @@ fun ImageCardWithPostInfo(
 
         CardFooter(
             lostItem = lostItem,
-            onContactPerson = {},
+            postOwner = postOwner,
             onShareWithOthers = {}
         )
     }
@@ -94,9 +88,11 @@ fun ImageCardWithPostInfo(
 @Composable
 fun CardFooter(
     lostItem: LostItem,
-    onContactPerson: () -> Unit,
+    postOwner: User,
     onShareWithOthers: () -> Unit,
 ) {
+    var openDialogState by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier.padding(MaterialTheme.spacing.medium),
     ) {
@@ -115,17 +111,25 @@ fun CardFooter(
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
         ContactAndShareAssistChips(
-            onContactPerson = onContactPerson,
+            onContactPerson = {
+                openDialogState = true
+            },
             onShareWithOthers = onShareWithOthers,
             modifier = Modifier.fillMaxWidth(),
         )
     }
+
+    ContactPersonDialog(
+        postOwner = postOwner,
+        openDialogState = openDialogState,
+        onDismissRequest = { openDialogState = false },
+    )
 }
 
 
 @Composable
 fun CardHeader(
-    owner: User?,
+    owner: User,
     lostItem: LostItem,
 ) {
     FlowRow(
@@ -159,24 +163,22 @@ fun ItemPostDate(postTimestamp: Long?) {
 }
 
 @Composable
-fun PostOwnerInfo(owner: User?) {
-    owner?.let { user ->
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            AsyncImage(
-                model = user.photoUri,
-                contentDescription = "post owner info",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(25.dp)
-                    .clip(CircleShape)
-            )
-            Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-            Text(
-                text = user.name,
-                style = MaterialTheme.typography.titleMedium
-            )
-        }
+fun PostOwnerInfo(owner: User) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        AsyncImage(
+            model = owner.photoUri,
+            contentDescription = "post owner info",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(25.dp)
+                .clip(CircleShape)
+        )
+        Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
+        Text(
+            text = owner.name,
+            style = MaterialTheme.typography.titleMedium
+        )
     }
 }

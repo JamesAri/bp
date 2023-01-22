@@ -1,6 +1,7 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -73,6 +74,7 @@ class LostItemViewModel @Inject constructor(
     private suspend fun filterLostItemList(
         lostItemList: LostItemList,
     ): LostItemList {
+
         if (filters.isEmpty()) return lostItemList
         return withContext(Dispatchers.Default) {
             val filteredList = lostItemList.lostItems.filter { lostItem ->

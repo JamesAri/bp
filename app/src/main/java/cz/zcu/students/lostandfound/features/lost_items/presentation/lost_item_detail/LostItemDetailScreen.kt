@@ -5,8 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -15,9 +14,12 @@ import coil.compose.AsyncImage
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
+import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
-import cz.zcu.students.lostandfound.features.lost_items.presentation.components.ContactAndShareAssistChips
+import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.dialogs.ContactPersonDialog
+import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.ContactAndShareAssistChips
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
@@ -41,6 +43,7 @@ fun LostItemDetailScreen(
 @Composable
 fun LoadLostItem(
     viewModel: LostItemViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel = hiltViewModel(),
     lostItemId: String,
 ) {
     LaunchedEffect(Unit) {
@@ -51,7 +54,16 @@ fun LoadLostItem(
         response = viewModel.lostItemState,
         snackbarHostState = LocalSnackbarHostState.current,
         onSuccessContent = { lostItem ->
-            LostItemDetail(lostItem = lostItem)
+            var postOwner by remember { mutableStateOf<User?>(null) }
+            LaunchedEffect(Unit) {
+                postOwner = authViewModel.getUser(lostItem.postOwnerId)
+            }
+            postOwner?.let { user ->
+                LostItemDetail(
+                    lostItem = lostItem,
+                    postOwner = user
+                )
+            }
         }
     )
 }
@@ -59,7 +71,10 @@ fun LoadLostItem(
 @Composable
 fun LostItemDetail(
     lostItem: LostItem,
+    postOwner: User,
 ) {
+    var openDialogState by remember { mutableStateOf(false) }
+
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
@@ -97,10 +112,16 @@ fun LostItemDetail(
             ContactAndShareAssistChips(
                 modifier = Modifier.fillMaxWidth(),
                 mainAxisAlignment = FlowMainAxisAlignment.SpaceAround,
-                onContactPerson = {},
+                onContactPerson = { openDialogState = true },
                 onShareWithOthers = {},
             )
         }
     }
+
+    ContactPersonDialog(
+        openDialogState = openDialogState,
+        onDismissRequest = { openDialogState = false },
+        postOwner = postOwner
+    )
 }
 

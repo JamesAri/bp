@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.lost_items.presentation.components
+package cz.zcu.students.lostandfound.features.lost_items.presentation.shared
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Phone

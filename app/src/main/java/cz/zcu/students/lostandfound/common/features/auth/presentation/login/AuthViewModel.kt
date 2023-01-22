@@ -63,7 +63,6 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-
     private fun updateCurrentUser(user: User) {
         viewModelScope.launch {
             updateCurrentUserStatus = Loading
@@ -73,7 +72,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun updateCurrentUserPhoneNumber(phoneNumber: String) {
+    fun updateCurrentUserPhoneNumber(phoneNumber: String?) {
         when (val currentUserSnapshot = currentUser) {
             Loading -> updateCurrentUserStatus = Error(Exception("not logged in"))
             is Error -> updateCurrentUserStatus = Error(currentUserSnapshot.error)

@@ -48,18 +48,44 @@ fun EmailChangeListener(
 
 @Composable
 fun ChangePhoneNumberForm(
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(MaterialTheme.spacing.medium)
+    ) {
+        ChangeControls()
+        RemoveButton()
+    }
+}
+
+@Composable
+fun RemoveButton(
+    authViewModel: AuthViewModel = hiltViewModel()
+) {
+    Button(
+        onClick = {
+            authViewModel.updateCurrentUserPhoneNumber(null)
+        },
+        colors = ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+            containerColor = MaterialTheme.colorScheme.errorContainer
+        )
+    ) {
+        Text(text = "Remove number")
+    }
+}
+
+@Composable
+fun ChangeControls(
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     var phoneNumber by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
     var validationState by remember { mutableStateOf(false) }
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(MaterialTheme.spacing.medium)
-    ) {
+    Column {
         TextField(
             value = phoneNumber,
             onValueChange = {
@@ -112,4 +138,3 @@ fun ChangePhoneNumberForm(
         }
     }
 }
-

@@ -10,14 +10,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cz.zcu.students.lostandfound.common.components.ProgressBar
+import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
 import cz.zcu.students.lostandfound.common.util.Response.*
+import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.ui.theme.spacing
@@ -74,17 +76,33 @@ fun EmptyLostItemList() {
 
 @Composable
 fun LostItemCards(
-    viewModel: LostItemViewModel = hiltViewModel(),
+    lostItemViewModel: LostItemViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel = hiltViewModel(),
     lostItemList: LostItemList,
     navigateToLostItemDetail: (String) -> Unit,
 ) {
+
+    var pairedLostItems by remember {
+        mutableStateOf<List<Pair<LostItem, User>>>(listOf())
+    }
+
+    LaunchedEffect(lostItemList.lostItems) {
+        pairedLostItems = lostItemList.lostItems.mapNotNull { lostItem ->
+            val postOwner = authViewModel.getUser(lostItem.postOwnerId)
+            postOwner?.let { user ->
+                Pair(lostItem, user)
+            }
+        }
+    }
+
+    val filters = lostItemViewModel.filters
     Scaffold(
         floatingActionButton = {
             SearchFloatingActionButton(
                 onAddNewFilter = {
-                    if (viewModel.filters.isEmpty() || it !in viewModel.filters) {
-                        viewModel.filters.add(it)
-                        viewModel.loadLostItems()
+                    if (filters.isEmpty() || it !in filters) {
+                        filters.add(it)
+                        lostItemViewModel.loadLostItems()
                     }
                 }
             )
@@ -96,13 +114,13 @@ fun LostItemCards(
                 .padding(paddingValues)
         ) {
             ChipFilters()
-            if (lostItemList.lostItems.isEmpty()) {
+            if (pairedLostItems.isEmpty() && filters.isNotEmpty()) {
                 EmptyLostItemList()
             } else {
                 LazyColumn {
-                    items(lostItemList.lostItems) { item ->
+                    items(pairedLostItems) { item ->
                         ImageCard(
-                            lostItem = item,
+                            lostItemData = item,
                             modifier = Modifier.padding(MaterialTheme.spacing.medium),
                             navigateToLostItemDetail = navigateToLostItemDetail,
                         )

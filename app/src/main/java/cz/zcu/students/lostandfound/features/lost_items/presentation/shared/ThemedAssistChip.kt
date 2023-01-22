@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.lost_items.presentation.components
+package cz.zcu.students.lostandfound.features.lost_items.presentation.shared
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -10,10 +10,12 @@ fun ThemedAssistChip(
     modifier: Modifier = Modifier,
     text: String,
     icon: ImageVector,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     AssistChip(
         modifier = modifier,
+        enabled = enabled,
         onClick = onClick,
         colors = AssistChipDefaults.assistChipColors(
             leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,

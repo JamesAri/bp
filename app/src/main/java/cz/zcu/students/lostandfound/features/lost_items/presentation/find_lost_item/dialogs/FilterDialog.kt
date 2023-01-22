@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item
+package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.dialogs
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -20,7 +20,8 @@ fun FilterDialog(
         var showValidationErrorState by remember { mutableStateOf(false) }
         val termValidator = SearchTermValidatorImpl()
 
-        val validationErrorMessage = "Term cannot have more than ${General.MAX_SEARCH_TERM_LENGTH} characters"
+        val validationErrorMessage =
+            "Term cannot have more than ${General.MAX_SEARCH_TERM_LENGTH} characters"
 
         AlertDialog(
             onDismissRequest = onDismissRequest,
@@ -41,6 +42,7 @@ fun FilterDialog(
 
                     TextField(
                         value = searchTermState,
+                        label = { Text(text = "Search term") },
                         onValueChange = {
                             if (termValidator.validate(it))
                                 searchTermState = it
