@@ -21,6 +21,13 @@ import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable
 fun AddLostItemScreen() {
+    LostItemEditor()
+
+    CreateLostItemListener()
+}
+
+@Composable
+fun LostItemEditor() {
     var uriState by remember {
         mutableStateOf<Uri?>(null)
     }
@@ -33,15 +40,12 @@ fun AddLostItemScreen() {
         }
 
     LostItemForm(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(MaterialTheme.spacing.medium),
         openGallery = {
             galleryLauncher.launch(ALL_IMAGES)
         },
         uriState = uriState,
     )
-    CreateLostItemListener()
+
 }
 
 @Composable
@@ -57,7 +61,8 @@ fun LostItemForm(
 
     Column(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(MaterialTheme.spacing.medium),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -111,7 +116,7 @@ fun CreateLostItemListener(
     viewModel: LostItemViewModel = hiltViewModel(),
 ) {
     ResponseSnackBarHandler(
-        response = viewModel.createdLostItemState,
+        response = viewModel.crudLostItemState,
         onTrueMessage = "Successfully created new item",
         onFalseMessage = "Failed to create new item",
         snackbarHostState = LocalSnackbarHostState.current,

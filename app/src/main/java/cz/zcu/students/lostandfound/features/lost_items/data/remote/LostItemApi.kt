@@ -5,9 +5,11 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_COLLECTION_KEY
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_CREATED_AT_KEY
+import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_IS_DELETED_KEY
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_IS_FOUND_KEY
+import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_POST_OWNER_KEY
 import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemDto
-import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemDtoList
+import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemListDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,11 +22,9 @@ class LostItemApi @Inject constructor(
 ) {
     private val collectionRef = db.collection(LOST_ITEM_COLLECTION_KEY)
 
-    suspend fun getLostItemList(): Flow<LostItemDtoList> {
+    private suspend fun lostItemListFlowQueryFetch(query: Query): Flow<LostItemListDto> {
         return withContext(Dispatchers.IO) {
-            return@withContext collectionRef
-                .whereEqualTo(LOST_ITEM_IS_FOUND_KEY, false)
-                .orderBy(LOST_ITEM_CREATED_AT_KEY, Query.Direction.DESCENDING)
+            return@withContext query
                 .snapshots()
                 .map { snapshot ->
                     val lostItems = mutableListOf<LostItemDto>()
@@ -36,9 +36,28 @@ class LostItemApi @Inject constructor(
                             }
                         }
                     }
-                    LostItemDtoList(lostItems)
+                    LostItemListDto(lostItems)
                 }
         }
+    }
+
+    suspend fun getLostItemList(): Flow<LostItemListDto> {
+        return lostItemListFlowQueryFetch(
+            collectionRef
+                .whereEqualTo(LOST_ITEM_IS_DELETED_KEY, false)
+                .whereEqualTo(LOST_ITEM_IS_FOUND_KEY, false)
+                .orderBy(LOST_ITEM_CREATED_AT_KEY, Query.Direction.DESCENDING)
+        )
+    }
+
+    suspend fun getLostItemListByOwnerId(id: String): Flow<LostItemListDto> {
+        return lostItemListFlowQueryFetch(
+            collectionRef
+                .whereEqualTo(LOST_ITEM_IS_DELETED_KEY, false)
+                .whereEqualTo(LOST_ITEM_IS_FOUND_KEY, false)
+                .whereEqualTo(LOST_ITEM_POST_OWNER_KEY, id)
+                .orderBy(LOST_ITEM_CREATED_AT_KEY, Query.Direction.DESCENDING)
+        )
     }
 
     suspend fun getLostItem(id: String): LostItemDto? {
@@ -51,12 +70,16 @@ class LostItemApi @Inject constructor(
         }
     }
 
-    suspend fun createLostItem(lostItem: LostItemDto) {
+    suspend fun updateLostItem(lostItemDto: LostItemDto) {
         withContext(Dispatchers.IO) {
             return@withContext collectionRef
-                .document(lostItem.id)
-                .set(lostItem)
+                .document(lostItemDto.id)
+                .set(lostItemDto)
                 .await()
         }
+    }
+
+    suspend fun createLostItem(lostItemDto: LostItemDto) {
+        updateLostItem(lostItemDto)
     }
 }

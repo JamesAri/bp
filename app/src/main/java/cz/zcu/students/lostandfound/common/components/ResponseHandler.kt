@@ -37,7 +37,7 @@ fun <T> ResponseHandler(
         }
         is Response.Error -> LaunchedEffect(Unit) {
             val errorMessage = "Error: ${response.error.message}"
-            Log.d("ResponseHandler", errorMessage)
+            Log.e("ResponseHandler", errorMessage)
             coroutineScope.launch {
                 snackbarHostState.showSnackbar(
                     message = errorMessage,
@@ -98,7 +98,7 @@ fun ResponseSnackBarHandler(
         }
         is Response.Error -> LaunchedEffect(Unit) {
             val errorMessage = "Error: ${response.error.message}"
-            Log.d("ResponseSnackBarHandler", errorMessage)
+            Log.e("ResponseSnackBarHandler", errorMessage)
             coroutineScope.launch {
                 snackbarHostState.showSnackbar(
                     message = errorMessage,

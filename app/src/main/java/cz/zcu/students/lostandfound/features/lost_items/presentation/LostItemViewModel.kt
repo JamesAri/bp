@@ -11,6 +11,7 @@ import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthR
 import cz.zcu.students.lostandfound.common.features.storage.domain.repository.ImageStorageRepository
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.*
+import cz.zcu.students.lostandfound.common.util.anyStringsContainsTargets
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
@@ -32,34 +33,13 @@ class LostItemViewModel @Inject constructor(
     private val _lostItemListState = MutableStateFlow<Response<LostItemList>>(Success(null))
     val lostItemListState = _lostItemListState.asStateFlow()
 
-    var createdLostItemState by mutableStateOf<Response<Boolean>>(Success(null))
+    var crudLostItemState by mutableStateOf<Response<Boolean>>(Success(null))
         private set
 
     var lostItemState by mutableStateOf<Response<LostItem>>(Success(null))
         private set
 
     val filters = mutableStateListOf<String>()
-
-    fun loadLostItems() {
-        viewModelScope.launch {
-            _lostItemListState.update { Loading }
-            when (val apiFlowResponse = dbRepo.getLostItemListFlow()) {
-                is Error -> _lostItemListState.update { Error(apiFlowResponse.error) }
-                is Success -> {
-                    if (apiFlowResponse.data != null) {
-                        apiFlowResponse.data
-                            .collect { lostItemList ->
-                                val filteredList = filterLostItemList(lostItemList)
-                                _lostItemListState.update { Success(filteredList) }
-                            }
-                    } else {
-                        _lostItemListState.update { Success(null) }
-                    }
-                }
-                Loading -> {} // do nothing
-            }
-        }
-    }
 
     /**
      * Future application should use a dedicated third-party search service.
@@ -85,13 +65,38 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
-
-    private fun anyStringsContainsTargets(terms: List<String>, targets: List<String>): Boolean {
-        return targets.any { target ->
-            terms.any { term ->
-                term in target
+    private fun fetchLostItems(repoCall: suspend () -> Response<Flow<LostItemList>>) {
+        viewModelScope.launch {
+            _lostItemListState.update { Loading }
+            when (val apiFlowResponse = repoCall()) {
+                is Error -> _lostItemListState.update { Error(apiFlowResponse.error) }
+                is Success -> {
+                    if (apiFlowResponse.data != null) {
+                        try {
+                            apiFlowResponse.data
+                                .collect { lostItemList ->
+                                    val filteredList = filterLostItemList(lostItemList)
+                                    _lostItemListState.update { Success(filteredList) }
+                                }
+                        } catch (e: Exception) {
+                            _lostItemListState.update { Success(null) }
+                            Log.e("LostItemViewModel", "fetchLostItems: ${e.message}")
+                        }
+                    } else {
+                        _lostItemListState.update { Success(null) }
+                    }
+                }
+                Loading -> {}
             }
         }
+    }
+
+    fun loadLostItems() {
+        fetchLostItems { dbRepo.getLostItemListFlow() }
+    }
+
+    fun loadMyItems() {
+        fetchLostItems { dbRepo.getLostItemListFlowFromCurrentUser() }
     }
 
     fun getLostItem(id: String) {
@@ -100,32 +105,42 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
+    fun deleteLostItem(lostItem: LostItem) {
+        viewModelScope.launch {
+            updateLostItem(
+                lostItem.copy(
+                    isDeleted = true,
+                )
+            )
+        }
+    }
+
     fun createLostItem(title: String, description: String, imageUri: Uri?) {
         viewModelScope.launch {
-            createdLostItemState = Loading
+            crudLostItemState = Loading
             when (val currentUser = authRepo.getCurrentUser()) {
-                is Error -> createdLostItemState = Error(currentUser.error)
+                is Error -> crudLostItemState = Error(currentUser.error)
                 Loading -> {}
                 is Success -> {
                     if (currentUser.data == null) {
-                        createdLostItemState = Error(Exception("user not logged in"))
-                        return@launch
+                        crudLostItemState = Error(Exception("user not logged in"))
+                    } else {
+                        val lostItem = LostItem(
+                            title = title,
+                            description = description,
+                            imageUri = imageUri,
+                            postOwnerId = currentUser.data.id,
+                        )
+                        createLostItemHelper(lostItem)
                     }
-                    val lostItem = LostItem(
-                        title = title,
-                        description = description,
-                        imageUri = imageUri,
-                        postOwnerId = currentUser.data.id,
-                    )
-                    postLostItem(lostItem)
                 }
             }
         }
     }
 
-    private suspend fun postLostItem(lostItem: LostItem) {
+    private suspend fun createLostItemHelper(lostItem: LostItem) {
         val imageUri = lostItem.imageUri
-        createdLostItemState = if (imageUri.isNull()) {
+        crudLostItemState = if (imageUri.isNull()) {
             dbRepo.createLostItem(lostItem = lostItem)
         } else {
             when (val uriResponse =
@@ -142,6 +157,23 @@ class LostItemViewModel @Inject constructor(
                     dbRepo.createLostItem(lostItem = lostItemWithAssignedUri)
                 }
                 is Error -> Error(uriResponse.error)
+            }
+        }
+    }
+
+    private fun updateLostItem(lostItem: LostItem) {
+        viewModelScope.launch {
+            crudLostItemState = Loading
+            when (val currentUser = authRepo.getCurrentUser()) {
+                is Error -> crudLostItemState = Error(currentUser.error)
+                Loading -> {}
+                is Success -> {
+                    crudLostItemState = if (currentUser.data == null) {
+                        Error(Exception("user not logged in"))
+                    } else {
+                        dbRepo.updateLostItem(lostItem)
+                    }
+                }
             }
         }
     }

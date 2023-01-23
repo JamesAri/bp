@@ -2,16 +2,6 @@ package cz.zcu.students.lostandfound.common.constants
 
 class Firebase {
     companion object {
-        /**
-         * This string is used as a placeholder value for fields which
-         * are later assigned with correct value.
-         *
-         * Such a string can be useful in API calls where we need a
-         * default constructor and want to emphasize that it shouldn't
-         * have default values.
-         */
-        const val STRING_PLACEHOLDER = ""
-        
         //========================================================================================//
         //                                      FIRESTORE                                         //
         //========================================================================================//
@@ -24,7 +14,8 @@ class Firebase {
         const val LOST_ITEM_LOCATION_KEY = "location"
         const val LOST_ITEM_CREATED_AT_KEY = "createdAt"
         const val LOST_ITEM_IS_FOUND_KEY = "isFound"
-        const val POST_OWNER_KEY = "postOwnerId"
+        const val LOST_ITEM_IS_DELETED_KEY = "isDeleted"
+        const val LOST_ITEM_POST_OWNER_KEY = "postOwnerId"
         const val LOST_ITEM_OWNER_KEY = "itemOwnerId"
 
         // Users

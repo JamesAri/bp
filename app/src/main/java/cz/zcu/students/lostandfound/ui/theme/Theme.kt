@@ -121,7 +121,7 @@ fun LostAndFoundTheme(
 }
 
 @Composable
-fun  PreviewTheme(
+fun PreviewTheme(
     darkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {

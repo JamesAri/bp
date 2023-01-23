@@ -67,7 +67,6 @@ fun NavGraph(
                 lostItemId = lostItemId,
             )
         }
-
         composable(
             route = "${Screen.UpdateLostItemScreen.route}/{$LOST_ITEM_ID}",
             arguments = listOf(

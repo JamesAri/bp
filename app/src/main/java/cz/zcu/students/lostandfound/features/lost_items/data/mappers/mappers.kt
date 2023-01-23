@@ -12,12 +12,14 @@ fun LostItemDto.toLostItem(): LostItem {
     if (description.isNull()) throw Exception("missing description for lost item")
     if (postOwnerId.isNull()) throw Exception("missing post owner id for lost item")
     if (isFound.isNull()) throw Exception("missing 'is found' for lost item")
+    if (isDeleted.isNull()) throw Exception("missing 'is deleted' for lost item")
 
     return LostItem(
         id = id,
         title = title!!,
         description = description!!,
         isFound = isFound!!,
+        isDeleted = isDeleted!!,
         imageUri = imageUri?.let { Uri.parse(it) },
         location = LocationCoordinates(0.0, 0.0), // todo
         createdAt = createdAt?.seconds,
@@ -32,6 +34,7 @@ fun LostItem.toLostItemDto(): LostItemDto {
         title = title,
         description = description,
         isFound = isFound,
+        isDeleted = isDeleted,
         location = location?.toString(),
         imageUri = imageUri?.toString(),
         postOwnerId = postOwnerId,

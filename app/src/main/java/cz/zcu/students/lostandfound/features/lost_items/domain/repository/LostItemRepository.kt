@@ -11,4 +11,8 @@ interface LostItemRepository {
     suspend fun getLostItem(id: String): Response<LostItem>
 
     suspend fun createLostItem(lostItem: LostItem): Response<Boolean>
+
+    suspend fun updateLostItem(lostItem: LostItem): Response<Boolean>
+
+    suspend fun getLostItemListFlowFromCurrentUser():  Response<Flow<LostItemList>>
 }
