@@ -1,5 +1,6 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.my_posts
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -19,7 +20,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.util.getFormattedDateString
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
@@ -29,6 +29,7 @@ import cz.zcu.students.lostandfound.ui.theme.spacing
 fun MyPostsScreen(
     viewModel: LostItemViewModel = hiltViewModel(),
     navigateToAddPosts: () -> Unit,
+    navigateToUpdateScreen: (String) -> Unit,
 ) {
     LaunchedEffect(Unit) {
         viewModel.loadMyItems()
@@ -53,7 +54,7 @@ fun MyPostsScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            MyPosts()
+            MyPosts(navigateToUpdateScreen = navigateToUpdateScreen)
         }
     }
 }
@@ -75,6 +76,7 @@ fun EmptyLostItemList() {
 @Composable
 fun MyPosts(
     viewModel: LostItemViewModel = hiltViewModel(),
+    navigateToUpdateScreen: (String) -> Unit,
 ) {
     ResponseHandler(
         response = viewModel.lostItemListState.collectAsStateWithLifecycle().value,
@@ -84,23 +86,26 @@ fun MyPosts(
                 EmptyLostItemList()
             } else {
                 val lostItemsListLastIndex = lostItemList.lostItems.size - 1
-                Column(
-                    Modifier.fillMaxSize()
+                LazyColumn(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(top = MaterialTheme.spacing.small)
                 ) {
-                    LazyColumn {
-                        itemsIndexed(lostItemList.lostItems) { index, lostItem ->
+                    itemsIndexed(lostItemList.lostItems) { index, lostItem ->
+                        Divider(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        LostItemField(
+                            lostItem = lostItem,
+                            navigateToUpdateScreen = navigateToUpdateScreen,
+                        )
+                        if (index == lostItemsListLastIndex) {
                             Divider(
                                 modifier = Modifier.fillMaxWidth(),
                                 color = MaterialTheme.colorScheme.primary
                             )
-                            LostItemField(lostItem)
-                            if (index == lostItemsListLastIndex) {
-                                Divider(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                                Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraLarge))
-                            }
+                            Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraLarge))
                         }
                     }
                 }
@@ -116,6 +121,7 @@ fun MyPosts(
 fun LostItemField(
     lostItem: LostItem,
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
+    navigateToUpdateScreen: (String) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -154,7 +160,7 @@ fun LostItemField(
             ) {
                 DropdownMenuItem(
                     text = { Text("Edit") },
-                    onClick = { },
+                    onClick = { navigateToUpdateScreen(lostItem.id) },
                     leadingIcon = {
                         Icon(
                             Icons.Outlined.Edit,

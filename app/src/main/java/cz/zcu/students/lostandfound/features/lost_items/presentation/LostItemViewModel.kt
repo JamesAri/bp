@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cz.zcu.students.lostandfound.common.constants.General.Companion.UNKNOWN_ERR
 import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.features.storage.domain.repository.ImageStorageRepository
@@ -115,7 +114,7 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
-    fun createLostItem(title: String, description: String, imageUri: Uri?) {
+    fun createLostItem(title: String, description: String, localImageUri: Uri?) {
         viewModelScope.launch {
             crudLostItemState = Loading
             when (val currentUser = authRepo.getCurrentUser()) {
@@ -128,40 +127,42 @@ class LostItemViewModel @Inject constructor(
                         val lostItem = LostItem(
                             title = title,
                             description = description,
-                            imageUri = imageUri,
+                            imageUri = localImageUri,
                             postOwnerId = currentUser.data.id,
                         )
-                        createLostItemHelper(lostItem)
+                        writeLostItemWithLocalImage(lostItem)
                     }
                 }
             }
         }
     }
 
-    private suspend fun createLostItemHelper(lostItem: LostItem) {
-        val imageUri = lostItem.imageUri
-        crudLostItemState = if (imageUri.isNull()) {
-            dbRepo.createLostItem(lostItem = lostItem)
-        } else {
-            when (val uriResponse =
-                storageRepo.addImageToStorage(
+    private fun writeLostItemWithLocalImage(lostItem: LostItem) {
+        viewModelScope.launch {
+            val imageUri = lostItem.imageUri
+            crudLostItemState = Loading
+            if (imageUri.isNull()) {
+                crudLostItemState = dbRepo.createLostItem(lostItem = lostItem)
+            } else {
+                when (val uriResponse = storageRepo.addImageToStorage(
                     imageUri = imageUri!!,
                     name = lostItem.id,
-                )
-            ) {
-                is Loading -> Error(Exception(UNKNOWN_ERR))
-                is Success -> {
-                    // Item got assigned uri from firebase storage, so we can save it in
-                    // lightweight database now.
-                    val lostItemWithAssignedUri = lostItem.copy(imageUri = uriResponse.data)
-                    dbRepo.createLostItem(lostItem = lostItemWithAssignedUri)
+                )) {
+                    is Loading -> {}
+                    is Success -> {
+                        // Item got assigned uri from firebase storage, so we can save it in
+                        // lightweight database now.
+                        val lostItemWithAssignedUri = lostItem.copy(imageUri = uriResponse.data)
+                        crudLostItemState =
+                            dbRepo.createLostItem(lostItem = lostItemWithAssignedUri)
+                    }
+                    is Error -> crudLostItemState = Error(uriResponse.error)
                 }
-                is Error -> Error(uriResponse.error)
             }
         }
     }
 
-    private fun updateLostItem(lostItem: LostItem) {
+    private fun writeLostItemWithRemoteImage(lostItem: LostItem) {
         viewModelScope.launch {
             crudLostItemState = Loading
             when (val currentUser = authRepo.getCurrentUser()) {
@@ -175,6 +176,15 @@ class LostItemViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+
+    fun updateLostItem(lostItem: LostItem, hasRemoteUri: Boolean = true) {
+        if (hasRemoteUri) {
+            writeLostItemWithRemoteImage(lostItem = lostItem)
+        } else {
+            writeLostItemWithLocalImage(lostItem = lostItem)
         }
     }
 }

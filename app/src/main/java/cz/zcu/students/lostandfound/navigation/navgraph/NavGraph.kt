@@ -98,6 +98,9 @@ fun NavGraph(
             MyPostsScreen(
                 navigateToAddPosts = {
                     navController.navigate(Screen.AddLostItemScreen.route)
+                },
+                navigateToUpdateScreen = { id ->
+                    navController.navigate("${Screen.UpdateLostItemScreen.route}/${id}")
                 }
             )
         }

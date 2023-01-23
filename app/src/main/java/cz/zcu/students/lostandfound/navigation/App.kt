@@ -50,7 +50,7 @@ fun App() {
                                 .fillMaxSize()
                                 .padding(paddingValues),
                             navController = navController,
-                            startDestination = Screen.MyPostsScreen.route,
+                            startDestination = Screen.FindLostItemScreen.route,
                             coroutineScope = coroutineScope,
                         )
                     }

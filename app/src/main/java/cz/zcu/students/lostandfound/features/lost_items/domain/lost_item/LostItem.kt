@@ -9,7 +9,7 @@ data class LostItem(
     val id: String = UUID.randomUUID().toString(),
     val title: String,
     val postOwnerId: String,
-    val description: String = NO_ITEM_DESCRIPTION_DEFAULT,
+    val description: String,
     val isFound: Boolean = false,
     val isDeleted: Boolean = false,
     val createdAt: Long? = null,

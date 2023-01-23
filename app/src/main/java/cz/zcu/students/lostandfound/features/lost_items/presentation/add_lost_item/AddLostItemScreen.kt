@@ -3,6 +3,8 @@ package cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_i
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -11,7 +13,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.ALL_IMAGES
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
@@ -28,9 +35,7 @@ fun AddLostItemScreen() {
 
 @Composable
 fun LostItemEditor() {
-    var uriState by remember {
-        mutableStateOf<Uri?>(null)
-    }
+    var uriState by remember { mutableStateOf<Uri?>(null) }
 
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
@@ -45,7 +50,6 @@ fun LostItemEditor() {
         },
         uriState = uriState,
     )
-
 }
 
 @Composable
@@ -63,9 +67,40 @@ fun LostItemForm(
         modifier = modifier
             .fillMaxSize()
             .padding(MaterialTheme.spacing.medium),
-        verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceAround,
     ) {
+        Box(
+            modifier = Modifier
+                .clickable(onClick = openGallery)
+                .wrapContentSize()
+        ) {
+            if (uriState != null) {
+                AsyncImage(
+                    model = uriState,
+                    contentDescription = "add lost item image",
+                    error = painterResource(id = R.drawable.no_image_placeholder),
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(3f / 2f)
+                )
+            } else {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .height(150.dp)
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.primary)
+                ) {
+                    Text(
+                        text = "Choose an image",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+            }
+        }
+
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = title,
@@ -78,33 +113,39 @@ fun LostItemForm(
             }
         )
         TextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(.7f),
             value = description,
             onValueChange = {
                 description = it
             },
-            singleLine = true,
             label = {
                 Text("Description")
             }
         )
-        Row(
+        Text(
+            text = "Fill all fields please",
+            style = MaterialTheme.typography.labelSmall,
+        )
+
+
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.Bottom,
         ) {
-            Button(
+            Button(enabled = description.isNotEmpty() && title.isNotEmpty() && (uriState != null),
                 onClick = {
                     lostItemViewModel.createLostItem(
                         title = title,
                         description = description,
-                        imageUri = uriState,
+                        localImageUri = uriState,
                     )
                 }) {
-                Text(text = "Create")
-            }
-
-            Button(onClick = openGallery) {
-                Text("Load image")
+                Text(
+                    text = "Create"
+                )
             }
         }
     }
