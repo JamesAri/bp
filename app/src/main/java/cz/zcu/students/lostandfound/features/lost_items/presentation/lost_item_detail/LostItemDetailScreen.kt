@@ -3,12 +3,15 @@ package cz.zcu.students.lostandfound.features.lost_items.presentation.lost_item_
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
@@ -86,23 +89,54 @@ fun LostItemDetail(
                 .verticalScroll(rememberScrollState())
                 .weight(1f, false)
         ) {
+            Text(
+                text = "Lost item",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.secondary
+            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
             AsyncImage(
                 model = lostItem.imageUri,
                 contentDescription = lostItem.title,
                 error = painterResource(id = R.drawable.no_image_placeholder),
+                contentScale = ContentScale.FillWidth,
                 modifier = Modifier
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
+            Divider(
+                thickness = 2.dp,
+                modifier = Modifier.padding(
+                    vertical = MaterialTheme.spacing.large,
+                )
+            )
+            Text(
+                text = "Title",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.secondary
+            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
             Text(
                 text = lostItem.title,
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Divider(
+                thickness = 2.dp,
+                modifier = Modifier.padding(
+                    vertical = MaterialTheme.spacing.large,
+                )
+            )
+            Text(
+                text = "Description",
                 style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.secondary
             )
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
             Text(
                 text = lostItem.description,
                 style = MaterialTheme.typography.bodyMedium,
             )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
         }
         Box(
             contentAlignment = Alignment.BottomCenter,
