@@ -27,7 +27,8 @@ fun NavigationDrawer(
 ) {
     val group1 = listOf(
         NavItem.Home,
-        NavItem.Inbox,
+        NavItem.MyPosts,
+//        NavItem.Inbox, // TODO: add 'Inbox' feature
     )
     val group2 = listOf(
         NavItem.Settings,

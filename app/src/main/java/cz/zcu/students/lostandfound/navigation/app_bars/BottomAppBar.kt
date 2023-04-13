@@ -17,13 +17,13 @@ fun BottomAppBar(
     val items = listOf(
         NavItem.FindItem,
         NavItem.MyPosts,
-        NavItem.Favorites,
-        NavItem.Notifications,
+//        NavItem.Favorites, // TODO: add 'Favorites' feature
+//        NavItem.Notifications, // TODO: add 'Notifications' feature
     )
-    // TODO: demo - delete later
-    LaunchedEffect(Unit) {
-        items[3].badgeCount = 10
-    }
+    // badgeCount demo for notifications
+//    LaunchedEffect(Unit) {
+//        items[3].badgeCount = 10
+//    }
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
     ) {

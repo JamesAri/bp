@@ -125,8 +125,8 @@ fun LostItemForm(
             }
         )
         Text(
-            text = "Fill all fields please",
-            style = MaterialTheme.typography.labelSmall,
+            text = "All fields must be filled",
+            style = MaterialTheme.typography.labelMedium,
         )
 
 
