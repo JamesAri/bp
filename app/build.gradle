@@ -1,16 +1,17 @@
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 
 plugins {
+    // Core
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    // Better navigation - Parcels
+    // Better navigation - allows to parcelize objects and use them in navigation
     id("kotlin-parcelize")
-    // Hilt
+    // Hilt - DI
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    // Firebase
+    // Firebase - storage, auth, analytics, firestore, etc..
     id 'com.google.gms.google-services'
-    // Datastore
+    // Serialization for Proto Datastore
     id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
@@ -21,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId "cz.zcu.students.lostandfound"
-        minSdk 33
+        minSdk 31
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -64,70 +65,64 @@ kapt {
 }
 
 dependencies {
-    // AndroidX
+    // AndroidX (Core)
     implementation "androidx.core:core-ktx:$core_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_runtime_version"
     implementation "androidx.activity:activity-compose:$activity_version"
+    // Jetpack Compose
     implementation "androidx.appcompat:appcompat:$appcompat_version"
-    // Testing dependencies
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.material3:material3:$mateiral3_version"
+    // Testing
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$junit_espresso_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-    // Jetpack Compose
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation "androidx.compose.material3:material3:$mateiral3_version"
-    // Getting ViewModel in composable context
+    // ViewModel utilities for Compose
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$viewmodel_lifecycle_version"
-    // Navigation
+    // Compose Navigation - navigate between Composables
     implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
-    // Safely collect flows in compose
+    // Safely collect Flows in Compose (lifecycle awareness)
     implementation "androidx.lifecycle:lifecycle-runtime-compose:$compose_lifecycle_runtime_version"
-    // Accompanist
+    // Accompanist - group of libraries that aim to supplement Jetpack Compose with features
+    // that are commonly required by developers but not yet available.
     implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
     implementation "com.google.accompanist:accompanist-flowlayout:$accompanist_version"
-    // Hilt
+    // Hilt - dependency injection (DI)
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_version"
     kapt "androidx.hilt:hilt-compiler:$hilt_navigation_version"
-    // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
-    // Location Services
+    // Location services
     implementation "com.google.android.gms:play-services-location:$google_location_serivices_version"
-    // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    // Google Sign In SDK
+    // Integrating of Google Sign-In SDK
     implementation "com.google.android.gms:play-services-auth:$google_sign_in_sdk_version"
-    // Firebase SDK
+    // Firebase SDK - storage, auth, analytics, firestore, maintained by BOM
     implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
     implementation "com.google.firebase:firebase-firestore-ktx:$firestore_version"
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    // Firebase UI Library
+    // Firebase UI library for authentication
     implementation "com.firebaseui:firebase-ui-auth:$firebase_ui_auth_version"
-    // Splashscreen
+    // Splashscreen - lets app launch with animation, including an into-app motion at launch
     implementation "androidx.core:core-splashscreen:$core_splashscreen_version"
-    // Coil
+    // Coil - An image loading library for Android backed by Kotlin Coroutines
     implementation "io.coil-kt:coil:$coil_version"
     implementation "io.coil-kt:coil-compose:$coil_version"
-    // Data store
+    // Proto Datastore - data storage solution that allows you to store key-value pairs or typed
+    // objects with protocol buffers.
     implementation "androidx.datastore:datastore:1.0.0"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
-    // Saving lists in proto data-store
+    // Saving lists in Proto Datastore
     implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 
     // ======================================= 3RD PARTY ===========================================
-    // Dialogs: https://github.com/maxkeppeler/sheets-compose-dialogs
+    // Compose Dialogs - https://github.com/maxkeppeler/sheets-compose-dialogs
     implementation "com.maxkeppeler.sheets-compose-dialogs:core:$maxkeppeler_dialogs_version"
     implementation "com.maxkeppeler.sheets-compose-dialogs:list:$maxkeppeler_dialogs_version"
 }
