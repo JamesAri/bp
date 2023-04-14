@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.features.storage.domain.repository.ImageStorageRepository
 import cz.zcu.students.lostandfound.common.util.Response
@@ -141,22 +140,23 @@ class LostItemViewModel @Inject constructor(
         viewModelScope.launch {
             val imageUri = lostItem.imageUri
             crudLostItemState = Loading
-            if (imageUri.isNull()) {
+            if (imageUri == null) {
                 crudLostItemState = dbRepo.createLostItem(lostItem = lostItem)
             } else {
-                when (val uriResponse = storageRepo.addImageToStorage(
-                    imageUri = imageUri!!,
+                when (val remoteImageUriResponse = storageRepo.addImageToStorage(
+                    imageUri = imageUri,
                     name = lostItem.id,
                 )) {
                     is Loading -> {}
                     is Success -> {
                         // Item got assigned uri from firebase storage, so we can save it in
                         // lightweight database now.
-                        val lostItemWithAssignedUri = lostItem.copy(imageUri = uriResponse.data)
+                        val lostItemWithAssignedUri =
+                            lostItem.copy(imageUri = remoteImageUriResponse.data)
                         crudLostItemState =
                             dbRepo.createLostItem(lostItem = lostItemWithAssignedUri)
                     }
-                    is Error -> crudLostItemState = Error(uriResponse.error)
+                    is Error -> crudLostItemState = Error(remoteImageUriResponse.error)
                 }
             }
         }

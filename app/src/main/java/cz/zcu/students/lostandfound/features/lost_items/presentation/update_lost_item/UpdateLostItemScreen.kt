@@ -1,6 +1,7 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -99,7 +100,7 @@ fun LostItemForm(
             if (uriState != null) {
                 AsyncImage(
                     model = uriState,
-                    contentDescription = "add lost item image",
+                    contentDescription = "edit lost item image",
                     error = painterResource(id = R.drawable.no_image_placeholder),
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier
@@ -164,7 +165,9 @@ fun LostItemForm(
                             description = description,
                             imageUri = uriState,
                         ),
-                        hasRemoteUri = lostItem.imageUri != uriState
+                        // since we are updating, it means the items was created once,
+                        // thus if the current uri matches previous uri, it is remote uri.
+                        hasRemoteUri = lostItem.imageUri == uriState
                     )
                 }) {
                 Text(
