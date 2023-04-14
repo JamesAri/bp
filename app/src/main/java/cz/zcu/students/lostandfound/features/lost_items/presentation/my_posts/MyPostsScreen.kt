@@ -1,6 +1,5 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.my_posts
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -13,14 +12,20 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.util.getFormattedDateString
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
+import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
+import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.ConfirmDeleteDialog
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
@@ -66,12 +71,61 @@ fun EmptyLostItemList() {
         modifier = Modifier.fillMaxSize()
     ) {
         Text(
-            text = "No Posts Yet",
+            text = buildAnnotatedString {
+                append("No posts yet, add your first post by clicking on the")
+                withStyle(
+                    style = SpanStyle(
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    append(" + ")
+                }
+                append("button!")
+            },
             style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center,
         )
     }
 }
 
+@Composable
+fun PostDivider() {
+    Divider(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.primary,
+        thickness = 2.dp,
+    )
+}
+
+@Composable
+fun RenderEditableLostItemList(
+    lostItemList: LostItemList,
+    navigateToUpdateScreen: (String) -> Unit,
+) {
+    if (lostItemList.lostItems.isEmpty()) {
+        EmptyLostItemList()
+    } else {
+        val lostItemsListLastIndex = lostItemList.lostItems.size - 1
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .padding(top = MaterialTheme.spacing.medium)
+        ) {
+            itemsIndexed(lostItemList.lostItems) { index, lostItem ->
+                PostDivider()
+                LostItemField(
+                    lostItem = lostItem,
+                    navigateToUpdateScreen = navigateToUpdateScreen,
+                )
+                if (index == lostItemsListLastIndex) {
+                    PostDivider()
+                    Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraLarge))
+                }
+            }
+        }
+    }
+
+}
 
 @Composable
 fun MyPosts(
@@ -82,34 +136,10 @@ fun MyPosts(
         response = viewModel.lostItemListState.collectAsStateWithLifecycle().value,
         snackbarHostState = LocalSnackbarHostState.current,
         onSuccessContent = { lostItemList ->
-            if (lostItemList.lostItems.isEmpty()) {
-                EmptyLostItemList()
-            } else {
-                val lostItemsListLastIndex = lostItemList.lostItems.size - 1
-                LazyColumn(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(top = MaterialTheme.spacing.small)
-                ) {
-                    itemsIndexed(lostItemList.lostItems) { index, lostItem ->
-                        Divider(
-                            modifier = Modifier.fillMaxWidth(),
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        LostItemField(
-                            lostItem = lostItem,
-                            navigateToUpdateScreen = navigateToUpdateScreen,
-                        )
-                        if (index == lostItemsListLastIndex) {
-                            Divider(
-                                modifier = Modifier.fillMaxWidth(),
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                            Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraLarge))
-                        }
-                    }
-                }
-            }
+            RenderEditableLostItemList(
+                lostItemList = lostItemList,
+                navigateToUpdateScreen = navigateToUpdateScreen,
+            )
         },
         onSuccessNullContent = {
             EmptyLostItemList()
@@ -118,16 +148,64 @@ fun MyPosts(
 }
 
 @Composable
+fun EditPostDropdownMenu(
+    modifier: Modifier = Modifier,
+    expanded: Boolean,
+    onExpandRequest: () -> Unit,
+    onCloseRequest: () -> Unit,
+    onEditRequest: () -> Unit,
+    onDeleteRequest: () -> Unit,
+) {
+    IconButton(
+        onClick = onExpandRequest,
+        colors = IconButtonDefaults.iconButtonColors(
+            contentColor = MaterialTheme.colorScheme.primary
+        ),
+        modifier = modifier,
+    ) {
+        Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = onCloseRequest,
+        ) {
+            DropdownMenuItem(
+                text = { Text("Edit") },
+                onClick = onEditRequest,
+                leadingIcon = {
+                    Icon(
+                        Icons.Outlined.Edit,
+                        contentDescription = null
+                    )
+                })
+            DropdownMenuItem(
+                text = { Text("Delete") },
+                onClick = onDeleteRequest,
+                leadingIcon = {
+                    Icon(
+                        Icons.Outlined.Delete,
+                        contentDescription = null
+                    )
+                })
+        }
+    }
+}
+
+
+@Composable
 fun LostItemField(
     lostItem: LostItem,
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
     navigateToUpdateScreen: (String) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
+    var openDeleteDialogState by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
-            .padding(start = MaterialTheme.spacing.small)
+            .padding(
+                horizontal = MaterialTheme.spacing.medium,
+                vertical = MaterialTheme.spacing.small
+            )
             .fillMaxWidth()
             .height(55.dp)
     ) {
@@ -145,39 +223,29 @@ fun LostItemField(
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.align(Alignment.TopEnd),
         )
-
-        IconButton(
-            onClick = { expanded = true },
-            colors = IconButtonDefaults.iconButtonColors(
-                contentColor = MaterialTheme.colorScheme.primary
-            ),
+        EditPostDropdownMenu(
             modifier = Modifier.align(Alignment.BottomEnd),
-        ) {
-            Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-            ) {
-                DropdownMenuItem(
-                    text = { Text("Edit") },
-                    onClick = { navigateToUpdateScreen(lostItem.id) },
-                    leadingIcon = {
-                        Icon(
-                            Icons.Outlined.Edit,
-                            contentDescription = null
-                        )
-                    })
-                DropdownMenuItem(
-                    text = { Text("Delete") },
-                    onClick = { lostItemViewModel.deleteLostItem(lostItem) },
-                    leadingIcon = {
-                        Icon(
-                            Icons.Outlined.Delete,
-                            contentDescription = null
-                        )
-                    })
-            }
-        }
+            expanded = expanded,
+            onExpandRequest = { expanded = true },
+            onCloseRequest = { expanded = false },
+            onDeleteRequest = { openDeleteDialogState = true },
+            onEditRequest = {
+                navigateToUpdateScreen(lostItem.id)
+                expanded = false
+            },
+        )
     }
+
+    ConfirmDeleteDialog(
+        openDialogState = openDeleteDialogState,
+        onDismissRequest = { openDeleteDialogState = false },
+        onConfirmRequest = {
+            openDeleteDialogState = false
+            expanded = false
+            lostItemViewModel.deleteLostItem(lostItem)
+        },
+        title = "Deleting lost item post",
+        text = "Are you sure you want to delete \"${lostItem.title}\" post?"
+    )
 }
 
