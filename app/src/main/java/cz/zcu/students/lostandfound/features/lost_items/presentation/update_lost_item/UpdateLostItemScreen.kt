@@ -7,10 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,11 +24,14 @@ import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostIte
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun UpdatePostScreen(
     viewModel: LostItemViewModel = hiltViewModel(),
     lostItemId: String?,
+    coroutineScope: CoroutineScope,
+    navigateBack: () -> Unit,
 ) {
 
     LaunchedEffect(Unit) {
@@ -42,12 +42,17 @@ fun UpdatePostScreen(
 
     ResponseHandler(response = viewModel.lostItemState,
         snackbarHostState = LocalSnackbarHostState.current,
-        onSuccessContent = {
-            LostItemEditor(lostItem = it)
+        onSuccessContent = { lostItem ->
+            LostItemEditor(
+                lostItem = lostItem,
+            )
         }
     )
 
-    UpdateLostItemListener()
+    UpdateLostItemListener(
+        navigateBack = navigateBack,
+        coroutineScope = coroutineScope,
+    )
 }
 
 @Composable
@@ -85,6 +90,10 @@ fun LostItemForm(
 
     var title by remember { mutableStateOf(lostItem.title) }
     var description by remember { mutableStateOf(lostItem.description) }
+
+    var requestRunning by remember { mutableStateOf(false) }
+
+    val enabled = description.isNotEmpty() && title.isNotEmpty() && (uriState != null) && !requestRunning
 
     Column(
         modifier = modifier
@@ -157,8 +166,9 @@ fun LostItemForm(
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.Bottom,
         ) {
-            Button(enabled = description.isNotEmpty() && title.isNotEmpty() && (uriState != null),
+            Button(enabled = enabled,
                 onClick = {
+                    requestRunning = true
                     lostItemViewModel.updateLostItem(
                         lostItem.copy(
                             title = title,
@@ -182,12 +192,16 @@ fun LostItemForm(
 @Composable
 fun UpdateLostItemListener(
     viewModel: LostItemViewModel = hiltViewModel(),
+    coroutineScope: CoroutineScope,
+    navigateBack: () -> Unit,
 ) {
     ResponseSnackBarHandler(
         response = viewModel.crudLostItemState,
         onTrueMessage = "Successfully updated lost item",
         onFalseMessage = "Failed to update lost item",
         snackbarHostState = LocalSnackbarHostState.current,
+        coroutineScope = coroutineScope,
+        onTrueAction = { navigateBack() },
     )
 }
 

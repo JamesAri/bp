@@ -24,17 +24,25 @@ import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.ALL_IMAG
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
+import kotlinx.coroutines.CoroutineScope
 
 
 @Composable
-fun AddLostItemScreen() {
+fun AddLostItemScreen(
+    coroutineScope: CoroutineScope,
+    navigateBack: () -> Unit,
+) {
     LostItemEditor()
 
-    CreateLostItemListener()
+    CreateLostItemListener(
+        coroutineScope = coroutineScope,
+        navigateBack = navigateBack
+    )
 }
 
 @Composable
-fun LostItemEditor() {
+fun LostItemEditor(
+) {
     var uriState by remember { mutableStateOf<Uri?>(null) }
 
     val galleryLauncher =
@@ -62,6 +70,11 @@ fun LostItemForm(
 
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
+
+    var requestRunning by remember { mutableStateOf(false) }
+
+    val enabled =
+        description.isNotEmpty() && title.isNotEmpty() && (uriState != null) && !requestRunning
 
     Column(
         modifier = modifier
@@ -135,8 +148,9 @@ fun LostItemForm(
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.Bottom,
         ) {
-            Button(enabled = description.isNotEmpty() && title.isNotEmpty() && (uriState != null),
+            Button(enabled = enabled,
                 onClick = {
+                    requestRunning = true
                     lostItemViewModel.createLostItem(
                         title = title,
                         description = description,
@@ -155,12 +169,16 @@ fun LostItemForm(
 @Composable
 fun CreateLostItemListener(
     viewModel: LostItemViewModel = hiltViewModel(),
+    coroutineScope: CoroutineScope,
+    navigateBack: () -> Unit,
 ) {
     ResponseSnackBarHandler(
         response = viewModel.crudLostItemState,
         onTrueMessage = "Successfully created new item",
         onFalseMessage = "Failed to create new item",
         snackbarHostState = LocalSnackbarHostState.current,
+        coroutineScope = coroutineScope,
+        onTrueAction = navigateBack,
     )
 }
 

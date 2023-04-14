@@ -78,12 +78,17 @@ fun NavGraph(
             val lostItemId = backStackEntry.arguments?.getString(LOST_ITEM_ID)
             UpdatePostScreen(
                 lostItemId = lostItemId,
+                coroutineScope = coroutineScope,
+                navigateBack = { navController.popBackStack() },
             )
         }
         composable(
             route = Screen.AddLostItemScreen.route
         ) {
-            AddLostItemScreen()
+            AddLostItemScreen(
+                coroutineScope = coroutineScope,
+                navigateBack = { navController.popBackStack() },
+            )
         }
         composable(
             route = Screen.InboxScreen.route
