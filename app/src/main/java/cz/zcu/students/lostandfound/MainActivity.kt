@@ -1,13 +1,10 @@
 package cz.zcu.students.lostandfound
 
-import android.content.Context
-import android.content.ContextWrapper
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import cz.zcu.students.lostandfound.common.constants.General.Companion.SPLASHSCREEN_DURATION
 import cz.zcu.students.lostandfound.navigation.App

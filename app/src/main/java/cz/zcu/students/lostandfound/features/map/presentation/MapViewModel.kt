@@ -11,13 +11,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.FusedLocationProviderClient
-import cz.zcu.students.lostandfound.features.map.presentation.util.MapState
 import cz.zcu.students.lostandfound.features.map.domain.LostItemLocation
+import cz.zcu.students.lostandfound.features.map.presentation.util.MapState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 
 @Suppress("DEPRECATION")

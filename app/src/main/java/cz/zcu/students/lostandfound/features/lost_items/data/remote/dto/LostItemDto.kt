@@ -10,9 +10,9 @@ import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITE
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_IS_FOUND_KEY
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_LOCATION_KEY
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_OWNER_KEY
+import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_POST_OWNER_KEY
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_TITLE_KEY
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_URI_KEY
-import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.LOST_ITEM_POST_OWNER_KEY
 import java.util.*
 
 data class LostItemDto(

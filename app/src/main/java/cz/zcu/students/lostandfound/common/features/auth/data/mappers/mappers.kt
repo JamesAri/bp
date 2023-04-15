@@ -2,8 +2,8 @@ package cz.zcu.students.lostandfound.common.features.auth.data.mappers
 
 import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
-import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.DbUserDto
 import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.CurrentUserDto
+import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.DbUserDto
 import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
 
 fun DbUserDto.toUser(): User {

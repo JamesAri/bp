@@ -1,11 +1,11 @@
 package cz.zcu.students.lostandfound.common.features.auth.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
-import cz.zcu.students.lostandfound.common.features.auth.data.util.getRandomProfileAvatarUri
 import cz.zcu.students.lostandfound.common.features.auth.data.mappers.toDbUserDto
 import cz.zcu.students.lostandfound.common.features.auth.data.mappers.toUser
 import cz.zcu.students.lostandfound.common.features.auth.data.remote.UserApi
 import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.CurrentUserDto
+import cz.zcu.students.lostandfound.common.features.auth.data.util.getRandomProfileAvatarUri
 import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
 import cz.zcu.students.lostandfound.common.features.storage.data.remote.ImageStorageApi

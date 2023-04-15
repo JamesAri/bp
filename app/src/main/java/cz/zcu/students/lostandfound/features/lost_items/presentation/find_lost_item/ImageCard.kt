@@ -24,8 +24,8 @@ import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
 import cz.zcu.students.lostandfound.common.util.getFormattedDateString
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
-import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.ContactAndShareAssistChips
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.dialogs.ContactPersonDialog
+import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.ContactAndShareAssistChips
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable

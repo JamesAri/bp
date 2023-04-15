@@ -4,7 +4,8 @@ import android.net.Uri
 import cz.zcu.students.lostandfound.common.features.storage.data.remote.ImageStorageApi
 import cz.zcu.students.lostandfound.common.features.storage.domain.repository.ImageStorageRepository
 import cz.zcu.students.lostandfound.common.util.Response
-import cz.zcu.students.lostandfound.common.util.Response.*
+import cz.zcu.students.lostandfound.common.util.Response.Error
+import cz.zcu.students.lostandfound.common.util.Response.Success
 import javax.inject.Inject
 import javax.inject.Singleton
 
