@@ -1,5 +1,6 @@
 package cz.zcu.students.lostandfound.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
@@ -7,9 +8,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import cz.zcu.students.lostandfound.navigation.app_bars.BottomAppBar
-import cz.zcu.students.lostandfound.navigation.app_bars.TopAppBar
-import cz.zcu.students.lostandfound.navigation.drawer.NavigationDrawer
+import cz.zcu.students.lostandfound.navigation.components.BottomAppBar
+import cz.zcu.students.lostandfound.navigation.components.NavigationDrawer
+import cz.zcu.students.lostandfound.navigation.components.TopAppBar
 import cz.zcu.students.lostandfound.navigation.navgraph.NavGraph
 import kotlinx.coroutines.CoroutineScope
 
@@ -29,6 +30,7 @@ fun App() {
             drawerState = drawerState,
             coroutineScope = coroutineScope,
             navController = navController,
+            gesturesEnabled = drawerState.isOpen,
             content = {
                 Scaffold(
                     snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -50,7 +52,7 @@ fun App() {
                                 .fillMaxSize()
                                 .padding(paddingValues),
                             navController = navController,
-                            startDestination = Screen.FindLostItemScreen.route,
+                            startDestination = Screen.MapScreen.route,
                             coroutineScope = coroutineScope,
                         )
                     }
@@ -59,3 +61,4 @@ fun App() {
         )
     }
 }
+

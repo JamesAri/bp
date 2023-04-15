@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.navigation.drawer
+package cz.zcu.students.lostandfound.navigation.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -23,12 +23,12 @@ fun NavigationDrawer(
     drawerState: DrawerState,
     coroutineScope: CoroutineScope,
     navController: NavHostController,
+    gesturesEnabled: Boolean,
     content: @Composable () -> Unit
 ) {
     val group1 = listOf(
         NavItem.Home,
         NavItem.MyPosts,
-//        NavItem.Inbox, // TODO: add 'Inbox' feature
     )
     val group2 = listOf(
         NavItem.Settings,
@@ -38,6 +38,7 @@ fun NavigationDrawer(
     val backStackEntryState = navController.currentBackStackEntryAsState()
     ModalNavigationDrawer(
         drawerState = drawerState,
+        gesturesEnabled = gesturesEnabled,
         drawerContent = {
             ModalDrawerSheet(
                 drawerContainerColor = MaterialTheme.colorScheme.primaryContainer,

@@ -21,6 +21,11 @@ android {
     compileSdk 33
 
     defaultConfig {
+        // So we can access variables from local.properties in manifest
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        manifestPlaceholders = [MAPS_API_KEY: "${properties.getProperty('MAPS_API_KEY')}"]
+
         applicationId "cz.zcu.students.lostandfound"
         minSdk 31
         targetSdk 33
@@ -50,7 +55,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.1.1'
+        kotlinCompilerExtensionVersion '1.3.2'
     }
     packagingOptions {
         resources {
@@ -73,6 +78,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    // Jetpack Compose - Material 3
     implementation "androidx.compose.material3:material3:$mateiral3_version"
     // Testing
     testImplementation "junit:junit:$junit_version"
@@ -81,7 +87,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-    // ViewModel utilities for Compose
+    // ViewModel utilities for Compose - getting reference of ViewModel in Compose
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$viewmodel_lifecycle_version"
     // Compose Navigation - navigate between Composables
     implementation "androidx.navigation:navigation-compose:$compose_navigation_version"
@@ -89,7 +95,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-compose:$compose_lifecycle_runtime_version"
     // Accompanist - group of libraries that aim to supplement Jetpack Compose with features
     // that are commonly required by developers but not yet available.
-    implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-permissions:$accompanist_version" // custom now
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
     implementation "com.google.accompanist:accompanist-flowlayout:$accompanist_version"
     // Hilt - dependency injection (DI)
@@ -99,25 +105,33 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:$hilt_navigation_version"
     // Location services
     implementation "com.google.android.gms:play-services-location:$google_location_serivices_version"
+    // Map services
+    implementation "com.google.android.gms:play-services-maps:$google_map_serivices_version"
+    // Maps Compose library
+    implementation "com.google.maps.android:maps-compose:2.11.4"
+    // KTX for the Maps SDK for Android
+    implementation 'com.google.maps.android:maps-ktx:3.4.0'
+    // KTX for the Maps SDK for Android Utility Library
+    implementation 'com.google.maps.android:maps-utils-ktx:3.4.0'
     // Integrating of Google Sign-In SDK
     implementation "com.google.android.gms:play-services-auth:$google_sign_in_sdk_version"
     // Firebase SDK - storage, auth, analytics, firestore, maintained by BOM
     implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
     implementation "com.google.firebase:firebase-firestore-ktx:$firestore_version"
-    implementation 'com.google.firebase:firebase-storage-ktx'
-    implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation "com.google.firebase:firebase-storage-ktx"
+    implementation "com.google.firebase:firebase-auth-ktx"
+    implementation "com.google.firebase:firebase-analytics-ktx"
     // Firebase UI library for authentication
     implementation "com.firebaseui:firebase-ui-auth:$firebase_ui_auth_version"
     // Splashscreen - lets app launch with animation, including an into-app motion at launch
     implementation "androidx.core:core-splashscreen:$core_splashscreen_version"
-    // Coil - An image loading library for Android backed by Kotlin Coroutines
+    // Coil - An image loading library for Android backed by Kotlin coroutines
     implementation "io.coil-kt:coil:$coil_version"
     implementation "io.coil-kt:coil-compose:$coil_version"
     // Proto Datastore - data storage solution that allows you to store key-value pairs or typed
     // objects with protocol buffers.
     implementation "androidx.datastore:datastore:1.0.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
     // Saving lists in Proto Datastore
     implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
 

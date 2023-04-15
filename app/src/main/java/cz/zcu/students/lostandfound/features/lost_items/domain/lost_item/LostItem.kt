@@ -1,7 +1,6 @@
 package cz.zcu.students.lostandfound.features.lost_items.domain.lost_item
 
 import android.net.Uri
-import cz.zcu.students.lostandfound.common.constants.General.Companion.NO_ITEM_DESCRIPTION_DEFAULT
 import cz.zcu.students.lostandfound.features.lost_items.domain.location.LocationCoordinates
 import java.util.*
 

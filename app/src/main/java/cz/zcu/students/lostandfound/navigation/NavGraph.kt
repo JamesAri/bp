@@ -1,10 +1,6 @@
 package cz.zcu.students.lostandfound.navigation.navgraph
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType.Companion.StringType
@@ -20,11 +16,13 @@ import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_i
 import cz.zcu.students.lostandfound.features.lost_items.presentation.lost_item_detail.LostItemDetailScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.my_posts.MyPostsScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.UpdatePostScreen
+import cz.zcu.students.lostandfound.features.map.presentation.MapScreen
 import cz.zcu.students.lostandfound.features.profile.presentation.change_phone_number.EditPhoneNumberScreen
 import cz.zcu.students.lostandfound.features.profile.presentation.profile_view.ProfileScreen
 import cz.zcu.students.lostandfound.features.settings.presentation.settings.SettingsScreen
 import cz.zcu.students.lostandfound.navigation.Screen
 import kotlinx.coroutines.CoroutineScope
+
 
 @Composable
 fun NavGraph(
@@ -91,13 +89,6 @@ fun NavGraph(
             )
         }
         composable(
-            route = Screen.InboxScreen.route
-        ) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(Screen.InboxScreen.route)
-            }
-        }
-        composable(
             route = Screen.MyPostsScreen.route
         ) {
             MyPostsScreen(
@@ -108,20 +99,6 @@ fun NavGraph(
                     navController.navigate("${Screen.UpdateLostItemScreen.route}/${id}")
                 }
             )
-        }
-        composable(
-            route = Screen.FavoritesScreen.route
-        ) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(Screen.FavoritesScreen.route)
-            }
-        }
-        composable(
-            route = Screen.NotificationsScreen.route
-        ) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(Screen.NotificationsScreen.route)
-            }
         }
         composable(
             route = Screen.SettingsScreen.route
@@ -154,6 +131,16 @@ fun NavGraph(
             route = Screen.AboutAppScreen.route
         ) {
             AboutAppScreen()
+        }
+        composable(
+            route = Screen.AboutAppScreen.route
+        ) {
+            AboutAppScreen()
+        }
+        composable(
+            route = Screen.MapScreen.route
+        ) {
+            MapScreen()
         }
     }
 }

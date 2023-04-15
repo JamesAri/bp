@@ -1,5 +1,7 @@
 package cz.zcu.students.lostandfound.common.constants
 
+import com.google.android.gms.maps.model.LatLng
+
 class General {
     companion object {
         // App version
@@ -25,31 +27,15 @@ class General {
         const val ABOUT_APP_SCREEN = "aboutApp"
         const val CHANGE_PHONE_NUMBER_SCREEN = "editPhoneNumber"
         const val CHANGE_PROFILE_PICTURE_SCREEN = "changeProfilePicture"
+        const val MAP_SCREEN = "mapWithLostItems"
 
+        val FAV_LOCATION = LatLng(49.72673748597182, 13.352430827016386)
 
         // Arguments
         const val LOST_ITEM_ID = "id"
 
-        // Actions
-        const val ADD_LOST_ITEM = "Add a lost item."
-        const val DELETE_LOST_ITEM = "Delete a lost item."
-
-        // Buttons
-        const val ADD = "Add"
-        const val UPDATE = "Update"
-        const val DISMISS = "Dismiss"
-
-        // Placeholders
-        const val LOST_ITEM_TITLE = "Type a lost item title..."
-        const val LOST_ITEM_DESCRIPTION = "Type the lost item description..."
-        const val NO_VALUE = ""
-
-        // Defaults
-        const val NO_ITEM_DESCRIPTION_DEFAULT = "no description"
-
         // Errors
         const val NO_ITEM_FOUND_ERR = "No such item found"
-        const val UNKNOWN_ERR = "An unknown error occurred"
 
         // Validation
         const val MAX_PHONE_NUMBER_LENGTH = 13

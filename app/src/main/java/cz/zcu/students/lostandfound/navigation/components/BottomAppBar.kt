@@ -1,9 +1,8 @@
-package cz.zcu.students.lostandfound.navigation.app_bars
+package cz.zcu.students.lostandfound.navigation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -17,13 +16,9 @@ fun BottomAppBar(
     val items = listOf(
         NavItem.FindItem,
         NavItem.MyPosts,
-//        NavItem.Favorites, // TODO: add 'Favorites' feature
-//        NavItem.Notifications, // TODO: add 'Notifications' feature
+        NavItem.Maps,
     )
-    // badgeCount demo for notifications
-//    LaunchedEffect(Unit) {
-//        items[3].badgeCount = 10
-//    }
+
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
     ) {

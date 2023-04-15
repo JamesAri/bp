@@ -83,6 +83,12 @@ sealed class NavItem(
         icon = NavIcon(Icons.Filled.Info),
     )
 
+    object Maps : NavItem(
+        name =  MappedRouteNames.getValue(Screen.MapScreen.route),
+        route = Screen.MapScreen.route,
+        icon = NavIcon(res = R.drawable.ic_map_with_marker),
+    )
+
     object More : NavItem(
         name = "",
         route = "",
