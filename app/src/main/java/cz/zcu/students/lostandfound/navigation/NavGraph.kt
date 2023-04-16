@@ -1,7 +1,9 @@
-package cz.zcu.students.lostandfound.navigation.navgraph
+package cz.zcu.students.lostandfound.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType.Companion.StringType
 import androidx.navigation.compose.NavHost
@@ -9,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cz.zcu.students.lostandfound.common.constants.General.Companion.LOST_ITEM_ID
+import cz.zcu.students.lostandfound.common.constants.General.Companion.NAVIGATION_LOCATION_KEY
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthScreen
 import cz.zcu.students.lostandfound.features.about_app.presentation.AboutAppScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.AddLostItemScreen
@@ -17,12 +20,12 @@ import cz.zcu.students.lostandfound.features.lost_items.presentation.lost_item_d
 import cz.zcu.students.lostandfound.features.lost_items.presentation.my_posts.MyPostsScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.UpdatePostScreen
 import cz.zcu.students.lostandfound.features.map.presentation.MapScreen
+import cz.zcu.students.lostandfound.features.map.presentation.MarkLostItemScreen
 import cz.zcu.students.lostandfound.features.profile.presentation.change_phone_number.EditPhoneNumberScreen
 import cz.zcu.students.lostandfound.features.profile.presentation.profile_view.ProfileScreen
 import cz.zcu.students.lostandfound.features.settings.presentation.settings.SettingsScreen
 import cz.zcu.students.lostandfound.navigation.Screen
 import kotlinx.coroutines.CoroutineScope
-
 
 @Composable
 fun NavGraph(
@@ -86,6 +89,10 @@ fun NavGraph(
             AddLostItemScreen(
                 coroutineScope = coroutineScope,
                 navigateBack = { navController.popBackStack() },
+                navigateToMarkLostItemScreen = {
+                    navController.navigate(Screen.MarkLostItemScreen.route)
+                },
+                navController = navController,
             )
         }
         composable(
@@ -141,6 +148,18 @@ fun NavGraph(
             route = Screen.MapScreen.route
         ) {
             MapScreen()
+        }
+        composable(
+            route = Screen.MarkLostItemScreen.route
+        ) {
+            MarkLostItemScreen(navigateBack = { location ->
+                val lostItemLocation =
+                    if (location == null) null else listOf(location.latitude, location.longitude)
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set(NAVIGATION_LOCATION_KEY, lostItemLocation)
+                navController.popBackStack()
+            })
         }
     }
 }

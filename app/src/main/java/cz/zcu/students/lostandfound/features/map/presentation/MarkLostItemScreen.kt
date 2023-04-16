@@ -1,19 +1,19 @@
 package cz.zcu.students.lostandfound.features.map.presentation
 
 import android.Manifest
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.core.os.ConfigurationCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -24,14 +24,16 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import cz.zcu.students.lostandfound.common.constants.General.Companion.FAV_LOCATION
 import cz.zcu.students.lostandfound.common.extensions.findActivity
+import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
 import cz.zcu.students.lostandfound.features.map.presentation.util.centerOnLocation
 import cz.zcu.students.lostandfound.features.map.presentation.util.toLostItemLocation
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 
 @Composable
-fun Map(
+fun MarkMap(
     mapViewModel: MapViewModel = hiltViewModel(),
+    navigateBack: (LocationCoordinates?) -> Unit,
 ) {
     val context = LocalContext.current
     val locale = ConfigurationCompat.getLocales(LocalConfiguration.current).get(0)
@@ -86,11 +88,14 @@ fun Map(
         }
 
         TextField(
+            modifier = Modifier
+                .fillMaxWidth(1f)
+                .padding(MaterialTheme.spacing.small),
             value = text,
             onValueChange = { text = it },
             singleLine = true,
             shape = RectangleShape,
-            placeholder = {Text("Search for a location")},
+            placeholder = { Text("Search for a location") },
             trailingIcon = {
                 IconButton(
                     onClick = {
@@ -103,18 +108,46 @@ fun Map(
                     )
                 }
             },
-            modifier = Modifier
-                .fillMaxWidth(1f)
-                .padding(MaterialTheme.spacing.small)
         )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+            Button(
+                modifier = Modifier.shadow(15.dp),
+                enabled = pos != null,
+                onClick = {
+                    navigateBack(pos?.toLostItemLocation())
+                },
+                shape = RectangleShape,
+                colors = ButtonDefaults.buttonColors(disabledContainerColor = MaterialTheme.colorScheme.secondary)
+            ) {
+                Text(text = "Confirm")
+            }
+            Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
+            Button(
+                modifier = Modifier.shadow(15.dp),
+                onClick = {
+                    navigateBack(null)
+                },
+                shape = RectangleShape,
+            ) {
+                Text(text = "Cancel")
+            }
+        }
     }
 }
 
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun MapScreen(
-    mapViewModel: MapViewModel = hiltViewModel()
+fun MarkLostItemScreen(
+    mapViewModel: MapViewModel = hiltViewModel(),
+    navigateBack: (LocationCoordinates?) -> Unit,
 ) {
     val locationPermissionsState = rememberMultiplePermissionsState(
         listOf(
@@ -130,7 +163,8 @@ fun MapScreen(
     }
 
     if (locationPermissionsState.revokedPermissions.size
-        != locationPermissionsState.permissions.size) {
+        != locationPermissionsState.permissions.size
+    ) {
         val context = LocalContext.current
         LaunchedEffect(Unit) {
             val activity = context.findActivity()
@@ -142,27 +176,6 @@ fun MapScreen(
         }
     }
 
-    Map()
+    MarkMap(navigateBack = navigateBack)
 }
 
-
-//            Marker(
-//                state = MarkerState(position = fav),
-//                title = "fav",
-//                snippet = "Marker in fav"
-//            )
-
-//            MarkerInfoWindow(
-//                state = rememberMarkerState(position = fav),
-//                snippet = "Some stuff",
-//                onClick = {
-//                    // This won't work :(
-//                    System.out.println("Mitchs_: Cannot be clicked")
-//                    true
-//                },
-//                draggable = true
-//            ) {
-//                Column {
-//                    Text("WOW")
-//                }
-//            }

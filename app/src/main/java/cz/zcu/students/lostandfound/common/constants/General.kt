@@ -28,8 +28,10 @@ class General {
         const val CHANGE_PHONE_NUMBER_SCREEN = "editPhoneNumber"
         const val CHANGE_PROFILE_PICTURE_SCREEN = "changeProfilePicture"
         const val MAP_SCREEN = "mapWithLostItems"
+        const val MARK_LOST_ITEM_SCREEN = "markLostItem"
 
         val FAV_LOCATION = LatLng(49.72673748597182, 13.352430827016386)
+        const val NAVIGATION_LOCATION_KEY = "location"
 
         // Arguments
         const val LOST_ITEM_ID = "id"

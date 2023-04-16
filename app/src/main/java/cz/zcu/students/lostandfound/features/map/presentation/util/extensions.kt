@@ -4,10 +4,10 @@ import android.location.Location
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
-import cz.zcu.students.lostandfound.features.map.domain.LostItemLocation
+import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
 
 suspend fun CameraPositionState.centerOnLocation(
-    location: LostItemLocation
+    location: LocationCoordinates
 ) = animate(
     update = CameraUpdateFactory.newLatLngZoom(
         LatLng(location.latitude, location.longitude),
@@ -15,7 +15,11 @@ suspend fun CameraPositionState.centerOnLocation(
     ),
 )
 
-fun Location.toLostItemLocation(): LostItemLocation {
-    return LostItemLocation(this.latitude, this.longitude)
+fun Location.toLostItemLocation(): LocationCoordinates {
+    return LocationCoordinates(this.latitude, this.longitude)
+}
+
+fun LatLng.toLostItemLocation(): LocationCoordinates {
+    return LocationCoordinates(this.latitude, this.longitude)
 }
 

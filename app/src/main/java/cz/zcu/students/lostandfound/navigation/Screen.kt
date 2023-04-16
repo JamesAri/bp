@@ -10,6 +10,7 @@ import cz.zcu.students.lostandfound.common.constants.General.Companion.FIND_ITEM
 import cz.zcu.students.lostandfound.common.constants.General.Companion.INBOX_SCREEN
 import cz.zcu.students.lostandfound.common.constants.General.Companion.LOST_ITEM_DETAIL_SCREEN
 import cz.zcu.students.lostandfound.common.constants.General.Companion.MAP_SCREEN
+import cz.zcu.students.lostandfound.common.constants.General.Companion.MARK_LOST_ITEM_SCREEN
 import cz.zcu.students.lostandfound.common.constants.General.Companion.MY_POSTS_SCREEN
 import cz.zcu.students.lostandfound.common.constants.General.Companion.NOTIFICATIONS_SCREEN
 import cz.zcu.students.lostandfound.common.constants.General.Companion.PROFILE_SCREEN
@@ -32,6 +33,7 @@ sealed class Screen(val route: String) {
     object ChangeProfilePictureScreen : Screen(CHANGE_PROFILE_PICTURE_SCREEN)
     object AboutAppScreen : Screen(ABOUT_APP_SCREEN)
     object MapScreen : Screen(MAP_SCREEN)
+    object MarkLostItemScreen: Screen(MARK_LOST_ITEM_SCREEN)
 }
 
 val MappedRouteNames = mapOf(
@@ -50,6 +52,7 @@ val MappedRouteNames = mapOf(
     Screen.ChangeProfilePictureScreen.route to "Change profile picture",
     Screen.AboutAppScreen.route to "About app",
     Screen.MapScreen.route to "Maps",
+    Screen.MarkLostItemScreen.route to "Mark lost item",
 ).withDefault {
     it
 }

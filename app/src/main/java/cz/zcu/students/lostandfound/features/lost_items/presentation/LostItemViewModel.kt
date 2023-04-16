@@ -16,6 +16,7 @@ import cz.zcu.students.lostandfound.common.util.anyStringsContainsTargets
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
+import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -119,7 +120,12 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
-    fun createLostItem(title: String, description: String, localImageUri: Uri?) {
+    fun createLostItem(
+        title: String,
+        description: String,
+        localImageUri: Uri?,
+        location: LocationCoordinates?,
+    ) {
         viewModelScope.launch {
             crudLostItemState = Loading
             when (val currentUser = authRepo.getCurrentUser()) {
@@ -134,6 +140,7 @@ class LostItemViewModel @Inject constructor(
                             description = description,
                             imageUri = localImageUri,
                             postOwnerId = currentUser.data.id,
+                            location = location,
                         )
                         writeLostItemWithLocalImage(lostItem)
                     }

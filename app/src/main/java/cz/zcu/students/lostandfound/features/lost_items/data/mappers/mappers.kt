@@ -3,8 +3,12 @@ package cz.zcu.students.lostandfound.features.lost_items.data.mappers
 import android.net.Uri
 import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemDto
-import cz.zcu.students.lostandfound.features.lost_items.domain.location.LocationCoordinates
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
+import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
+
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
 
 
 fun LostItemDto.toLostItem(): LostItem {
@@ -14,6 +18,10 @@ fun LostItemDto.toLostItem(): LostItem {
     if (isFound.isNull()) throw Exception("missing 'is found' for lost item")
     if (isDeleted.isNull()) throw Exception("missing 'is deleted' for lost item")
 
+    val deserializedLocation = location?.let {
+        Json.decodeFromString<LocationCoordinates>(it)
+    }
+
     return LostItem(
         id = id,
         title = title!!,
@@ -21,7 +29,7 @@ fun LostItemDto.toLostItem(): LostItem {
         isFound = isFound!!,
         isDeleted = isDeleted!!,
         imageUri = imageUri?.let { Uri.parse(it) },
-        location = LocationCoordinates(0.0, 0.0), // todo
+        location = deserializedLocation,
         createdAt = createdAt?.seconds,
         postOwnerId = postOwnerId!!,
         itemOwnerId = itemOwnerId,
@@ -29,13 +37,17 @@ fun LostItemDto.toLostItem(): LostItem {
 }
 
 fun LostItem.toLostItemDto(): LostItemDto {
+    val serializedLocation = location?.let {
+        Json.encodeToString(it)
+    }
+
     return LostItemDto(
         id = id,
         title = title,
         description = description,
         isFound = isFound,
         isDeleted = isDeleted,
-        location = location?.toString(),
+        location = serializedLocation,
         imageUri = imageUri?.toString(),
         postOwnerId = postOwnerId,
         itemOwnerId = itemOwnerId,

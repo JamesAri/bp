@@ -11,7 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.FusedLocationProviderClient
-import cz.zcu.students.lostandfound.features.map.domain.LostItemLocation
+import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
 import cz.zcu.students.lostandfound.features.map.presentation.util.MapState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +26,7 @@ class MapViewModel @Inject constructor() : ViewModel() {
     var state by mutableStateOf(MapState(lastKnownLocation = null))
         private set
 
-    var searchLocation by mutableStateOf<LostItemLocation?>(null)
+    var searchLocation by mutableStateOf<LocationCoordinates?>(null)
 
     fun getLatitudeFromName(context: Context, locale: Locale?, text: String) {
         if (text.isEmpty()) return
@@ -38,7 +38,7 @@ class MapViewModel @Inject constructor() : ViewModel() {
                         // do something with the addresses list
                         if (addresses.isNotEmpty()) {
                             val address: Address = addresses[0]
-                            searchLocation = LostItemLocation(address.latitude, address.longitude)
+                            searchLocation = LocationCoordinates(address.latitude, address.longitude)
                         }
                     }
                     // declare here the geocodeListener, as it requires Android API 33
@@ -48,7 +48,7 @@ class MapViewModel @Inject constructor() : ViewModel() {
                     val addresses = geocoder.getFromLocationName(text, 1)
                     if (addresses != null && addresses.isNotEmpty()) {
                         val address: Address = addresses[0]
-                        searchLocation = LostItemLocation(address.latitude, address.longitude)
+                        searchLocation = LocationCoordinates(address.latitude, address.longitude)
                     }
                 }
             }

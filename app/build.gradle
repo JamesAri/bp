@@ -131,9 +131,12 @@ dependencies {
     // Proto Datastore - data storage solution that allows you to store key-value pairs or typed
     // objects with protocol buffers.
     implementation "androidx.datastore:datastore:1.0.0"
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
+    //          DO NOT CHANGE: Kotlin 1.7.20 is used by default
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
     // Saving lists in Proto Datastore
     implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5"
+    // Livedata
+    implementation("androidx.compose.runtime:runtime-livedata:1.4.1")
 
     // ======================================= 3RD PARTY ===========================================
     // Compose Dialogs - https://github.com/maxkeppeler/sheets-compose-dialogs

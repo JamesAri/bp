@@ -10,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import cz.zcu.students.lostandfound.navigation.components.BottomAppBar
 import cz.zcu.students.lostandfound.navigation.components.NavigationDrawer
 import cz.zcu.students.lostandfound.navigation.components.TopAppBar
-import cz.zcu.students.lostandfound.navigation.navgraph.NavGraph
 import kotlinx.coroutines.CoroutineScope
 
 val LocalSnackbarHostState: ProvidableCompositionLocal<SnackbarHostState> =
@@ -51,7 +50,7 @@ fun App() {
                                 .fillMaxSize()
                                 .padding(paddingValues),
                             navController = navController,
-                            startDestination = Screen.MapScreen.route,
+                            startDestination = Screen.AddLostItemScreen.route,
                             coroutineScope = coroutineScope,
                         )
                     }
