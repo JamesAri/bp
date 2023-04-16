@@ -27,6 +27,7 @@ import cz.zcu.students.lostandfound.ui.theme.spacing
 fun FindLostItemScreen(
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
     navigateToLostItemDetail: (String) -> Unit,
+    navigateToMapMarker: (Double, Double) -> Unit,
 ) {
     LaunchedEffect(Unit) {
         lostItemViewModel.loadLostItems()
@@ -51,7 +52,10 @@ fun FindLostItemScreen(
                 .padding(paddingValues),
         ) {
             ChipFilters()
-            LostItemsResponseContent(navigateToLostItemDetail = navigateToLostItemDetail)
+            LostItemsResponseContent(
+                navigateToLostItemDetail = navigateToLostItemDetail,
+                navigateToMapMarker = navigateToMapMarker
+            )
         }
     }
 }
@@ -62,6 +66,7 @@ fun LostItemsResponseContent(
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
     authViewModel: AuthViewModel = hiltViewModel(),
     navigateToLostItemDetail: (String) -> Unit,
+    navigateToMapMarker: (Double, Double) -> Unit,
 ) {
     ResponseHandler(
         response = lostItemViewModel.lostItemListState.collectAsStateWithLifecycle().value,
@@ -89,6 +94,7 @@ fun LostItemsResponseContent(
                             lostItemData = item,
                             modifier = Modifier.padding(MaterialTheme.spacing.medium),
                             navigateToLostItemDetail = navigateToLostItemDetail,
+                            navigateToMapMarker = navigateToMapMarker
                         )
                     }
                 }

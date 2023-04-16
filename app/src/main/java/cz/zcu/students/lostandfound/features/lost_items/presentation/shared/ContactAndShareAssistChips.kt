@@ -6,17 +6,21 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable
-fun ContactAndShareAssistChips(
+fun ContactAndMapMarkerAssistChips(
     modifier: Modifier = Modifier,
-    mainAxisAlignment: FlowMainAxisAlignment = FlowMainAxisAlignment.Start,
+    mainAxisAlignment: FlowMainAxisAlignment = FlowMainAxisAlignment.SpaceAround,
     onContactPerson: () -> Unit,
-    onShareWithOthers: () -> Unit,
+    onShowMapMarker: () -> Unit,
+    locationProvided: Boolean,
 ) {
     FlowRow(
         modifier = modifier,
@@ -30,9 +34,10 @@ fun ContactAndShareAssistChips(
             onClick = onContactPerson,
         )
         ThemedAssistChip(
-            text = "Share with others",
-            icon = Icons.Outlined.Share,
-            onClick = onShareWithOthers,
+            enabled = locationProvided,
+            text = "Show on map",
+            icon = ImageVector.vectorResource(id = R.drawable.ic_map_with_marker),
+            onClick = onShowMapMarker,
         )
     }
 }

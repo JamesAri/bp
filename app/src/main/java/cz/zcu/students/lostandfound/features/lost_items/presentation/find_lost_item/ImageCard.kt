@@ -25,7 +25,7 @@ import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
 import cz.zcu.students.lostandfound.common.util.getFormattedDateString
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.dialogs.ContactPersonDialog
-import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.ContactAndShareAssistChips
+import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.ContactAndMapMarkerAssistChips
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable
@@ -33,6 +33,7 @@ fun ImageCard(
     modifier: Modifier = Modifier,
     lostItemData: Pair<LostItem, User>,
     navigateToLostItemDetail: (String) -> Unit,
+    navigateToMapMarker: (Double, Double) -> Unit,
 ) {
     val (lostItem, postOwner) = lostItemData
 
@@ -40,7 +41,8 @@ fun ImageCard(
         modifier = modifier,
         lostItem = lostItem,
         postOwner = postOwner,
-        navigateToLostItemDetail = navigateToLostItemDetail
+        navigateToLostItemDetail = navigateToLostItemDetail,
+        navigateToMapMarker = navigateToMapMarker,
     )
 }
 
@@ -50,6 +52,7 @@ fun ImageCardWithPostInfo(
     lostItem: LostItem,
     postOwner: User,
     navigateToLostItemDetail: (String) -> Unit,
+    navigateToMapMarker: (Double, Double) -> Unit,
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -80,7 +83,7 @@ fun ImageCardWithPostInfo(
         CardFooter(
             lostItem = lostItem,
             postOwner = postOwner,
-            onShareWithOthers = {}
+            navigateToMapMarker = navigateToMapMarker,
         )
     }
 }
@@ -89,10 +92,12 @@ fun ImageCardWithPostInfo(
 fun CardFooter(
     lostItem: LostItem,
     postOwner: User,
-    onShareWithOthers: () -> Unit,
+    navigateToMapMarker: (Double, Double) -> Unit,
 ) {
     var openDialogState by remember { mutableStateOf(false) }
-
+    val latitude = lostItem.location?.latitude
+    val longitude = lostItem.location?.longitude
+    val locationProvided = latitude != null && longitude != null
     Column(
         modifier = Modifier.padding(MaterialTheme.spacing.medium),
     ) {
@@ -110,12 +115,17 @@ fun CardFooter(
             overflow = TextOverflow.Ellipsis,
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
-        ContactAndShareAssistChips(
+        ContactAndMapMarkerAssistChips(
             onContactPerson = {
                 openDialogState = true
             },
-            onShareWithOthers = onShareWithOthers,
+            onShowMapMarker = {
+                if (locationProvided) {
+                    navigateToMapMarker(latitude!!, longitude!!)
+                }
+            },
             modifier = Modifier.fillMaxWidth(),
+            locationProvided = locationProvided,
         )
     }
 

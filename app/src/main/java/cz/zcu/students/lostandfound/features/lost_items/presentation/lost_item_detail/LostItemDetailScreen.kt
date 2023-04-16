@@ -22,16 +22,17 @@ import cz.zcu.students.lostandfound.common.features.auth.presentation.login.Auth
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.dialogs.ContactPersonDialog
-import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.ContactAndShareAssistChips
+import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.ContactAndMapMarkerAssistChips
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable
 fun LostItemDetailScreen(
     lostItemId: String?,
+    navigateToMapMarker: (Double, Double) -> Unit,
 ) {
     if (lostItemId != null) {
-        LoadLostItem(lostItemId = lostItemId)
+        LoadLostItem(lostItemId = lostItemId, navigateToMapMarker = navigateToMapMarker)
     } else {
         Box(contentAlignment = Alignment.Center) {
             Text(
@@ -48,6 +49,7 @@ fun LoadLostItem(
     viewModel: LostItemViewModel = hiltViewModel(),
     authViewModel: AuthViewModel = hiltViewModel(),
     lostItemId: String,
+    navigateToMapMarker: (Double, Double) -> Unit,
 ) {
     LaunchedEffect(Unit) {
         viewModel.getLostItem(lostItemId)
@@ -64,7 +66,8 @@ fun LoadLostItem(
             postOwner?.let { user ->
                 LostItemDetail(
                     lostItem = lostItem,
-                    postOwner = user
+                    postOwner = user,
+                    navigateToMapMarker = navigateToMapMarker,
                 )
             }
         }
@@ -75,8 +78,13 @@ fun LoadLostItem(
 fun LostItemDetail(
     lostItem: LostItem,
     postOwner: User,
+    navigateToMapMarker: (Double, Double) -> Unit,
 ) {
     var openDialogState by remember { mutableStateOf(false) }
+
+    val latitude = lostItem.location?.latitude
+    val longitude = lostItem.location?.longitude
+    val locationProvided = latitude != null && longitude != null
 
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -143,11 +151,16 @@ fun LostItemDetail(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            ContactAndShareAssistChips(
+            ContactAndMapMarkerAssistChips(
                 modifier = Modifier.fillMaxWidth(),
                 mainAxisAlignment = FlowMainAxisAlignment.SpaceAround,
                 onContactPerson = { openDialogState = true },
-                onShareWithOthers = {},
+                onShowMapMarker = {
+                    if (locationProvided) {
+                        navigateToMapMarker(latitude!!, longitude!!)
+                    }
+                },
+                locationProvided = locationProvided
             )
         }
     }

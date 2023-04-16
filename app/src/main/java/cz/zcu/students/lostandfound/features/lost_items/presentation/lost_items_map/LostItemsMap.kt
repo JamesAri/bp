@@ -1,24 +1,16 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.lost_items_map
 
 import android.util.Log
-import android.widget.Space
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.core.os.ConfigurationCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -26,11 +18,11 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.maps.android.compose.*
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.constants.Maps.Companion.FAV_LOCATION
+import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
 import cz.zcu.students.lostandfound.common.features.map.presentation.CurrentLocationLocator
 import cz.zcu.students.lostandfound.common.features.map.presentation.MapViewModel
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.centerOnLocation
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.toLatLng
-import cz.zcu.students.lostandfound.common.features.map.presentation.util.toLocationCoordinates
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.LostItemsFetchErrorComponent
@@ -42,6 +34,7 @@ import cz.zcu.students.lostandfound.ui.theme.spacing
 fun Map(
     mapViewModel: MapViewModel = hiltViewModel(),
     lostItems: List<LostItem>,
+    focusLocation: LocationCoordinates?,
 ) {
     val context = LocalContext.current
     val locale = ConfigurationCompat.getLocales(LocalConfiguration.current).get(0)
@@ -55,8 +48,10 @@ fun Map(
         )
     }
 
+    val focus = focusLocation?.toLatLng() ?: FAV_LOCATION
+
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(FAV_LOCATION, 15f)
+        position = CameraPosition.fromLatLngZoom(focus, 15f)
     }
 
     LaunchedEffect(mapViewModel.searchLocation) {
@@ -67,7 +62,7 @@ fun Map(
     }
 
     LaunchedEffect(mapViewModel.lastKnownLocation) {
-        if (mapViewModel.lastKnownLocation != null) {
+        if (focusLocation == null && mapViewModel.lastKnownLocation != null) {
             val location = mapViewModel.lastKnownLocation!!
             cameraPositionState.centerOnLocation(location)
             properties = properties.copy(
@@ -154,6 +149,7 @@ fun Map(
 @Composable
 fun LoadMapWithMarkers(
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
+    focusLocation: LocationCoordinates?,
 ) {
     LaunchedEffect(Unit) {
         lostItemViewModel.loadLostItems()
@@ -164,7 +160,7 @@ fun LoadMapWithMarkers(
         snackbarHostState = LocalSnackbarHostState.current,
         onSuccessContent = { lostItemList ->
             val lostItems = lostItemList.lostItems
-            Map(lostItems = lostItems)
+            Map(lostItems = lostItems, focusLocation = focusLocation)
         },
         onSuccessNullContent = {
             LostItemsFetchErrorComponent()
@@ -173,8 +169,9 @@ fun LoadMapWithMarkers(
 }
 
 @Composable
-fun MapScreen(
+fun LostItemsMap(
+    location: LocationCoordinates?,
 ) {
     CurrentLocationLocator()
-    LoadMapWithMarkers()
+    LoadMapWithMarkers(focusLocation = location)
 }

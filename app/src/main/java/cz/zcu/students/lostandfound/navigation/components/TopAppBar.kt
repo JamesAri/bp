@@ -35,7 +35,7 @@ fun TopAppBar(
     val screenTitleState by remember {
         derivedStateOf {
             backStackEntryState.value?.destination?.route?.let {
-                MappedRouteNames.getValue(key = it.split('/')[0])
+                MappedRouteNames.getValue(key = it.split('/', '?')[0])
             } ?: ""
         }
     }

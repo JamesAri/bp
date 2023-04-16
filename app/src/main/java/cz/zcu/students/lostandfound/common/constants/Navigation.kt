@@ -7,5 +7,7 @@ class Navigation {
 
         // Route arguments
         const val LOST_ITEM_ID = "id"
+        const val LATITUDE = "latitude"
+        const val LONGITUDE = "longitude"
     }
 }
