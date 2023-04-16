@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import cz.zcu.students.lostandfound.common.constants.General.Companion.DATASTORE_FILE_NAME
+import cz.zcu.students.lostandfound.common.constants.Datastore.Companion.DATASTORE_FILE_NAME
 import cz.zcu.students.lostandfound.common.datastore.AppSettings
 import cz.zcu.students.lostandfound.common.datastore.AppSettingsSerializer
 import dagger.Module

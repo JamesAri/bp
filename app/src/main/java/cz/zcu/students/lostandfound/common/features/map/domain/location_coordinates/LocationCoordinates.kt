@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.common.features.location
+package cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates
 
 import kotlinx.serialization.Serializable
 

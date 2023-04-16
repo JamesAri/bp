@@ -4,7 +4,7 @@ import android.net.Uri
 import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemDto
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
-import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString

@@ -16,7 +16,7 @@ import cz.zcu.students.lostandfound.common.util.anyStringsContainsTargets
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
-import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -51,7 +51,7 @@ class LostItemViewModel @Inject constructor(
      * These services provide advanced indexing and search capabilities far beyond
      * what any simple database query can offer and what in this case is an overkill.
      *
-     * As temporary solution (and as we except small user base) we will compute these
+     * As temporary solution (as we except small user base) we will compute these
      * queries locally.
      *
      * Empty [filters] results in loading the whole dataset.
@@ -130,7 +130,7 @@ class LostItemViewModel @Inject constructor(
             crudLostItemState = Loading
             when (val currentUser = authRepo.getCurrentUser()) {
                 is Error -> crudLostItemState = Error(currentUser.error)
-                Loading -> {}
+                Loading ->  { /* do nothing */}
                 is Success -> {
                     if (currentUser.data == null) {
                         crudLostItemState = Error(Exception("user not logged in"))
@@ -160,7 +160,7 @@ class LostItemViewModel @Inject constructor(
                     imageUri = imageUri,
                     name = lostItem.id,
                 )) {
-                    is Loading -> {}
+                    is Loading -> { /* do nothing */}
                     is Success -> {
                         // Item got assigned uri from firebase storage, so we can save it in
                         // lightweight database now.

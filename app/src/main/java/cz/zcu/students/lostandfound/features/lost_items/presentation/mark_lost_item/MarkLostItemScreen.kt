@@ -1,6 +1,5 @@
-package cz.zcu.students.lostandfound.features.map.presentation
+package cz.zcu.students.lostandfound.features.lost_items.presentation.mark_lost_item
 
-import android.Manifest
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -16,22 +15,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.os.ConfigurationCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
-import cz.zcu.students.lostandfound.common.constants.General.Companion.FAV_LOCATION
-import cz.zcu.students.lostandfound.common.extensions.findActivity
-import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
-import cz.zcu.students.lostandfound.features.map.presentation.util.centerOnLocation
-import cz.zcu.students.lostandfound.features.map.presentation.util.toLostItemLocation
+import cz.zcu.students.lostandfound.common.constants.Maps.Companion.FAV_LOCATION
+import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.presentation.CurrentLocationLocator
+import cz.zcu.students.lostandfound.common.features.map.presentation.MapViewModel
+import cz.zcu.students.lostandfound.common.features.map.presentation.util.centerOnLocation
+import cz.zcu.students.lostandfound.common.features.map.presentation.util.toLocationCoordinates
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 
 @Composable
-fun MarkMap(
+fun Map(
     mapViewModel: MapViewModel = hiltViewModel(),
     navigateBack: (LocationCoordinates?) -> Unit,
 ) {
@@ -42,7 +39,7 @@ fun MarkMap(
         mutableStateOf(
             MapProperties(
                 // Only enable if user has accepted location permissions.
-                isMyLocationEnabled = mapViewModel.state.lastKnownLocation != null,
+                isMyLocationEnabled = mapViewModel.lastKnownLocation != null,
             )
         )
     }
@@ -59,9 +56,9 @@ fun MarkMap(
         }
     }
 
-    LaunchedEffect(mapViewModel.state) {
-        if (mapViewModel.state.lastKnownLocation != null) {
-            val location = mapViewModel.state.lastKnownLocation!!.toLostItemLocation()
+    LaunchedEffect(mapViewModel.lastKnownLocation) {
+        if (mapViewModel.lastKnownLocation != null) {
+            val location = mapViewModel.lastKnownLocation!!
             cameraPositionState.centerOnLocation(location)
         }
     }
@@ -81,7 +78,7 @@ fun MarkMap(
                 Marker(
                     state = MarkerState(position = pos!!),
                     title = "Mark this location?",
-                    snippet = "This location show where the lost item was found.",
+                    snippet = "This location shows where the lost item was found.",
                     draggable = true,
                 )
             }
@@ -121,7 +118,7 @@ fun MarkMap(
                 modifier = Modifier.shadow(15.dp),
                 enabled = pos != null,
                 onClick = {
-                    navigateBack(pos?.toLostItemLocation())
+                    navigateBack(pos?.toLocationCoordinates())
                 },
                 shape = RectangleShape,
                 colors = ButtonDefaults.buttonColors(disabledContainerColor = MaterialTheme.colorScheme.secondary)
@@ -143,39 +140,11 @@ fun MarkMap(
 }
 
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MarkLostItemScreen(
-    mapViewModel: MapViewModel = hiltViewModel(),
     navigateBack: (LocationCoordinates?) -> Unit,
 ) {
-    val locationPermissionsState = rememberMultiplePermissionsState(
-        listOf(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-        )
-    )
-
-    if (!locationPermissionsState.allPermissionsGranted) {
-        LaunchedEffect(Unit) {
-            locationPermissionsState.launchMultiplePermissionRequest()
-        }
-    }
-
-    if (locationPermissionsState.revokedPermissions.size
-        != locationPermissionsState.permissions.size
-    ) {
-        val context = LocalContext.current
-        LaunchedEffect(Unit) {
-            val activity = context.findActivity()
-            if (activity != null) {
-                val usedLocationProviderClient =
-                    LocationServices.getFusedLocationProviderClient(activity)
-                mapViewModel.getDeviceLocation(usedLocationProviderClient)
-            }
-        }
-    }
-
-    MarkMap(navigateBack = navigateBack)
+    CurrentLocationLocator()
+    Map(navigateBack = navigateBack)
 }
 

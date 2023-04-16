@@ -19,6 +19,7 @@ import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
 import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
+import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.LostItemsFetchErrorComponent
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
@@ -57,19 +58,6 @@ fun FindLostItemScreen(
 
 
 @Composable
-fun EmptyLostItemList() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Text(
-            text = "No Items Found",
-            style = MaterialTheme.typography.titleLarge,
-        )
-    }
-}
-
-@Composable
 fun LostItemsResponseContent(
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
     authViewModel: AuthViewModel = hiltViewModel(),
@@ -80,7 +68,7 @@ fun LostItemsResponseContent(
         snackbarHostState = LocalSnackbarHostState.current,
         onSuccessContent = {
             if (it.lostItems.isEmpty() && lostItemViewModel.filters.isNotEmpty()) {
-                EmptyLostItemList()
+                LostItemsFetchErrorComponent()
             } else {
                 var pairedLostItems by remember {
                     mutableStateOf<List<Pair<LostItem, User>>>(listOf())
@@ -107,7 +95,7 @@ fun LostItemsResponseContent(
             }
         },
         onSuccessNullContent = {
-            EmptyLostItemList()
+            LostItemsFetchErrorComponent()
         }
     )
 }

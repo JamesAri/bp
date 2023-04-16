@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

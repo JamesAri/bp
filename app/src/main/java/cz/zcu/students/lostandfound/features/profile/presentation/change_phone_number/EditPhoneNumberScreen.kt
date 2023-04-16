@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
-import cz.zcu.students.lostandfound.common.constants.General.Companion.MAX_PHONE_NUMBER_LENGTH
+import cz.zcu.students.lostandfound.common.constants.Validations.Companion.MAX_PHONE_NUMBER_LENGTH
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
 import cz.zcu.students.lostandfound.features.profile.presentation.util.validatePhoneNumber
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState

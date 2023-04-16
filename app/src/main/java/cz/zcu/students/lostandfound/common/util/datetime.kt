@@ -68,7 +68,7 @@ fun getFormattedDateString(timestamp: Long): String? {
             else
                 "A week ago"
         }
-        val formatter = SimpleDateFormat("MM-dd-yyyy", Locale.US)
+        val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.US)
         val date = Date(timestamp.toMillis())
         formatter.format(date)
     } catch (e: Exception) {

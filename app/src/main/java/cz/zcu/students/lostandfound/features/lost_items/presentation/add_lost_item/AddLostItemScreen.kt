@@ -26,9 +26,9 @@ import coil.compose.AsyncImage
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.ALL_IMAGES
-import cz.zcu.students.lostandfound.common.constants.General.Companion.NAVIGATION_LOCATION_KEY
+import cz.zcu.students.lostandfound.common.constants.Navigation.Companion.NAVIGATION_LOCATION_KEY
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
-import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 import kotlinx.coroutines.CoroutineScope

@@ -32,7 +32,7 @@ sealed class Screen(val route: String) {
     object ChangePhoneNumberScreen : Screen(CHANGE_PHONE_NUMBER_SCREEN)
     object ChangeProfilePictureScreen : Screen(CHANGE_PROFILE_PICTURE_SCREEN)
     object AboutAppScreen : Screen(ABOUT_APP_SCREEN)
-    object MapScreen : Screen(MAP_SCREEN)
+    object LostItemsMapScreen : Screen(MAP_SCREEN)
     object MarkLostItemScreen: Screen(MARK_LOST_ITEM_SCREEN)
 }
 
@@ -51,7 +51,7 @@ val MappedRouteNames = mapOf(
     Screen.ChangePhoneNumberScreen.route to "Change phone number",
     Screen.ChangeProfilePictureScreen.route to "Change profile picture",
     Screen.AboutAppScreen.route to "About app",
-    Screen.MapScreen.route to "Maps",
+    Screen.LostItemsMapScreen.route to "Maps",
     Screen.MarkLostItemScreen.route to "Mark lost item",
 ).withDefault {
     it

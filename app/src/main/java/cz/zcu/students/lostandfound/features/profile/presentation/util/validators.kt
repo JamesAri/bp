@@ -1,6 +1,6 @@
 package cz.zcu.students.lostandfound.features.profile.presentation.util
 
-import cz.zcu.students.lostandfound.common.constants.General.Companion.MAX_PHONE_NUMBER_LENGTH
+import cz.zcu.students.lostandfound.common.constants.Validations.Companion.MAX_PHONE_NUMBER_LENGTH
 
 
 /**

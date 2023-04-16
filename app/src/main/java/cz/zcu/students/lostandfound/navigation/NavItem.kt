@@ -84,8 +84,8 @@ sealed class NavItem(
     )
 
     object Maps : NavItem(
-        name =  MappedRouteNames.getValue(Screen.MapScreen.route),
-        route = Screen.MapScreen.route,
+        name =  MappedRouteNames.getValue(Screen.LostItemsMapScreen.route),
+        route = Screen.LostItemsMapScreen.route,
         icon = NavIcon(res = R.drawable.ic_map_with_marker),
     )
 

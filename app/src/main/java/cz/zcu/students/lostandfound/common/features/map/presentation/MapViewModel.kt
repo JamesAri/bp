@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.map.presentation
+package cz.zcu.students.lostandfound.common.features.map.presentation
 
 import android.content.Context
 import android.location.Address
@@ -11,8 +11,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.FusedLocationProviderClient
-import cz.zcu.students.lostandfound.common.features.location.LocationCoordinates
-import cz.zcu.students.lostandfound.features.map.presentation.util.MapState
+import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.presentation.util.toLocationCoordinates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @Suppress("DEPRECATION")
 @HiltViewModel
 class MapViewModel @Inject constructor() : ViewModel() {
-    var state by mutableStateOf(MapState(lastKnownLocation = null))
+    var lastKnownLocation by mutableStateOf<LocationCoordinates?>(null)
         private set
 
     var searchLocation by mutableStateOf<LocationCoordinates?>(null)
@@ -66,9 +66,8 @@ class MapViewModel @Inject constructor() : ViewModel() {
             val locationResult = fusedLocationProviderClient.lastLocation
             locationResult.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    state = state.copy(
-                        lastKnownLocation = task.result,
-                    )
+                    val location = task.result
+                    lastKnownLocation = location.toLocationCoordinates()
                 }
             }
         } catch (e: SecurityException) {

@@ -6,8 +6,6 @@ class General {
     companion object {
         // App version
         const val APP_VERSION = "1.0.0"
-        // Datastore
-        const val DATASTORE_FILE_NAME = "app-settings.json"
 
         // Splash screen
         const val SPLASHSCREEN_DURATION = 2000L // follow 3 second rule
@@ -29,19 +27,5 @@ class General {
         const val CHANGE_PROFILE_PICTURE_SCREEN = "changeProfilePicture"
         const val MAP_SCREEN = "mapWithLostItems"
         const val MARK_LOST_ITEM_SCREEN = "markLostItem"
-
-        val FAV_LOCATION = LatLng(49.72673748597182, 13.352430827016386)
-        const val NAVIGATION_LOCATION_KEY = "location"
-
-        // Arguments
-        const val LOST_ITEM_ID = "id"
-
-        // Errors
-        const val NO_ITEM_FOUND_ERR = "No such item found"
-
-        // Validation
-        const val MAX_PHONE_NUMBER_LENGTH = 13
-        const val MAX_SEARCH_TERM_LENGTH = 25
-
     }
 }

@@ -30,7 +30,7 @@ class Firebase {
         //                                      STORAGE                                           //
         //========================================================================================//
 
-        // Lost items storage
+        // Lost items storage key
         const val IMAGES_KEY = "images"
 
         // Lost items path
