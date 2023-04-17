@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cz.zcu.students.lostandfound.features.settings.domain.language.LanguageOptions
 import cz.zcu.students.lostandfound.features.settings.domain.repository.AppSettingsRepository
-import cz.zcu.students.lostandfound.features.settings.domain.themes.ThemeOptions
+import cz.zcu.students.lostandfound.features.settings.domain.model.ThemeOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

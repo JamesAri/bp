@@ -1,13 +1,12 @@
-package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.dialogs
+package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.dialogs
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cz.zcu.students.lostandfound.common.constants.General
 import cz.zcu.students.lostandfound.common.constants.Validations.Companion.MAX_SEARCH_TERM_LENGTH
-import cz.zcu.students.lostandfound.features.lost_items.data.validators.SearchTermValidatorImpl
+import cz.zcu.students.lostandfound.features.lost_items.data.util.SearchTermValidatorImpl
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable

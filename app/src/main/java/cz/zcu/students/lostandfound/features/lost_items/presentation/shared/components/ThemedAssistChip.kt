@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.lost_items.presentation.shared
+package cz.zcu.students.lostandfound.features.lost_items.presentation.shared.components
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable

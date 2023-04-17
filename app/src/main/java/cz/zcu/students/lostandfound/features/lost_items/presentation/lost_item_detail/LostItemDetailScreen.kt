@@ -17,12 +17,12 @@ import coil.compose.AsyncImage
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
-import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
+import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
-import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.dialogs.ContactPersonDialog
-import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.ContactAndMapMarkerAssistChips
+import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.dialogs.ContactPersonDialog
+import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.components.ContactAndMapMarkerAssistChips
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 

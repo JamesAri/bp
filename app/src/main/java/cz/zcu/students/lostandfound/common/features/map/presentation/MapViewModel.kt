@@ -11,7 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.FusedLocationProviderClient
-import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.toLocationCoordinates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

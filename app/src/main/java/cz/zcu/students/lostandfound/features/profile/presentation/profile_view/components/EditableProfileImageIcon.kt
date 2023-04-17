@@ -7,7 +7,7 @@ import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.common.constants.Firebase
-import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 

@@ -11,8 +11,8 @@ import cz.zcu.students.lostandfound.features.lost_items.data.mappers.toLostItem
 import cz.zcu.students.lostandfound.features.lost_items.data.mappers.toLostItemDto
 import cz.zcu.students.lostandfound.features.lost_items.data.remote.LostItemApi
 import cz.zcu.students.lostandfound.features.lost_items.data.remote.dto.LostItemListDto
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
+import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
+import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

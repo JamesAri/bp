@@ -14,9 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
-import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
-import cz.zcu.students.lostandfound.features.profile.presentation.ProfileField
+import cz.zcu.students.lostandfound.features.profile.presentation.profile_view.components.ProfileField
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 

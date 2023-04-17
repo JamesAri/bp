@@ -4,7 +4,7 @@ import androidx.datastore.core.DataStore
 import cz.zcu.students.lostandfound.common.datastore.AppSettings
 import cz.zcu.students.lostandfound.features.settings.domain.language.LanguageOptions
 import cz.zcu.students.lostandfound.features.settings.domain.repository.AppSettingsRepository
-import cz.zcu.students.lostandfound.features.settings.domain.themes.ThemeOptions
+import cz.zcu.students.lostandfound.features.settings.domain.model.ThemeOptions
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton

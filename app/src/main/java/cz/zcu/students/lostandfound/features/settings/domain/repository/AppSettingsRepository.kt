@@ -2,7 +2,7 @@ package cz.zcu.students.lostandfound.features.settings.domain.repository
 
 import cz.zcu.students.lostandfound.common.datastore.AppSettings
 import cz.zcu.students.lostandfound.features.settings.domain.language.LanguageOptions
-import cz.zcu.students.lostandfound.features.settings.domain.themes.ThemeOptions
+import cz.zcu.students.lostandfound.features.settings.domain.model.ThemeOptions
 import kotlinx.coroutines.flow.Flow
 
 interface AppSettingsRepository {

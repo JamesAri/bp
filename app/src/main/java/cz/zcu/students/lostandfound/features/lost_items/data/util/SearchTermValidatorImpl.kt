@@ -1,7 +1,7 @@
-package cz.zcu.students.lostandfound.features.lost_items.data.validators
+package cz.zcu.students.lostandfound.features.lost_items.data.util
 
 import cz.zcu.students.lostandfound.common.constants.Validations.Companion.MAX_SEARCH_TERM_LENGTH
-import cz.zcu.students.lostandfound.features.lost_items.domain.validators.SearchTermValidator
+import cz.zcu.students.lostandfound.features.lost_items.domain.util.SearchTermValidator
 
 class SearchTermValidatorImpl: SearchTermValidator {
     override fun validate(term: String): Boolean {

@@ -4,7 +4,7 @@ import android.location.Location
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
-import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
 
 suspend fun CameraPositionState.centerOnLocation(
     location: LocationCoordinates

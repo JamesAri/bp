@@ -22,7 +22,7 @@ import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.ALL_IMAGES
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
+import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing

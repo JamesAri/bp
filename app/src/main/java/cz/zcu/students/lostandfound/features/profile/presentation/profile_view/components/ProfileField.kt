@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.profile.presentation
+package cz.zcu.students.lostandfound.features.profile.presentation.profile_view.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

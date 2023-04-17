@@ -7,7 +7,7 @@ import cz.zcu.students.lostandfound.common.features.auth.data.remote.UserApi
 import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.CurrentUserDto
 import cz.zcu.students.lostandfound.common.features.auth.data.util.getRandomProfileAvatarUri
 import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
-import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.common.features.storage.data.remote.ImageStorageApi
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.Error

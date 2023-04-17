@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.dialogs
+package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.dialogs
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,7 +8,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable

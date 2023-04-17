@@ -7,7 +7,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import cz.zcu.students.lostandfound.features.settings.domain.themes.ThemeOptions
+import cz.zcu.students.lostandfound.features.settings.domain.model.ThemeOptions
 import cz.zcu.students.lostandfound.features.settings.presentation.settings.SettingsViewModel
 
 private val DarkColorScheme = darkColorScheme(

@@ -16,7 +16,7 @@ import cz.zcu.students.lostandfound.common.constants.Navigation.Companion.LOST_I
 import cz.zcu.students.lostandfound.common.constants.Navigation.Companion.NAVIGATION_LOCATION_KEY
 import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthScreen
-import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
 import cz.zcu.students.lostandfound.features.about_app.presentation.AboutAppScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.AddLostItemScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.FindLostItemScreen

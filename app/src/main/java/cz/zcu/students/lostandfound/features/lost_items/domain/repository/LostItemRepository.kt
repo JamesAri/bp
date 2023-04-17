@@ -1,8 +1,8 @@
 package cz.zcu.students.lostandfound.features.lost_items.domain.repository
 
 import cz.zcu.students.lostandfound.common.util.Response
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
+import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
+import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
 import kotlinx.coroutines.flow.Flow
 
 interface LostItemRepository {

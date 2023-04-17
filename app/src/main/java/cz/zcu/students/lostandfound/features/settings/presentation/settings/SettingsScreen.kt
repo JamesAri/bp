@@ -14,7 +14,7 @@ import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.list.ListDialog
 import com.maxkeppeler.sheets.list.models.ListOption
 import com.maxkeppeler.sheets.list.models.ListSelection
-import cz.zcu.students.lostandfound.features.settings.domain.themes.ThemeOptions
+import cz.zcu.students.lostandfound.features.settings.domain.model.ThemeOptions
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable

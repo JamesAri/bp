@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
-import cz.zcu.students.lostandfound.common.features.auth.domain.user.User
+import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.common.features.storage.domain.repository.ImageStorageRepository
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.*

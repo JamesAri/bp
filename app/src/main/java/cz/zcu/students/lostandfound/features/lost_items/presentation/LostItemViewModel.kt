@@ -13,10 +13,10 @@ import cz.zcu.students.lostandfound.common.features.storage.domain.repository.Im
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.*
 import cz.zcu.students.lostandfound.common.util.anyStringsContainsTargets
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItemList
+import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
+import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
-import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

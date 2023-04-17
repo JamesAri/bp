@@ -1,6 +1,5 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.lost_items_map
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -18,14 +17,14 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.maps.android.compose.*
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.constants.Maps.Companion.FAV_LOCATION
-import cz.zcu.students.lostandfound.common.features.map.domain.location_coordinates.LocationCoordinates
+import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
 import cz.zcu.students.lostandfound.common.features.map.presentation.CurrentLocationLocator
 import cz.zcu.students.lostandfound.common.features.map.presentation.MapViewModel
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.centerOnLocation
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.toLatLng
-import cz.zcu.students.lostandfound.features.lost_items.domain.lost_item.LostItem
+import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
-import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.LostItemsFetchErrorComponent
+import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.components.LostItemsFetchErrorComponent
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 

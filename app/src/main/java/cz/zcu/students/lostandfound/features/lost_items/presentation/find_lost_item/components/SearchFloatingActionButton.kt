@@ -7,7 +7,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.dialogs.FilterDialog
+import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.dialogs.FilterDialog
 
 @Composable
 fun SearchFloatingActionButton(
