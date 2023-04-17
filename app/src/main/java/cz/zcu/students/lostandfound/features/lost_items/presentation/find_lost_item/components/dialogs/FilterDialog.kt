@@ -6,7 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cz.zcu.students.lostandfound.common.constants.Validations.Companion.MAX_SEARCH_TERM_LENGTH
-import cz.zcu.students.lostandfound.features.lost_items.data.util.SearchTermValidatorImpl
+import cz.zcu.students.lostandfound.features.lost_items.domain.util.SearchTermValidator
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
 @Composable
@@ -18,10 +18,10 @@ fun FilterDialog(
     if (openDialogState) {
         var searchTermState by remember { mutableStateOf("") }
         var showValidationErrorState by remember { mutableStateOf(false) }
-        val termValidator = SearchTermValidatorImpl()
+        val termValidator = SearchTermValidator()
 
         val validationErrorMessage =
-            "Term cannot have more than ${MAX_SEARCH_TERM_LENGTH} characters"
+            "Term cannot have more than $MAX_SEARCH_TERM_LENGTH characters"
 
         AlertDialog(
             onDismissRequest = onDismissRequest,
