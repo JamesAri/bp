@@ -24,7 +24,7 @@ fun ContactPersonDialog(
             onDismissRequest = onDismissRequest,
             title = { Text(text = stringResource(R.string.screen_lost_item_contact_person_action)) },
             text = {
-                Column() {
+                Column {
                     Text(
                         text = postOwner.name,
                         style = MaterialTheme.typography.titleSmall,

@@ -5,7 +5,6 @@ import android.content.ContextWrapper
 import androidx.activity.ComponentActivity
 
 fun Any?.isNull() = (this == null)
-fun Any?.isNotNull() = (this != isNull())
 
 fun Context.findActivity(): ComponentActivity? = when (this) {
     is ComponentActivity -> this

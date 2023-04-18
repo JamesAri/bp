@@ -23,7 +23,7 @@ import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.constants.Maps.Companion.FAV_LOCATION
 import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
-import cz.zcu.students.lostandfound.common.features.map.presentation.CurrentLocationLocator
+import cz.zcu.students.lostandfound.common.features.map.presentation.components.CurrentLocationLocator
 import cz.zcu.students.lostandfound.common.features.map.presentation.MapViewModel
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.centerOnLocation
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.toLatLng

@@ -21,7 +21,7 @@ class UpdateLostItemViewModel @Inject constructor(
     private val dbRepo: LostItemRepository,
 ) : ViewModel() {
 
-    var isEditing by mutableStateOf(false)
+    private var isEditing by mutableStateOf(false)
 
     var lostItemState by mutableStateOf<Response<LostItem>>(Success(null))
         private set
@@ -62,7 +62,6 @@ class UpdateLostItemViewModel @Inject constructor(
                 Loading -> {}
                 is Success -> {
                     if (!isEditing) {
-                        Log.d("UpdateLostItemViewModel", "getLostItem: CALLLLL")
                         lostItemResponse.data?.let { lostItem ->
                             Log.d("UpdateLostItemViewModel", "getLostItem: $lostItem")
                             setLostItem(lostItem)

@@ -91,10 +91,8 @@
     <string name="screen_lost_item_unknown_date">Unknown date</string>
     <string name="screen_lost_item_deleting_lost_item_dialog_title">Deleting lost item post</string>
     <string name="screen_lost_item_deleting_lost_item_dialog_body">Are you sure you want to delete \"%1$s\" post?</string>
-    <string name="screen_lost_item_contact_person">Contact person</string>
     <string name="screen_lost_item_show_on_map_action">Show on map</string>
     <string name="screen_lost_item_error_occurred_while_fetching_lost_items_message">Sorry, an error occurred while fetching lost items.</string>
-    <string name="screen_lost_item_edit_lost_image_content_description">edit lost item image</string>
     <string name="screen_lost_item_update_action">Update</string>
     <string name="screen_lost_item_update_success">Successfully updated lost item</string>
     <string name="screen_lost_item_update_failur">Failed to update lost item</string>

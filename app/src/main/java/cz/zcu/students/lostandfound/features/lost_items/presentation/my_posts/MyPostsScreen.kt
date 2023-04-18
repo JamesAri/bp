@@ -28,7 +28,7 @@ import cz.zcu.students.lostandfound.common.util.datetime.getFormattedDateString
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
-import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.ConfirmDeleteDialog
+import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.components.ConfirmDeleteDialog
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 

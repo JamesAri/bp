@@ -22,6 +22,7 @@ data class Spacing(
 val LocalSpacing: ProvidableCompositionLocal<Spacing> = compositionLocalOf { Spacing() }
 
 
+@Suppress("unused")
 val MaterialTheme.spacing: Spacing
     @Composable
     @ReadOnlyComposable

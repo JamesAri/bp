@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item
+package cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete

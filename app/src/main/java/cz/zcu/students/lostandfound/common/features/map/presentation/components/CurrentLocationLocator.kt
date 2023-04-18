@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.common.features.map.presentation
+package cz.zcu.students.lostandfound.common.features.map.presentation.components
 
 import android.Manifest
 import androidx.compose.runtime.Composable
@@ -9,6 +9,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.android.gms.location.LocationServices
 import cz.zcu.students.lostandfound.common.extensions.findActivity
+import cz.zcu.students.lostandfound.common.features.map.presentation.MapViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable

@@ -31,7 +31,7 @@ class SettingsScreenTest {
         hiltRule.inject()
         composeRule.activity.setContent {
             val navController = rememberNavController()
-            LostAndFoundTheme() {
+            LostAndFoundTheme {
                 NavHost(
                     navController = navController,
                     startDestination = Screen.SettingsScreen.route,

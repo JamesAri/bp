@@ -16,6 +16,7 @@ import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.ChipFilters
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.ImageCard
+import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.SearchFloatingActionButton
 import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.components.LostItemsFetchErrorComponent
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing

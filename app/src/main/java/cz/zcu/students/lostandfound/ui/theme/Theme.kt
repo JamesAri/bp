@@ -120,6 +120,8 @@ fun LostAndFoundTheme(
     )
 }
 
+// Used for UI development
+@Suppress("unused")
 @Composable
 fun PreviewTheme(
     darkTheme: Boolean = true,

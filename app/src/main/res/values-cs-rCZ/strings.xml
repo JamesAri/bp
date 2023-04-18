@@ -87,10 +87,8 @@
     <string name="screen_lost_item_unknown_date">Neznámé datum</string>
     <string name="screen_lost_item_deleting_lost_item_dialog_title">Smazání příspěvku</string>
     <string name="screen_lost_item_deleting_lost_item_dialog_body">Opravdu si přejete smazat příspěvek \"%1$s\"?</string>
-    <string name="screen_lost_item_contact_person">Kontaktovat osobu</string>
     <string name="screen_lost_item_show_on_map_action">Ukázat na mapě</string>
     <string name="screen_lost_item_error_occurred_while_fetching_lost_items_message">Při stahování ztracených předmětů došlo k chybě.</string>
-    <string name="screen_lost_item_edit_lost_image_content_description">upravit obrázek ztracené položky</string>
     <string name="screen_lost_item_update_action">Aktualizovat</string>
     <string name="screen_lost_item_update_success">Příspěvek byl aktualizován</string>
     <string name="screen_lost_item_update_failur">Příspěvek se nepodařilo aktualizovat</string>

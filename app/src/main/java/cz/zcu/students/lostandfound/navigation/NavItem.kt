@@ -62,11 +62,6 @@ sealed class NavItem(
         route = Screen.LostItemsMapScreen.route,
         icon = NavIcon(res = R.drawable.ic_map_with_marker),
     )
-
-    object More : NavItem(
-        route = "",
-        icon = NavIcon(res = R.drawable.ic_more_horiz),
-    )
 }
 
 
