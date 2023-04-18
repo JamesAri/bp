@@ -1,5 +1,6 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -9,14 +10,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
+import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
 import cz.zcu.students.lostandfound.common.features.storage.domain.repository.ImageStorageRepository
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.*
 import cz.zcu.students.lostandfound.common.util.anyStringsContainsTargets
+import cz.zcu.students.lostandfound.features.lost_items.data.util.LocaleTimeStringImpl
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
-import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
+import cz.zcu.students.lostandfound.features.lost_items.domain.util.LocaleTimeString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -199,6 +202,10 @@ class LostItemViewModel @Inject constructor(
         } else {
             writeLostItemWithLocalImage(lostItem = lostItem)
         }
+    }
+
+    fun getLocaleTimeString(context: Context): LocaleTimeString {
+        return LocaleTimeStringImpl(context)
     }
 }
 

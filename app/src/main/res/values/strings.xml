@@ -99,4 +99,13 @@
     <string name="screen_lost_item_update_success">Successfully updated lost item</string>
     <string name="screen_lost_item_update_failur">Failed to update lost item</string>
     <string name="top_app_bar_open_drawer_content_description">open navigation drawer</string>
+    <string name="locale_time_string_few_moments_ago">A few moments ago</string>
+    <string name="locale_time_string_minute_ago">A minute ago</string>
+    <string name="locale_time_string_hour_ago">A hour ago</string>
+    <string name="locale_time_string_day_ago">Yesterday</string>
+    <string name="locale_time_string_week_ago">A week ago</string>
+    <string name="locale_time_string_minutes_ago">%1$s minutes ago</string>
+    <string name="locale_time_string_hours_ago">%1$s hours ago</string>
+    <string name="locale_time_string_days_ago">%1$s days ago</string>
+    <string name="locale_time_string_weeks_ago">%1$s weeks ago</string>
 </resources>

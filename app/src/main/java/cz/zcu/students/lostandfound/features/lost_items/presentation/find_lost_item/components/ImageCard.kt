@@ -12,10 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.flowlayout.FlowCrossAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
@@ -25,6 +27,7 @@ import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.common.util.getFormattedDateString
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
+import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.dialogs.ContactPersonDialog
 import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.components.ContactAndMapMarkerAssistChips
 import cz.zcu.students.lostandfound.ui.theme.spacing
@@ -100,21 +103,27 @@ fun CardFooter(
     val longitude = lostItem.location?.longitude
     val locationProvided = latitude != null && longitude != null
     Column(
-        modifier = Modifier.padding(MaterialTheme.spacing.medium),
+        modifier = Modifier.padding(MaterialTheme.spacing.small),
     ) {
-        Text(
-            text = lostItem.title,
-            style = MaterialTheme.typography.titleLarge,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-        Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
-        Text(
-            text = lostItem.description,
-            style = MaterialTheme.typography.bodyMedium,
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis,
-        )
+        Column(
+            modifier = Modifier
+                .padding(MaterialTheme.spacing.small)
+                .fillMaxWidth(),
+        ) {
+            Text(
+                text = lostItem.title,
+                style = MaterialTheme.typography.titleLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
+            Text(
+                text = lostItem.description,
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
         ContactAndMapMarkerAssistChips(
             onContactPerson = {
@@ -158,14 +167,20 @@ fun CardHeader(
 }
 
 @Composable
-fun ItemPostDate(postTimestamp: Long?) {
+fun ItemPostDate(
+    postTimestamp: Long?,
+    lostItemViewModel: LostItemViewModel = hiltViewModel(),
+) {
     postTimestamp?.let { timestamp ->
         var date by remember { mutableStateOf("") }
 
         val dateNotAvailableMessage = stringResource(R.string.screen_lost_item_date_not_available)
 
+        val context = LocalContext.current
+
         LaunchedEffect(Unit) {
-            date = getFormattedDateString(timestamp) ?: dateNotAvailableMessage
+            date = getFormattedDateString(timestamp, lostItemViewModel.getLocaleTimeString(context))
+                ?: dateNotAvailableMessage
         }
 
         Text(

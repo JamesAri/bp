@@ -1,5 +1,6 @@
 package cz.zcu.students.lostandfound.common.util
 
+import cz.zcu.students.lostandfound.features.lost_items.domain.util.LocaleTimeString
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,45 +34,45 @@ private fun Long.toMinutes(): Long {
     return this / SECONDS_MINUTE
 }
 
-fun getFormattedDateString(timestamp: Long): String? {
+fun getFormattedDateString(timestamp: Long, localeTimeString: LocaleTimeString): String? {
     return try {
         val now = System.currentTimeMillis().toSeconds()
         val diff = now - timestamp
         if (diff < SECONDS_MINUTE) {
-            return "Few moments ago"
+            return localeTimeString.getMomentAgo()
         }
         if (diff < SECONDS_HOUR) {
             val minutes = diff.toMinutes()
             return if (minutes > 1)
-                "$minutes minutes ago"
+                localeTimeString.getMinutesAgo(minutes)
             else
-                "A minute ago"
+                localeTimeString.getMinuteAgo()
         }
         if (diff < SECONDS_DAY) {
             val hours = diff.toHours()
             return if (hours > 1)
-                "$hours hours ago"
+                localeTimeString.getHoursAgo(hours)
             else
-                "A hour ago"
+                localeTimeString.getHourAgo()
         }
         if (diff < SECONDS_WEEK) {
             val days = diff.toDays()
             return if (days > 1)
-                "$days days ago"
+                localeTimeString.getDaysAgo(days)
             else
-                "A day ago"
+                localeTimeString.getDayAgo()
         }
         if (diff < SECONDS_MONTH) {
             val weeks = diff.toWeeks()
             return if (weeks > 1)
-                "$weeks weeks ago"
+                localeTimeString.getWeeksAgo(weeks)
             else
-                "A week ago"
+                localeTimeString.getWeekAgo()
         }
         val formatter = SimpleDateFormat("dd-MM-yyyy", Locale.US)
         val date = Date(timestamp.toMillis())
         formatter.format(date)
     } catch (e: Exception) {
-        "an error occurred"
+        "an error occurred while getting formatted date string"
     }
 }

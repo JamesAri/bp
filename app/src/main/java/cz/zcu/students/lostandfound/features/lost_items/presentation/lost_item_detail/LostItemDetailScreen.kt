@@ -145,7 +145,7 @@ fun LostItemDetail(
                 text = lostItem.description,
                 style = MaterialTheme.typography.bodyMedium,
             )
-            Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraLarge))
         }
         Box(
             contentAlignment = Alignment.BottomCenter,

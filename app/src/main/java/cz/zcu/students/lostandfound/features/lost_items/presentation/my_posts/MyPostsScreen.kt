@@ -12,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -209,6 +210,8 @@ fun LostItemField(
     var expanded by remember { mutableStateOf(false) }
     var openDeleteDialogState by remember { mutableStateOf(false) }
 
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier
             .padding(
@@ -228,7 +231,7 @@ fun LostItemField(
                 .align(Alignment.CenterStart)
         )
         Text(
-            text = lostItem.createdAt?.let { getFormattedDateString(it) }
+            text = lostItem.createdAt?.let { getFormattedDateString(it, lostItemViewModel.getLocaleTimeString(context)) }
                 ?: stringResource(R.string.screen_lost_item_unknown_date),
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.align(Alignment.TopEnd),

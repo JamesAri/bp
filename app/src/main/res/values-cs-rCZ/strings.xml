@@ -95,4 +95,13 @@
     <string name="screen_lost_item_update_success">Příspěvek byl aktualizován</string>
     <string name="screen_lost_item_update_failur">Příspěvek se nepodařilo aktualizovat</string>
     <string name="top_app_bar_open_drawer_content_description">otevřít navigaci</string>
+    <string name="locale_time_string_few_moments_ago">Před chvílí</string>
+    <string name="locale_time_string_days_ago">Před %1$s dny</string>
+    <string name="locale_time_string_minute_ago">Před minutou</string>
+    <string name="locale_time_string_hour_ago">Před hodinou</string>
+    <string name="locale_time_string_day_ago">Včera</string>
+    <string name="locale_time_string_hours_ago">Před %1$s hodinami</string>
+    <string name="locale_time_string_week_ago">Před týdnem</string>
+    <string name="locale_time_string_minutes_ago">Před %1$s minutami</string>
+    <string name="locale_time_string_weeks_ago">Před %1$s týdny</string>
 </resources>
