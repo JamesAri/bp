@@ -7,8 +7,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.common.constants.Validations.Companion.MAX_PHONE_NUMBER_LENGTH
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
@@ -39,9 +41,9 @@ fun EmailChangeListener(
     ResponseSnackBarHandler(
         response = authViewModel.updateCurrentUserStatus,
         snackbarHostState = LocalSnackbarHostState.current,
-        onTrueMessage = "Successfully changed phone number",
+        onTrueMessage = stringResource(R.string.screen_profile_phone_number_change_success),
         onTrueAction = navigateToProfile,
-        onFalseMessage = "Couldn't change phone number",
+        onFalseMessage = stringResource(R.string.screen_profile_phone_number_change_failure),
         coroutineScope = coroutineScope,
     )
 }
@@ -74,7 +76,7 @@ fun RemoveButton(
             containerColor = MaterialTheme.colorScheme.errorContainer
         )
     ) {
-        Text(text = "Remove number")
+        Text(text = stringResource(R.string.screen_profile_remove_number))
     }
 }
 
@@ -83,27 +85,28 @@ fun ChangeControls(
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     var phoneNumber by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf("") }
     var validationState by remember { mutableStateOf(false) }
+
+    val validationMessage = if (!validationState && phoneNumber.isNotEmpty()) {
+        stringResource(R.string.screen_profile_validation_message, MAX_PHONE_NUMBER_LENGTH)
+    } else {
+        ""
+    }
+
     Column {
         TextField(
             value = phoneNumber,
             onValueChange = {
                 phoneNumber = it
                 validationState = validatePhoneNumber(phoneNumber)
-                errorMessage = if (!validationState && phoneNumber.isNotEmpty()) {
-                    "Phone number must contain only numbers (max. $MAX_PHONE_NUMBER_LENGTH digits)"
-                } else {
-                    ""
-                }
             },
-            label = { Text(text = "Phone number") },
-            placeholder = { Text(text = "Enter phone number") },
+            label = { Text(text = stringResource(R.string.screen_profile_phone_number)) },
+            placeholder = { Text(text = stringResource(R.string.screen_profile_enter_phone_number)) },
             singleLine = true,
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Filled.Phone,
-                    contentDescription = "change phone number",
+                    contentDescription = stringResource(R.string.screen_profile_change_phone_number),
                     tint = MaterialTheme.colorScheme.primary,
                 )
             },
@@ -117,7 +120,7 @@ fun ChangeControls(
                 .height(74.dp)
         ) {
             Text(
-                text = errorMessage,
+                text = validationMessage,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error,
             )
@@ -133,7 +136,7 @@ fun ChangeControls(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
             ) {
-                Text(text = "Change")
+                Text(text = stringResource(R.string.screen_profile_change_action))
             }
         }
     }

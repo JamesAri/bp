@@ -1,6 +1,9 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.lost_items_map
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
@@ -10,11 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.core.os.ConfigurationCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.maps.android.compose.*
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.constants.Maps.Companion.FAV_LOCATION
 import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
@@ -84,38 +89,6 @@ fun Map(
                         title = item.title,
                         snippet = item.description,
                     )
-//                     MarkerInfoWindow doesn't work right now, the object click handler has some bug
-//                    MarkerInfoWindow(
-//                        state = MarkerState(position = it.toLatLng()),
-//                        title = item.title,
-//                    ) {
-//                        Column(
-//                            modifier = Modifier
-//                                .fillMaxWidth(.7f)
-//                                .height(120.dp)
-//                                .background(
-//                                    color = MaterialTheme.colorScheme.primaryContainer,
-//                                    shape = RoundedCornerShape(12.dp)
-//                                )
-//                                .padding(horizontal = MaterialTheme.spacing.small),
-//                            horizontalAlignment = Alignment.CenterHorizontally,
-//                            verticalArrangement = Arrangement.SpaceAround,
-//                        ) {
-//                            Text(
-//                                text = item.title,
-//                                maxLines = 1,
-//                                overflow = TextOverflow.Ellipsis,
-//                                style = MaterialTheme.typography.titleMedium,
-//                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-//                            )
-//                            Button(
-//                                onClick = { },
-//                                shape = RectangleShape,
-//                            ) {
-//                                Text("Go to detail")
-//                            }
-//                        }
-//                    }
                 }
             }
         }
@@ -125,7 +98,7 @@ fun Map(
             onValueChange = { text = it },
             singleLine = true,
             shape = RectangleShape,
-            placeholder = { Text("Search for a location") },
+            placeholder = { Text(stringResource(R.string.screen_lost_item_search_for_location_placeholder)) },
             trailingIcon = {
                 IconButton(
                     onClick = {
@@ -134,7 +107,9 @@ fun Map(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "search location"
+                        contentDescription = stringResource(
+                            R.string.screen_lost_item_search_location_content_description
+                        )
                     )
                 }
             },

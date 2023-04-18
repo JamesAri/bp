@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -161,8 +162,10 @@ fun ItemPostDate(postTimestamp: Long?) {
     postTimestamp?.let { timestamp ->
         var date by remember { mutableStateOf("") }
 
+        val dateNotAvailableMessage = stringResource(R.string.screen_lost_item_date_not_available)
+
         LaunchedEffect(Unit) {
-            date = getFormattedDateString(timestamp) ?: "date not available"
+            date = getFormattedDateString(timestamp) ?: dateNotAvailableMessage
         }
 
         Text(
@@ -179,7 +182,9 @@ fun PostOwnerInfo(owner: User) {
     ) {
         AsyncImage(
             model = owner.photoUri,
-            contentDescription = "post owner info",
+            contentDescription = stringResource(
+                R.string.screen_lost_item_post_owner_info_content_description
+            ),
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(25.dp)

@@ -15,11 +15,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import cz.zcu.students.lostandfound.navigation.MappedRouteNames
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.navigation.NavItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -29,13 +30,14 @@ fun TopAppBar(
     drawerState: DrawerState,
     coroutineScope: CoroutineScope,
     navController: NavController,
+    mappedRouteNamesState: Map<String, String>,
 ) {
     val backStackEntryState = navController.currentBackStackEntryAsState()
 
-    val screenTitleState by remember {
+    val screenTitleState by remember(mappedRouteNamesState) {
         derivedStateOf {
             backStackEntryState.value?.destination?.route?.let {
-                MappedRouteNames.getValue(key = it.split('/', '?')[0])
+                mappedRouteNamesState.getValue(key = it.split('/', '?')[0])
             } ?: ""
         }
     }
@@ -71,7 +73,9 @@ fun TopAppBar(
                 {
                     Icon(
                         imageVector = Icons.Filled.Menu,
-                        contentDescription = "Open navigation drawer icon"
+                        contentDescription = stringResource(
+                            R.string.top_app_bar_open_drawer_content_description
+                        )
                     )
                 }
             },
@@ -82,7 +86,7 @@ fun TopAppBar(
                 }) {
                     Icon(
                         imageVector = profileNavItem.icon.getIcon(),
-                        contentDescription = profileNavItem.name
+                        contentDescription = mappedRouteNamesState.getValue(profileNavItem.route)
                     )
                 }
             },

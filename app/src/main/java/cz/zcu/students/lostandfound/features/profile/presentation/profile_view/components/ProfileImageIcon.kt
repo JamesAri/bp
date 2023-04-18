@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.profile.presentation.profile_view
+package cz.zcu.students.lostandfound.features.profile.presentation.profile_view.components
 
 import android.net.Uri
 import androidx.compose.foundation.border
@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import cz.zcu.students.lostandfound.R
@@ -37,7 +38,7 @@ fun ProfileImageIcon(
     ) {
         AsyncImage(
             model = photoUri,
-            contentDescription = "profile picture",
+            contentDescription = stringResource(R.string.screen_profile_content_descriptor_profile_picture),
             error = painterResource(id = R.drawable.no_image_placeholder),
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -60,7 +61,7 @@ fun ProfileImageIcon(
         ) {
             Icon(
                 imageVector = Icons.Default.Edit,
-                contentDescription = "Edit",
+                contentDescription = stringResource(R.string.screen_profile_edit_action),
             )
         }
     }

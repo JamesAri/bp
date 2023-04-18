@@ -6,6 +6,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.constants.General.Companion.APP_VERSION
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
@@ -54,22 +56,22 @@ fun AboutAppScreen() {
             Modifier
                 .padding(MaterialTheme.spacing.medium)
         ) {
-            TitleText("University app developers")
-            SubTitleText(text = "Jakub Šlechta")
-            BodyText(text = "Android, as part of bachelor's thesis")
+            TitleText(stringResource(R.string.screen_about_uni_developers))
+            SubTitleText(text = stringResource(R.string.screen_about_main_dev))
+            BodyText(text = stringResource(R.string.screen_about_main_dev_role))
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
 
-            TitleText("Cooperation")
-            SubTitleText(text = "Ladislav Pešička")
-            BodyText(text = "Supervisor of the bachelor's thesis")
+            TitleText(stringResource(R.string.screen_about_cooperation))
+            SubTitleText(text = stringResource(R.string.screen_about_bachelor_supervisor))
+            BodyText(text = stringResource(R.string.screen_about_bachelor_supervisor_role))
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
 
-            TitleText("Thanks")
-            SubTitleText(text = "Students")
+            TitleText(stringResource(R.string.screen_about_thanks))
+            SubTitleText(text = stringResource(R.string.screen_about_thanks_students))
             BodyText(
-                text = "Students from all universities which helped us with debugging and troubleshooting.",
+                text = stringResource(R.string.screen_about_thanks_students_text),
             )
         }
         Box(
@@ -79,7 +81,7 @@ fun AboutAppScreen() {
                 .padding(bottom = MaterialTheme.spacing.extraLarge)
         ) {
             Text(
-                text = "App version $APP_VERSION",
+                text = stringResource(R.string.screen_about_version, APP_VERSION),
                 style = MaterialTheme.typography.titleMedium,
             )
         }

@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cz.zcu.students.lostandfound.features.settings.domain.language.LanguageOptions
-import cz.zcu.students.lostandfound.features.settings.domain.repository.AppSettingsRepository
 import cz.zcu.students.lostandfound.features.settings.domain.model.ThemeOptions
+import cz.zcu.students.lostandfound.features.settings.domain.repository.AppSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,11 +20,15 @@ class SettingsViewModel @Inject constructor(
     var themeState by mutableStateOf(ThemeOptions.SYSTEM)
         private set
 
+    var languageState by mutableStateOf(LanguageOptions.ENGLISH)
+        private set
+
     init {
         viewModelScope.launch {
             repo.getAppSettings()
                 .collect {
                     themeState = it.theme
+                    languageState = it.language
                 }
         }
     }

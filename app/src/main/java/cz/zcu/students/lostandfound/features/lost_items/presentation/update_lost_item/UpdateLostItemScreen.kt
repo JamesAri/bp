@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -95,7 +96,8 @@ fun LostItemForm(
 
     var requestRunning by remember { mutableStateOf(false) }
 
-    val enabled = description.isNotEmpty() && title.isNotEmpty() && (uriState != null) && !requestRunning
+    val enabled =
+        description.isNotEmpty() && title.isNotEmpty() && (uriState != null) && !requestRunning
 
     Column(
         modifier = modifier
@@ -111,7 +113,9 @@ fun LostItemForm(
             if (uriState != null) {
                 AsyncImage(
                     model = uriState,
-                    contentDescription = "edit lost item image",
+                    contentDescription = stringResource(
+                        R.string.screen_lost_item_edit_lost_image_content_description
+                    ),
                     error = painterResource(id = R.drawable.no_image_placeholder),
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier
@@ -127,7 +131,9 @@ fun LostItemForm(
                         .background(MaterialTheme.colorScheme.primary)
                 ) {
                     Text(
-                        text = "Choose an image",
+                        text = stringResource(
+                            R.string.screen_lost_item_choose_image_action
+                        ),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
@@ -143,7 +149,9 @@ fun LostItemForm(
             },
             singleLine = true,
             label = {
-                Text("Title")
+                Text(stringResource(
+                    R.string.screen_lost_item_title
+                ))
             }
         )
         TextField(
@@ -155,11 +163,16 @@ fun LostItemForm(
                 description = it
             },
             label = {
-                Text("Description")
+                Text(stringResource(
+                    R.string.screen_lost_item_description
+                ))
+
             }
         )
         Text(
-            text = "All fields must be filled",
+            text = stringResource(
+                R.string.screen_lost_item_all_fields_must_be_filled_note
+            ),
             style = MaterialTheme.typography.labelMedium,
         )
 
@@ -183,7 +196,7 @@ fun LostItemForm(
                     )
                 }) {
                 Text(
-                    text = "Update"
+                    text = stringResource(R.string.screen_lost_item_update_action)
                 )
             }
         }
@@ -199,8 +212,8 @@ fun UpdateLostItemListener(
 ) {
     ResponseSnackBarHandler(
         response = viewModel.crudLostItemState,
-        onTrueMessage = "Successfully updated lost item",
-        onFalseMessage = "Failed to update lost item",
+        onTrueMessage = stringResource(R.string.screen_lost_item_update_success),
+        onFalseMessage = stringResource(R.string.screen_lost_item_update_failur),
         snackbarHostState = LocalSnackbarHostState.current,
         coroutineScope = coroutineScope,
         onTrueAction = { navigateBack() },

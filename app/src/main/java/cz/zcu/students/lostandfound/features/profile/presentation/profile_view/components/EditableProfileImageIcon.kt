@@ -1,10 +1,12 @@
-package cz.zcu.students.lostandfound.features.profile.presentation.profile_view
+package cz.zcu.students.lostandfound.features.profile.presentation.profile_view.components
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.common.constants.Firebase
 import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
@@ -49,8 +51,8 @@ fun UpdateProfileListener(
 ) {
     ResponseSnackBarHandler(
         response = authViewModel.updateCurrentUserStatus,
-        onTrueMessage = "Successfully updated profile picture",
-        onFalseMessage = "Failed to update profile picture",
+        onTrueMessage = stringResource(R.string.screen_profile_update_picture_success),
+        onFalseMessage = stringResource(R.string.screen_profile_update_picture_failure),
         snackbarHostState = LocalSnackbarHostState.current,
     )
 }

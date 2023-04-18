@@ -7,6 +7,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import cz.zcu.students.lostandfound.R
 
 
 @Composable
@@ -28,14 +30,14 @@ fun ConfirmDeleteDialog(
                 TextButton(
                     onClick = onConfirmRequest
                 ) {
-                    Text("Confirm")
+                    Text(stringResource(R.string.screen_lost_item_confirm_action))
                 }
             },
             dismissButton = {
                 TextButton(
                     onClick = onDismissRequest
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.screen_lost_item_cancel_action))
                 }
             }
         )

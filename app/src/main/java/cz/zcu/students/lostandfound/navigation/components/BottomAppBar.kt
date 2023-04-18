@@ -11,6 +11,7 @@ import cz.zcu.students.lostandfound.navigation.NavItem
 @Composable
 fun BottomAppBar(
     navController: NavHostController,
+    mappedRouteNamesState: Map<String, String>,
 ) {
     val backStackEntryState = navController.currentBackStackEntryAsState()
     val items = listOf(
@@ -23,9 +24,12 @@ fun BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
     ) {
         items.forEach { item ->
+
             val selected = item.route == backStackEntryState.value?.destination?.route
+            val name = mappedRouteNamesState.getValue(item.route)
+
             NavigationBarItem(
-                label = { Text(item.name) },
+                label = { Text(name) },
                 selected = selected,
                 onClick = { navController.navigate(item.route) },
                 icon = {
@@ -43,14 +47,14 @@ fun BottomAppBar(
                                 content = {
                                     Icon(
                                         item.icon.getIcon(),
-                                        contentDescription = item.name
+                                        contentDescription = name
                                     )
                                 }
                             )
                         } else {
                             Icon(
                                 item.icon.getIcon(),
-                                contentDescription = item.name
+                                contentDescription = name
                             )
                         }
                     }

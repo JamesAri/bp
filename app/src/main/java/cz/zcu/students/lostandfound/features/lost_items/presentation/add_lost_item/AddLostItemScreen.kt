@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -27,8 +28,8 @@ import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.ALL_IMAGES
 import cz.zcu.students.lostandfound.common.constants.Navigation.Companion.NAVIGATION_LOCATION_KEY
-import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
+import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 import kotlinx.coroutines.CoroutineScope
@@ -90,7 +91,7 @@ fun ImagePlaceholder(
         if (uriState != null) {
             AsyncImage(
                 model = uriState,
-                contentDescription = "add lost item image",
+                contentDescription = stringResource(R.string.screen_lost_item_card_image_content_description),
                 error = painterResource(id = R.drawable.no_image_placeholder),
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier
@@ -106,7 +107,7 @@ fun ImagePlaceholder(
                     .background(MaterialTheme.colorScheme.primary)
             ) {
                 Text(
-                    text = "Choose an image",
+                    text = stringResource(R.string.screen_lost_item_choose_image_action),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -140,7 +141,12 @@ fun LostItemForm(
         if (locationList == null) {
             addLostItemViewModel.setItemLocation(null)
         } else if (locationList.size == 2) {
-            addLostItemViewModel.setItemLocation(LocationCoordinates(locationList[0], locationList[1]))
+            addLostItemViewModel.setItemLocation(
+                LocationCoordinates(
+                    locationList[0],
+                    locationList[1]
+                )
+            )
         }
     }
 
@@ -167,7 +173,7 @@ fun LostItemForm(
             onValueChange = addLostItemViewModel::setItemTitle,
             singleLine = true,
             label = {
-                Text("Title")
+                Text(stringResource(R.string.screen_lost_item_title))
             }
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
@@ -179,17 +185,18 @@ fun LostItemForm(
             value = description,
             onValueChange = addLostItemViewModel::setItemDescription,
             label = {
-                Text("Description")
+                Text(stringResource(R.string.screen_lost_item_description))
             }
         )
         Text(
-            text = "All fields must be filled",
+            text = stringResource(R.string.screen_lost_item_all_fields_must_be_filled_note),
             style = MaterialTheme.typography.labelMedium,
         )
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
         Button(onClick = navigateToMarkLostItemScreen) {
             Text(
-                text = if (location == null) "Mark item on map" else "Item marked"
+                text = if (location == null) stringResource(R.string.screen_lost_item_mark_item_action)
+                else stringResource(R.string.screen_lost_item_item_marked)
             )
         }
 
@@ -209,7 +216,7 @@ fun LostItemForm(
                     )
                 }) {
                 Text(
-                    text = "Create"
+                    text = stringResource(R.string.screen_lost_item_create_action)
                 )
             }
         }
@@ -225,8 +232,8 @@ fun CreateLostItemListener(
 ) {
     ResponseSnackBarHandler(
         response = viewModel.crudLostItemState,
-        onTrueMessage = "Successfully created new item",
-        onFalseMessage = "Failed to create new item",
+        onTrueMessage = stringResource(R.string.screen_lost_item_create_success),
+        onFalseMessage = stringResource(R.string.screen_lost_item_create_failure),
         snackbarHostState = LocalSnackbarHostState.current,
         coroutineScope = coroutineScope,
         onTrueAction = navigateBack,

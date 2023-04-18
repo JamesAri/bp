@@ -24,6 +24,7 @@ fun NavigationDrawer(
     coroutineScope: CoroutineScope,
     navController: NavHostController,
     gesturesEnabled: Boolean,
+    mappedRouteNamesState: Map<String, String>,
     content: @Composable () -> Unit
 ) {
     val group1 = listOf(
@@ -62,7 +63,8 @@ fun NavigationDrawer(
                     navController = navController,
                     coroutineScope = coroutineScope,
                     drawerState = drawerState,
-                    backStackEntryState = backStackEntryState
+                    backStackEntryState = backStackEntryState,
+                    mappedRouteNamesState = mappedRouteNamesState,
                 )
                 Divider()
                 Spacer(Modifier.height(MaterialTheme.spacing.small))
@@ -71,7 +73,8 @@ fun NavigationDrawer(
                     navController = navController,
                     coroutineScope = coroutineScope,
                     drawerState = drawerState,
-                    backStackEntryState = backStackEntryState
+                    backStackEntryState = backStackEntryState,
+                    mappedRouteNamesState = mappedRouteNamesState,
                 )
             }
         },
@@ -85,19 +88,22 @@ fun IterateGroup(
     navController: NavHostController,
     coroutineScope: CoroutineScope,
     drawerState: DrawerState,
+    mappedRouteNamesState: Map<String, String>,
     backStackEntryState: State<NavBackStackEntry?>,
 ) {
     items.forEach { item ->
         val selected = item.route == backStackEntryState.value?.destination?.route
+        val name = mappedRouteNamesState.getValue(item.route)
+
         NavigationDrawerItem(
             icon = {
                 Icon(
                     item.icon.getIcon(),
-                    contentDescription = item.name
+                    contentDescription = name
                 )
             },
             label = {
-                Text(item.name)
+                Text(name)
             },
             selected = selected,
             onClick = {

@@ -12,12 +12,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.ConfigurationCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.constants.Maps.Companion.FAV_LOCATION
 import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
 import cz.zcu.students.lostandfound.common.features.map.presentation.CurrentLocationLocator
@@ -77,8 +79,8 @@ fun Map(
             if (pos != null) {
                 Marker(
                     state = MarkerState(position = pos!!),
-                    title = "Mark this location?",
-                    snippet = "This location shows where the lost item was found.",
+                    title = stringResource(R.string.screen_lost_item_mark_location_prompt),
+                    snippet = stringResource(R.string.screen_lost_item_mark_description),
                     draggable = true,
                 )
             }
@@ -92,7 +94,7 @@ fun Map(
             onValueChange = { text = it },
             singleLine = true,
             shape = RectangleShape,
-            placeholder = { Text("Search for a location") },
+            placeholder = { Text(stringResource(R.string.screen_lost_item_search_for_location_placeholder)) },
             trailingIcon = {
                 IconButton(
                     onClick = {
@@ -101,7 +103,9 @@ fun Map(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "search location"
+                        contentDescription = stringResource(
+                            R.string.screen_lost_item_search_location_content_description
+                        )
                     )
                 }
             },
@@ -111,9 +115,9 @@ fun Map(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-            ) {
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
             Button(
                 modifier = Modifier.shadow(15.dp),
                 enabled = pos != null,
@@ -123,7 +127,7 @@ fun Map(
                 shape = RectangleShape,
                 colors = ButtonDefaults.buttonColors(disabledContainerColor = MaterialTheme.colorScheme.secondary)
             ) {
-                Text(text = "Confirm")
+                Text(text = stringResource(R.string.screen_lost_item_confirm_action))
             }
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
             Button(
@@ -133,7 +137,7 @@ fun Map(
                 },
                 shape = RectangleShape,
             ) {
-                Text(text = "Cancel")
+                Text(text = stringResource(R.string.screen_lost_item_cancel_action))
             }
         }
     }

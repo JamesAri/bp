@@ -1,14 +1,9 @@
 package cz.zcu.students.lostandfound.common.constants
 
-import com.google.android.gms.maps.model.LatLng
-
 class General {
     companion object {
         // App version
         const val APP_VERSION = "1.0.0"
-
-        // Splash screen
-        const val SPLASHSCREEN_DURATION = 2000L // follow 3 second rule
 
         // Screens
         const val AUTH_SCREEN = "auth"

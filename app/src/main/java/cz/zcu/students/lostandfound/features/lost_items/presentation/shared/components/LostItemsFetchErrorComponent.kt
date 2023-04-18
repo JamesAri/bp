@@ -7,6 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import cz.zcu.students.lostandfound.R
 
 @Composable
 fun LostItemsFetchErrorComponent() {
@@ -15,7 +17,9 @@ fun LostItemsFetchErrorComponent() {
         modifier = Modifier.fillMaxSize()
     ) {
         Text(
-            text = "Sorry, an error occurred while fetching lost items.",
+            text = stringResource(
+                R.string.screen_lost_item_error_occurred_while_fetching_lost_items_message
+            ),
             style = MaterialTheme.typography.titleLarge,
         )
     }

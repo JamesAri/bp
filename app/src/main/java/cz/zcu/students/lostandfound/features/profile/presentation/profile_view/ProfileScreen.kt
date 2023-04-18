@@ -12,10 +12,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
+import cz.zcu.students.lostandfound.features.profile.presentation.profile_view.components.EditableProfileImageIcon
 import cz.zcu.students.lostandfound.features.profile.presentation.profile_view.components.ProfileField
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
@@ -71,28 +74,30 @@ fun DisplayUserData(
 
             ProfileField(
                 icon = Icons.Default.Person,
-                title = "Name",
+                title = stringResource(R.string.screen_profile_name),
                 value = user.name,
             )
 
             ProfileField(
                 icon = Icons.Default.Email,
-                title = "Email",
+                title = stringResource(R.string.screen_profile_email),
                 value = user.email,
             )
 
             val phoneNumber =
-                if (user.phoneNumber.isNullOrBlank()) "not added yet" else user.phoneNumber
+                if (user.phoneNumber.isNullOrBlank())
+                    stringResource(R.string.screen_profile_not_added_yet)
+                else user.phoneNumber
 
             ProfileField(
                 icon = Icons.Default.Phone,
-                title = "Phone Number",
+                title = stringResource(R.string.screen_profile_phone_number),
                 value = phoneNumber,
             ) {
                 TextButton(
                     onClick = navigateToChangePhoneNumber,
                 ) {
-                    Text(text = "Change")
+                    Text(text = stringResource(R.string.screen_profile_change_action))
                 }
             }
         }
@@ -105,7 +110,7 @@ fun DisplayUserData(
                 authViewModel.logout()
                 navigateToLoginScreen()
             }) {
-            Text(text = "Logout")
+            Text(text = stringResource(R.string.screen_profile_logout_action))
         }
     }
 }

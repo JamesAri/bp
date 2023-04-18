@@ -34,14 +34,14 @@ fun AuthScreen(
         FirebaseAuthUIActivityResultContract()
     ) { result ->
         authViewModel.onSignInResult(result)
-        Log.d("AuthScreen", "onCreate: $result")
+        Log.d("AuthScreen", "auth status: $result")
     }
 
     when (val currentUser = authViewModel.currentUser) {
         Response.Loading -> ProgressBar()
         is Response.Error -> LaunchedEffect(currentUser) {
-            Log.e("auth", "AuthScreen: ${currentUser.error}")
             signInLauncher.launch(SIGN_IN_INTENT)
+            Log.e("AuthScreen", "Error: ${currentUser.error}")
         }
         is Response.Success -> LaunchedEffect(currentUser) {
             if (currentUser.data == null) {

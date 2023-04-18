@@ -12,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.util.getFormattedDateString
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
@@ -49,7 +51,9 @@ fun MyPostsScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "add new lost item"
+                    contentDescription = stringResource(
+                        R.string.screen_lost_item_add_new_lost_item_content_description
+                    )
                 )
             }
         }
@@ -72,15 +76,15 @@ fun EmptyLostItemList() {
     ) {
         Text(
             text = buildAnnotatedString {
-                append("No posts yet, add your first post by clicking on the")
+                append(stringResource(R.string.screen_lost_item_no_posts_yet_placeholder_1))
                 withStyle(
                     style = SpanStyle(
                         color = MaterialTheme.colorScheme.primary
                     )
                 ) {
-                    append(" + ")
+                    append(stringResource(R.string.screen_lost_item_no_posts_yet_placeholder_2))
                 }
-                append("button!")
+                append(stringResource(R.string.screen_lost_item_no_posts_yet_placeholder_3))
             },
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center,
@@ -163,13 +167,18 @@ fun EditPostDropdownMenu(
         ),
         modifier = modifier,
     ) {
-        Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
+        Icon(
+            Icons.Default.MoreVert,
+            contentDescription = stringResource(
+                R.string.screen_lost_item_localized_description_content_description
+            )
+        )
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = onCloseRequest,
         ) {
             DropdownMenuItem(
-                text = { Text("Edit") },
+                text = { Text(stringResource(R.string.screen_lost_item_edit_action)) },
                 onClick = onEditRequest,
                 leadingIcon = {
                     Icon(
@@ -178,7 +187,7 @@ fun EditPostDropdownMenu(
                     )
                 })
             DropdownMenuItem(
-                text = { Text("Delete") },
+                text = { Text(stringResource(R.string.screen_lost_item_delete_action)) },
                 onClick = onDeleteRequest,
                 leadingIcon = {
                     Icon(
@@ -219,7 +228,8 @@ fun LostItemField(
                 .align(Alignment.CenterStart)
         )
         Text(
-            text = lostItem.createdAt?.let { getFormattedDateString(it) } ?: "unknown date",
+            text = lostItem.createdAt?.let { getFormattedDateString(it) }
+                ?: stringResource(R.string.screen_lost_item_unknown_date),
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.align(Alignment.TopEnd),
         )
@@ -244,8 +254,11 @@ fun LostItemField(
             expanded = false
             lostItemViewModel.deleteLostItem(lostItem)
         },
-        title = "Deleting lost item post",
-        text = "Are you sure you want to delete \"${lostItem.title}\" post?"
+        title = stringResource(R.string.screen_lost_item_deleting_lost_item_dialog_title),
+        text = stringResource(
+            R.string.screen_lost_item_deleting_lost_item_dialog_body,
+            lostItem.title
+        )
     )
 }
 
