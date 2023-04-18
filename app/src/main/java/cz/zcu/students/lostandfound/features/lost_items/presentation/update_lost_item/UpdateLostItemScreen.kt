@@ -1,52 +1,58 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item
 
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
+import androidx.navigation.NavHostController
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.components.ResponseSnackBarHandler
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.ALL_IMAGES
+import cz.zcu.students.lostandfound.common.constants.Navigation
+import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
+import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.ImagePlaceholder
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun UpdatePostScreen(
-    viewModel: LostItemViewModel = hiltViewModel(),
+    updateLostItemViewModel: UpdateLostItemViewModel = hiltViewModel(),
     lostItemId: String?,
     coroutineScope: CoroutineScope,
     navigateBack: () -> Unit,
+    navController: NavHostController,
+    navigateToMarkLostItemScreen: () -> Unit,
 ) {
 
     LaunchedEffect(Unit) {
         if (lostItemId != null) {
-            viewModel.getLostItem(lostItemId)
+            updateLostItemViewModel.getLostItem(lostItemId)
         }
     }
 
-    ResponseHandler(response = viewModel.lostItemState,
+    ResponseHandler(response = updateLostItemViewModel.lostItemState,
         snackbarHostState = LocalSnackbarHostState.current,
         onSuccessContent = { lostItem ->
             LostItemEditor(
+                navController = navController,
+                navigateToMarkLostItemScreen = navigateToMarkLostItemScreen,
                 lostItem = lostItem,
             )
         }
@@ -60,16 +66,17 @@ fun UpdatePostScreen(
 
 @Composable
 fun LostItemEditor(
+    updateLostItemViewModel: UpdateLostItemViewModel = hiltViewModel(),
+    navController: NavHostController,
     lostItem: LostItem,
+    navigateToMarkLostItemScreen: () -> Unit,
 ) {
-    var uriState by remember { mutableStateOf(lostItem.imageUri) }
-
     val galleryLauncher =
         rememberLauncherForActivityResult(
             ActivityResultContracts.GetContent()
         ) { imageUri ->
-            imageUri?.let {
-                uriState = it
+            imageUri?.let { uri ->
+                updateLostItemViewModel.setItemUri(uri)
             }
         }
 
@@ -77,7 +84,8 @@ fun LostItemEditor(
         openGallery = {
             galleryLauncher.launch(ALL_IMAGES)
         },
-        uriState = uriState,
+        navigateToMarkLostItemScreen = navigateToMarkLostItemScreen,
+        navController = navController,
         lostItem = lostItem,
     )
 }
@@ -85,16 +93,34 @@ fun LostItemEditor(
 @Composable
 fun LostItemForm(
     modifier: Modifier = Modifier,
-    lostItem: LostItem,
-    openGallery: () -> Unit,
+    updateLostItemViewModel: UpdateLostItemViewModel = hiltViewModel(),
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
-    uriState: Uri?,
+    openGallery: () -> Unit,
+    lostItem: LostItem,
+    navController: NavHostController,
+    navigateToMarkLostItemScreen: () -> Unit,
 ) {
-
-    var title by remember { mutableStateOf(lostItem.title) }
-    var description by remember { mutableStateOf(lostItem.description) }
-
     var requestRunning by remember { mutableStateOf(false) }
+    val title = updateLostItemViewModel.title
+    val description = updateLostItemViewModel.description
+    val uriState = updateLostItemViewModel.uriState
+    val location = updateLostItemViewModel.location
+
+    val lostItemMarkLocationResult = navController.currentBackStackEntry
+        ?.savedStateHandle
+        ?.getLiveData<List<Double>>(Navigation.NAVIGATION_LOCATION_KEY)?.observeAsState()
+
+    LaunchedEffect(lostItemMarkLocationResult) {
+        val locationList = lostItemMarkLocationResult?.value
+        if (locationList != null && locationList.size == 2) {
+            updateLostItemViewModel.setItemLocation(
+                LocationCoordinates(
+                    locationList[0],
+                    locationList[1]
+                )
+            )
+        }
+    }
 
     val enabled =
         description.isNotEmpty() && title.isNotEmpty() && (uriState != null) && !requestRunning
@@ -102,79 +128,49 @@ fun LostItemForm(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(MaterialTheme.spacing.medium),
         verticalArrangement = Arrangement.SpaceAround,
     ) {
-        Box(
-            modifier = Modifier
-                .clickable(onClick = openGallery)
-                .wrapContentSize()
-        ) {
-            if (uriState != null) {
-                AsyncImage(
-                    model = uriState,
-                    contentDescription = stringResource(
-                        R.string.screen_lost_item_edit_lost_image_content_description
-                    ),
-                    error = painterResource(id = R.drawable.no_image_placeholder),
-                    contentScale = ContentScale.FillWidth,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(3f / 2f)
-                )
-            } else {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .height(150.dp)
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primary)
-                ) {
-                    Text(
-                        text = stringResource(
-                            R.string.screen_lost_item_choose_image_action
-                        ),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
-            }
-        }
 
+        ImagePlaceholder(
+            openGallery = openGallery,
+            uriState = uriState,
+        )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = title,
-            onValueChange = {
-                title = it
-            },
+            shape = RectangleShape,
+            onValueChange = updateLostItemViewModel::setItemTitle,
             singleLine = true,
             label = {
-                Text(stringResource(
-                    R.string.screen_lost_item_title
-                ))
+                Text(stringResource(R.string.screen_lost_item_title))
             }
         )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(.7f),
+                .height(250.dp),
+            shape = RectangleShape,
             value = description,
-            onValueChange = {
-                description = it
-            },
+            onValueChange = updateLostItemViewModel::setItemDescription,
             label = {
-                Text(stringResource(
-                    R.string.screen_lost_item_description
-                ))
-
+                Text(stringResource(R.string.screen_lost_item_description))
             }
         )
         Text(
-            text = stringResource(
-                R.string.screen_lost_item_all_fields_must_be_filled_note
-            ),
+            text = stringResource(R.string.screen_lost_item_all_fields_must_be_filled_note),
             style = MaterialTheme.typography.labelMedium,
         )
+        Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
+        Button(onClick = navigateToMarkLostItemScreen) {
+            Text(
+                text = if (location == null) stringResource(R.string.screen_lost_item_mark_item_action)
+                else stringResource(R.string.screen_lost_item_item_marked)
+            )
+        }
 
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -189,6 +185,7 @@ fun LostItemForm(
                             title = title,
                             description = description,
                             imageUri = uriState,
+                            location = location,
                         ),
                         // since we are updating, it means the items was created once,
                         // thus if the current uri matches previous uri, it is remote uri.

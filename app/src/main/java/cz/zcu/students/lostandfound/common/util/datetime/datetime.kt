@@ -1,6 +1,7 @@
-package cz.zcu.students.lostandfound.common.util
+package cz.zcu.students.lostandfound.common.util.datetime
 
-import cz.zcu.students.lostandfound.features.lost_items.domain.util.LocaleTimeString
+import android.util.Log
+import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,8 +37,9 @@ private fun Long.toMinutes(): Long {
 
 fun getFormattedDateString(timestamp: Long, localeTimeString: LocaleTimeString): String? {
     return try {
-        val now = System.currentTimeMillis().toSeconds()
+        val now = Timestamp.now().seconds
         val diff = now - timestamp
+        Log.d("DIFF", "getFormattedDateString: ($diff) now: $now,  firestore: $timestamp")
         if (diff < SECONDS_MINUTE) {
             return localeTimeString.getMomentAgo()
         }

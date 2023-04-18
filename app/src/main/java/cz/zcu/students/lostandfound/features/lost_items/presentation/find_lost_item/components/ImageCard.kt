@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item
+package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -25,7 +25,7 @@ import com.google.accompanist.flowlayout.MainAxisAlignment
 import com.google.accompanist.flowlayout.SizeMode
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
-import cz.zcu.students.lostandfound.common.util.getFormattedDateString
+import cz.zcu.students.lostandfound.common.util.datetime.getFormattedDateString
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.dialogs.ContactPersonDialog

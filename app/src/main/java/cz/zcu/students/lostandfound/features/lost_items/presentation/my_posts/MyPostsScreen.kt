@@ -24,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
-import cz.zcu.students.lostandfound.common.util.getFormattedDateString
+import cz.zcu.students.lostandfound.common.util.datetime.getFormattedDateString
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel

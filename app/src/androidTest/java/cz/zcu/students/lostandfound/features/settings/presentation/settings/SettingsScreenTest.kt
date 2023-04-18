@@ -1,15 +1,14 @@
 package cz.zcu.students.lostandfound.features.settings.presentation.settings
 
 import androidx.activity.compose.setContent
-import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cz.zcu.students.lostandfound.MainActivity
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.navigation.Screen
 import cz.zcu.students.lostandfound.ui.theme.LostAndFoundTheme
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -49,7 +48,15 @@ class SettingsScreenTest {
 
     @Test
     fun whenClickingOnThemeInSettings_dialogOpens() {
-        composeRule.onNodeWithText("Theme").performClick()
-        composeRule.onAllNodesWithText("Theme").assertCountEquals(2)
+        val themeSettingsItem = composeRule.activity.getString(
+            R.string.screen_settings_item_theme
+        )
+        val themeDialog = composeRule.activity.getString(
+            R.string.screen_settings_theme_dialog_title
+        )
+        val theme = composeRule.onNodeWithText(themeSettingsItem)
+        theme.assertExists()
+        theme.performClick()
+        composeRule.onNodeWithText(themeDialog).assertExists()
     }
 }

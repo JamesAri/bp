@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType.Companion.FloatType
 import androidx.navigation.NavType.Companion.StringType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,7 +13,6 @@ import cz.zcu.students.lostandfound.common.constants.Navigation.Companion.LATITU
 import cz.zcu.students.lostandfound.common.constants.Navigation.Companion.LONGITUDE
 import cz.zcu.students.lostandfound.common.constants.Navigation.Companion.LOST_ITEM_ID
 import cz.zcu.students.lostandfound.common.constants.Navigation.Companion.NAVIGATION_LOCATION_KEY
-import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthScreen
 import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
 import cz.zcu.students.lostandfound.features.about_app.presentation.AboutAppScreen
@@ -98,7 +96,10 @@ fun NavGraph(
                 lostItemId = lostItemId,
                 coroutineScope = coroutineScope,
                 navigateBack = { navController.popBackStack() },
-            )
+                navController = navController,
+                navigateToMarkLostItemScreen = {
+                    navController.navigate(Screen.MarkLostItemScreen.route)
+                }            )
         }
         composable(
             route = Screen.AddLostItemScreen.route
@@ -106,10 +107,10 @@ fun NavGraph(
             AddLostItemScreen(
                 coroutineScope = coroutineScope,
                 navigateBack = { navController.popBackStack() },
+                navController = navController,
                 navigateToMarkLostItemScreen = {
                     navController.navigate(Screen.MarkLostItemScreen.route)
                 },
-                navController = navController,
             )
         }
         composable(

@@ -1,4 +1,4 @@
-package cz.zcu.students.lostandfound.features.lost_items.domain.util
+package cz.zcu.students.lostandfound.common.util.datetime
 
 interface LocaleTimeString {
     fun getMomentAgo(): String

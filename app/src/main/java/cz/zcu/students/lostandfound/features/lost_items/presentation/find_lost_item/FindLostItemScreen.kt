@@ -1,8 +1,6 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -17,6 +15,7 @@ import cz.zcu.students.lostandfound.common.features.auth.presentation.login.Auth
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.ChipFilters
+import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.ImageCard
 import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.components.LostItemsFetchErrorComponent
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing

@@ -2,7 +2,7 @@ package cz.zcu.students.lostandfound.features.lost_items.data.util
 
 import android.content.Context
 import cz.zcu.students.lostandfound.R
-import cz.zcu.students.lostandfound.features.lost_items.domain.util.LocaleTimeString
+import cz.zcu.students.lostandfound.common.util.datetime.LocaleTimeString
 
 class LocaleTimeStringImpl(val context: Context) : LocaleTimeString {
     override fun getMomentAgo(): String {

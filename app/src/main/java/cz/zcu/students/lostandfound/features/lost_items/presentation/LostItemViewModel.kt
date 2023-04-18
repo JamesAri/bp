@@ -19,7 +19,7 @@ import cz.zcu.students.lostandfound.features.lost_items.data.util.LocaleTimeStri
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
-import cz.zcu.students.lostandfound.features.lost_items.domain.util.LocaleTimeString
+import cz.zcu.students.lostandfound.common.util.datetime.LocaleTimeString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
