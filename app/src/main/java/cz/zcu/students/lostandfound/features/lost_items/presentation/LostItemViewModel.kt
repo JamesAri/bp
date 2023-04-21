@@ -15,11 +15,11 @@ import cz.zcu.students.lostandfound.common.features.storage.domain.repository.Im
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.*
 import cz.zcu.students.lostandfound.common.util.anyStringsContainsTargets
+import cz.zcu.students.lostandfound.common.util.datetime.LocaleTimeString
 import cz.zcu.students.lostandfound.features.lost_items.data.util.LocaleTimeStringImpl
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.domain.repository.LostItemRepository
-import cz.zcu.students.lostandfound.common.util.datetime.LocaleTimeString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -38,7 +38,8 @@ class LostItemViewModel @Inject constructor(
     private val authRepo: AuthRepository,
 ) : ViewModel() {
 
-    private val _lostItemListState = MutableStateFlow<Response<LostItemList>>(Success(null))
+    private val _lostItemListState =
+        MutableStateFlow<Response<LostItemList>>(Success(null))
     val lostItemListState = _lostItemListState.asStateFlow()
 
     var crudLostItemState by mutableStateOf<Response<Boolean>>(Success(null))
@@ -73,22 +74,33 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
-    private fun fetchLostItems(repoCall: suspend () -> Response<Flow<LostItemList>>) {
+    private fun fetchLostItems(
+        repoCall: suspend () -> Response<Flow<LostItemList>>
+    ) {
         viewModelScope.launch {
             _lostItemListState.update { Loading }
             when (val apiFlowResponse = repoCall()) {
-                is Error -> _lostItemListState.update { Error(apiFlowResponse.error) }
+                is Error -> _lostItemListState.update {
+                    Error(apiFlowResponse.error)
+                }
                 is Success -> {
                     if (apiFlowResponse.data != null) {
                         try {
                             apiFlowResponse.data
                                 .collect { lostItemList ->
                                     val filteredList = filterLostItemList(lostItemList)
-                                    _lostItemListState.update { Success(filteredList) }
+                                    _lostItemListState.update {
+                                        Success(filteredList)
+                                    }
                                 }
                         } catch (e: Exception) {
-                            _lostItemListState.update { Success(null) }
-                            Log.e("LostItemViewModel", "fetchLostItems: ${e.message}")
+                            _lostItemListState.update {
+                                Success(null)
+                            }
+                            Log.e(
+                                "LostItemViewModel",
+                                "fetchLostItems: ${e.message}"
+                            )
                         }
                     } else {
                         _lostItemListState.update { Success(null) }
@@ -133,7 +145,8 @@ class LostItemViewModel @Inject constructor(
             crudLostItemState = Loading
             when (val currentUser = authRepo.getCurrentUser()) {
                 is Error -> crudLostItemState = Error(currentUser.error)
-                Loading ->  { /* do nothing */}
+                Loading -> { /* do nothing */
+                }
                 is Success -> {
                     if (currentUser.data == null) {
                         crudLostItemState = Error(Exception("user not logged in"))
@@ -163,7 +176,8 @@ class LostItemViewModel @Inject constructor(
                     imageUri = imageUri,
                     name = lostItem.id,
                 )) {
-                    is Loading -> { /* do nothing */}
+                    is Loading -> { /* do nothing */
+                    }
                     is Success -> {
                         // Item got assigned uri from firebase storage, so we can save it in
                         // lightweight database now.

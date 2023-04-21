@@ -79,8 +79,7 @@
     <string name="screen_lost_item_mark_description">Tato lokace ukazuje, kde byla ztracený předmět nalezen.</string>
     <string name="screen_lost_item_confirm_action">Potvrdit</string>
     <string name="screen_lost_item_add_new_lost_item_content_description">přidat nový ztracený předmět</string>
-    <string name="screen_lost_item_no_posts_yet_placeholder_1">Zatím nemáte žádné příspěvky, přidejte svůj první příspěvek kliknutím na</string>
-    <string name="screen_lost_item_no_posts_yet_placeholder_3">tlačítko!</string>
+    <string name="screen_lost_item_no_posts_yet_placeholder_1">Zatím nemáte žádné příspěvky, kliknutím na tlačítko</string>
     <string name="screen_lost_item_localized_description_content_description">lokalizovaný popis</string>
     <string name="screen_lost_item_edit_action">Upravit</string>
     <string name="screen_lost_item_delete_action">Smazat</string>
@@ -102,4 +101,6 @@
     <string name="locale_time_string_week_ago">Před týdnem</string>
     <string name="locale_time_string_minutes_ago">Před %1$s minutami</string>
     <string name="locale_time_string_weeks_ago">Před %1$s týdny</string>
+    <string name="screen_lost_item_no_posts_yet_placeholder_3">můžete přidat svůj první příspěvek!</string>
+    <string name="screen_lost_items_no_result">Žádné výsledky</string>
 </resources>

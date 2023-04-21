@@ -67,7 +67,7 @@ class MapViewModel @Inject constructor() : ViewModel() {
             locationResult.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val location = task.result
-                    lastKnownLocation = location.toLocationCoordinates()
+                    lastKnownLocation = location?.toLocationCoordinates()
                 }
             }
         } catch (e: SecurityException) {

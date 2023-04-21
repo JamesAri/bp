@@ -23,11 +23,13 @@ import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.constants.Maps.Companion.FAV_LOCATION
 import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
-import cz.zcu.students.lostandfound.common.features.map.presentation.components.CurrentLocationLocator
 import cz.zcu.students.lostandfound.common.features.map.presentation.MapViewModel
+import cz.zcu.students.lostandfound.common.features.map.presentation.components.CurrentLocationLocator
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.centerOnLocation
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.toLatLng
+import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
+import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.components.LostItemsFetchErrorComponent
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState

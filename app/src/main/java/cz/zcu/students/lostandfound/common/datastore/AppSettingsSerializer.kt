@@ -31,5 +31,4 @@ object AppSettingsSerializer : Serializer<AppSettings> {
             ).encodeToByteArray()
         )
     }
-
 }

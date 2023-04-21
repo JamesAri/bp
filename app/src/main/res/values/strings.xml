@@ -83,7 +83,7 @@
     <string name="screen_lost_item_confirm_action">Confirm</string>
     <string name="screen_lost_item_add_new_lost_item_content_description">add new lost item</string>
     <string name="screen_lost_item_no_posts_yet_placeholder_1">No posts yet, add your first post by clicking on the</string>
-    <string name="screen_lost_item_no_posts_yet_placeholder_2" translatable="false">\" + \"</string>
+    <string name="screen_lost_item_no_posts_yet_placeholder_2" translatable="false">" + "</string>
     <string name="screen_lost_item_no_posts_yet_placeholder_3">button!</string>
     <string name="screen_lost_item_localized_description_content_description">localized description</string>
     <string name="screen_lost_item_edit_action">Edit</string>
@@ -106,4 +106,5 @@
     <string name="locale_time_string_hours_ago">%1$s hours ago</string>
     <string name="locale_time_string_days_ago">%1$s days ago</string>
     <string name="locale_time_string_weeks_ago">%1$s weeks ago</string>
+    <string name="screen_lost_items_no_result">No results</string>
 </resources>

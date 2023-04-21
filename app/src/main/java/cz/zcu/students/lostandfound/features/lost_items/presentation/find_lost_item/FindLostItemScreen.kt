@@ -1,14 +1,21 @@
 package cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.components.ResponseHandler
 import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
@@ -71,7 +78,15 @@ fun LostItemsResponseContent(
         snackbarHostState = LocalSnackbarHostState.current,
         onSuccessContent = {
             if (it.lostItems.isEmpty() && lostItemViewModel.filters.isNotEmpty()) {
-                LostItemsFetchErrorComponent()
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = stringResource(R.string.screen_lost_items_no_result),
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
             } else {
                 var pairedLostItems by remember {
                     mutableStateOf<List<Pair<LostItem, User>>>(listOf())

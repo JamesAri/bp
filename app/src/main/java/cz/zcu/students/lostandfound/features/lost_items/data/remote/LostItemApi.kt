@@ -20,9 +20,13 @@ import javax.inject.Inject
 class LostItemApi @Inject constructor(
     db: FirebaseFirestore,
 ) {
-    private val collectionRef = db.collection(LOST_ITEM_COLLECTION_KEY)
+    private val collectionRef = db.collection(
+        LOST_ITEM_COLLECTION_KEY
+    )
 
-    private suspend fun lostItemListFlowQueryFetch(query: Query): Flow<LostItemListDto> {
+    private suspend fun lostItemListFlowQueryFetch(
+        query: Query
+    ): Flow<LostItemListDto> {
         return withContext(Dispatchers.IO) {
             return@withContext query
                 .snapshots()
@@ -31,9 +35,9 @@ class LostItemApi @Inject constructor(
                     if (!snapshot.isEmpty) {
                         val documents = snapshot.documents
                         for (document in documents) {
-                            document.toObject(LostItemDto::class.java)?.let {
-                                lostItems.add(it)
-                            }
+                            document.toObject(
+                                LostItemDto::class.java
+                            )?.let { lostItems.add(it) }
                         }
                     }
                     LostItemListDto(lostItems)
@@ -46,7 +50,9 @@ class LostItemApi @Inject constructor(
             collectionRef
                 .whereEqualTo(LOST_ITEM_IS_DELETED_KEY, false)
                 .whereEqualTo(LOST_ITEM_IS_FOUND_KEY, false)
-                .orderBy(LOST_ITEM_CREATED_AT_KEY, Query.Direction.DESCENDING)
+                .orderBy(LOST_ITEM_CREATED_AT_KEY,
+                    Query.Direction.DESCENDING
+                )
         )
     }
 
