@@ -1,5 +1,7 @@
 package cz.zcu.students.lostandfound
 
+import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -21,9 +23,11 @@ import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         handleSplashScreen()
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContent {
             LostAndFoundTheme {
                 ConfigChangeListener()
@@ -57,10 +61,12 @@ class MainActivity : ComponentActivity() {
 
     private fun handleSplashScreen() {
         var splashScreenStays = true
-        val delayTime = SPLASHSCREEN_DURATION
 
         installSplashScreen().setKeepOnScreenCondition { splashScreenStays }
-        Handler(Looper.getMainLooper()).postDelayed({ splashScreenStays = false }, delayTime)
+        Handler(Looper.getMainLooper()).postDelayed(
+            { splashScreenStays = false },
+            SPLASHSCREEN_DURATION
+        )
         installSplashScreen()
     }
 }

@@ -30,7 +30,7 @@ class SearchTermValidatorTest {
     }
 
     @Test
-    fun `Search term with new length MAX_SEARCH_TERM_LENGTH, is valid`() {
+    fun `Search term with MAX_SEARCH_TERM_LENGTH length, is valid`() {
         val searchTerm = "a".repeat(MAX_SEARCH_TERM_LENGTH)
         val isValid = searchTermValidator.validate(searchTerm)
         assertThat(isValid).isTrue()
@@ -42,5 +42,4 @@ class SearchTermValidatorTest {
         val isValid = searchTermValidator.validate(searchTerm)
         assertThat(isValid).isFalse()
     }
-
 }

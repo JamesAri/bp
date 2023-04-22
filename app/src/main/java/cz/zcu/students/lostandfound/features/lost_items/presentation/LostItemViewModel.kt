@@ -14,8 +14,8 @@ import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoo
 import cz.zcu.students.lostandfound.common.features.storage.domain.repository.ImageStorageRepository
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.*
-import cz.zcu.students.lostandfound.common.util.anyStringsContainsTargets
 import cz.zcu.students.lostandfound.common.util.datetime.LocaleTimeString
+import cz.zcu.students.lostandfound.common.util.fullTextSearch
 import cz.zcu.students.lostandfound.features.lost_items.data.util.LocaleTimeStringImpl
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
@@ -68,7 +68,7 @@ class LostItemViewModel @Inject constructor(
         return withContext(Dispatchers.Default) {
             val filteredList = lostItemList.lostItems.filter { lostItem ->
                 val targets = listOf(lostItem.title, lostItem.description)
-                anyStringsContainsTargets(terms = filters, targets = targets)
+                fullTextSearch(terms = filters, targets = targets)
             }
             return@withContext LostItemList(filteredList)
         }
