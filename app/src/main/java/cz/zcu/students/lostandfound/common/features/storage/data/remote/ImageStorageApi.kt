@@ -7,11 +7,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
+/**
+ * API for Firebase Storage image manipulation.
+ *
+ * @param storage reference to Firebase [FirebaseStorage] storage.
+ * @constructor constructs storage image API with Firebase
+ *     [FirebaseStorage] storage reference.
+ */
 class ImageStorageApi(
     storage: FirebaseStorage,
 ) {
+    /** Storage reference with images. */
     private val imagesRef = storage.reference.child(IMAGES_KEY)
 
+    /**
+     * Adds image to Firebase Storage.
+     *
+     * @param imageUri the source of the upload.
+     * @param name filename of the image.
+     * @return remote public [Uri] with stored image.
+     */
     suspend fun addImageToFirebaseStorage(
         imageUri: Uri,
         name: String,

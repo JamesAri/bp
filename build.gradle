@@ -47,7 +47,11 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
     // Hilt - DI
     id("com.google.dagger.hilt.android") version "2.44" apply false
+    // Generating documentation
+    id 'org.jetbrains.dokka' version '1.8.10' apply false
 }
+
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir

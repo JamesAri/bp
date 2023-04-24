@@ -3,12 +3,14 @@ package cz.zcu.students.lostandfound.common.util.datetime
 import java.text.SimpleDateFormat
 import java.util.*
 
+// time units
 private const val SECONDS_MONTH = 2419200
 private const val SECONDS_WEEK = 604800
 private const val SECONDS_DAY = 86400
 private const val SECONDS_HOUR = 3600
 private const val SECONDS_MINUTE = 60
 
+// helper extensions
 private fun Long.toMillis(): Long {
     return this * 1000
 }
@@ -33,6 +35,14 @@ private fun Long.toMinutes(): Long {
     return this / SECONDS_MINUTE
 }
 
+/**
+ * Gets formatted date time from [timestamp] as string, based on the passed
+ * [LocaleTimeString].
+ *
+ * @param timestamp unix timestamp (since January 1, 1970 UTC).
+ * @param localeTimeString time utility for formatting time respecting locale settings.
+ * @return formatted date as string, representing event in time.
+ */
 fun getFormattedDateString(timestamp: Long, localeTimeString: LocaleTimeString): String? {
     return try {
         val now = System.currentTimeMillis().toSeconds()
@@ -72,6 +82,6 @@ fun getFormattedDateString(timestamp: Long, localeTimeString: LocaleTimeString):
         val date = Date(timestamp.toMillis())
         formatter.format(date)
     } catch (e: Exception) {
-        "an error occurred while getting formatted date string"
+        "an error occurred"
     }
 }

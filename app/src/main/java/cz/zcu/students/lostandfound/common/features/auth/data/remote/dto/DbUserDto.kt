@@ -10,6 +10,16 @@ import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.USER_NAM
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.USER_PHONE_NUMBER
 import cz.zcu.students.lostandfound.common.constants.Firebase.Companion.USER_PHOTO_URI_KEY
 
+/**
+ * Firestore DTO user.
+ *
+ * @property id **id** field.
+ * @property email **email** field.
+ * @property name **name** field.
+ * @property photoUri *photo_uri* field.
+ * @property phoneNumber **phone_number** field.
+ * @property createdAt **created_at** field.
+ */
 data class DbUserDto(
     // Firestore dto object must have default constructor, thus empty string.
     // The id will get assigned based on currently cached fire-auth user.
@@ -38,5 +48,5 @@ data class DbUserDto(
     var createdAt: Timestamp? = null,
 
 
-)
+    )
 

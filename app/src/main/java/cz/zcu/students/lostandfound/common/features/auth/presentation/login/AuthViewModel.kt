@@ -8,8 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
-import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
+import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.features.storage.domain.repository.ImageStorageRepository
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.*
@@ -17,18 +17,27 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Viewmodel for authentication UI.
+ *
+ * @property authRepo authorization repository [AuthRepository].
+ * @property imageRepo image repository [ImageStorageRepository].
+ */
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authRepo: AuthRepository,
     private val imageRepo: ImageStorageRepository,
 ) : ViewModel() {
 
+    /** State of currently logged in user. */
     var currentUser by mutableStateOf<Response<User>>(Success(null))
         private set
 
+    /** State when updating currently logged in user. */
     var updateCurrentUserStatus by mutableStateOf<Response<Boolean>>(Success(null))
         private set
 
+    /** Fetches current user updating [currentUser]. */
     private fun fetchCurrentUser() {
         if (authRepo.isUserAuthenticated()) {
             currentUser = Loading
@@ -40,17 +49,27 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    /** Loads currently logged in user when created. */
     init {
         fetchCurrentUser()
     }
 
+    /** Logouts currently logged in user [currentUser]. */
     fun logout() {
         authRepo.logout()
         currentUser = Success(null)
     }
 
+    /**
+     * Callback after user logs in / registers that handles db and auth state
+     * synchronization.
+     *
+     * Callback updates [currentUser].
+     *
+     * @param result [FirebaseAuthUIAuthenticationResult] result.
+     */
     fun onSignInResult(
-        result: FirebaseAuthUIAuthenticationResult,
+        result: FirebaseAuthUIAuthenticationResult, // TODO: remove Firebase deps. from presentation
     ) {
         if (result.resultCode == Activity.RESULT_OK) {
             viewModelScope.launch {
@@ -63,6 +82,12 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Updates currently logged in user with [user] reference and sets update
+     * status in [updateCurrentUserStatus].
+     *
+     * @param user [User] to update current user with.
+     */
     private fun updateCurrentUser(user: User) {
         viewModelScope.launch {
             updateCurrentUserStatus = Loading
@@ -72,6 +97,12 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Updates current user's phone number and sets the result in
+     * [updateCurrentUserStatus].
+     *
+     * @param phoneNumber phone number to set for current user.
+     */
     fun updateCurrentUserPhoneNumber(phoneNumber: String?) {
         when (val currentUserSnapshot = currentUser) {
             Loading -> updateCurrentUserStatus = Error(Exception("not logged in"))
@@ -88,6 +119,12 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Updates current user's profile picture and sets the result in
+     * [updateCurrentUserStatus].
+     *
+     * @param uri uri with local image.
+     */
     fun updateCurrentUserProfilePicture(uri: Uri) {
         viewModelScope.launch {
             when (val currentUserSnapshotResponse = currentUser) {
@@ -115,8 +152,14 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    suspend fun getUser(postOwnerId: String): User? {
-        return when (val userResponse = authRepo.getUser(postOwnerId)) {
+    /**
+     * Gets user based on the id passed in [id].
+     *
+     * @param id id of the user we are looking for.
+     * @return [User] if found, `null` otherwise.
+     */
+    suspend fun getUser(id: String): User? {
+        return when (val userResponse = authRepo.getUser(id)) {
             is Success -> userResponse.data
             else -> null
         }

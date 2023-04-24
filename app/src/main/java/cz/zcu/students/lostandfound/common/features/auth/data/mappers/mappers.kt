@@ -6,6 +6,11 @@ import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.Current
 import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.DbUserDto
 import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 
+/**
+ * Maps DTO user [DbUserDto] to the domain [User] object.
+ *
+ * @return domain [User] object.
+ */
 fun DbUserDto.toUser(): User {
     email ?: throw Exception("db: missing email reference")
     name ?: throw Exception("db: missing name reference")
@@ -20,6 +25,12 @@ fun DbUserDto.toUser(): User {
     )
 }
 
+/**
+ * Maps currently logged DTO user [CurrentUserDto] to the domain [User]
+ * object.
+ *
+ * @return domain [User] object.
+ */
 fun CurrentUserDto.toUser(): User {
     authUser.email ?: throw Exception("auth: missing email reference")
     authUser.displayName ?: throw Exception("auth: missing name reference")
@@ -34,6 +45,11 @@ fun CurrentUserDto.toUser(): User {
     return currentUser
 }
 
+/**
+ * Maps domain [User] object to the DTO [DbUserDto].
+ *
+ * @return DTO object [DbUserDto].
+ */
 fun User.toDbUserDto(): DbUserDto {
     return DbUserDto(
         id = id,
@@ -44,7 +60,12 @@ fun User.toDbUserDto(): DbUserDto {
     )
 }
 
-fun FirebaseUser.toDbUserDto() : DbUserDto {
+/**
+ * Maps user [FirebaseUser] to DTO user [DbUserDto].
+ *
+ * @return DTO [DbUserDto].
+ */
+fun FirebaseUser.toDbUserDto(): DbUserDto {
     email ?: throw Exception("auth: missing email reference")
     displayName ?: throw Exception("auth: missing name reference")
 

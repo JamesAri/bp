@@ -2,7 +2,6 @@ package cz.zcu.students.lostandfound.features.lost_items.data.repository
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import cz.zcu.students.lostandfound.common.constants.Errors.Companion.NO_ITEM_FOUND_ERR
 import cz.zcu.students.lostandfound.common.extensions.isNull
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.Error
@@ -74,7 +73,7 @@ class LostItemRepositoryImpl @Inject constructor(
             val lostItem: LostItem? = api.getLostItem(id)?.toLostItem()
 
             if (lostItem.isNull())
-                return Error(Exception(NO_ITEM_FOUND_ERR))
+                return Error(Exception("No such item found"))
 
             Success(lostItem)
         } catch (e: Exception) {

@@ -6,8 +6,8 @@ import cz.zcu.students.lostandfound.common.features.auth.data.mappers.toUser
 import cz.zcu.students.lostandfound.common.features.auth.data.remote.UserApi
 import cz.zcu.students.lostandfound.common.features.auth.data.remote.dto.CurrentUserDto
 import cz.zcu.students.lostandfound.common.features.auth.data.util.getRandomProfileAvatarUri
-import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
+import cz.zcu.students.lostandfound.common.features.auth.domain.repository.AuthRepository
 import cz.zcu.students.lostandfound.common.features.storage.data.remote.ImageStorageApi
 import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.common.util.Response.Error
@@ -15,12 +15,27 @@ import cz.zcu.students.lostandfound.common.util.Response.Success
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Implementation of authorization repository [AuthRepository].
+ *
+ * This repository takes advantage of
+ * [Firebase Authentication](https://firebase.google.com/docs/auth)
+ * for authentication and
+ * [Firebase Storage](https://firebase.google.com/docs/storage)
+ * for saving images.
+ *
+ * @property userApi user API [UserApi].
+ * @property imageStorageApi image storage API [ImageStorageApi].
+ * @see AuthRepository
+ * @see Response
+ */
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
     private val userApi: UserApi,
     private val imageStorageApi: ImageStorageApi,
 ) : AuthRepository {
 
+    /** Firebase Auth reference. */
     private val authInstance = FirebaseAuth.getInstance()
 
     override fun isUserAuthenticated(): Boolean {
@@ -52,7 +67,8 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun getCurrentUser(): Response<User> {
         return try {
             val authUser = authInstance.currentUser ?: throw Exception("not logged in")
-            val dbUser = userApi.getUser(authUser.uid) ?: throw Exception("missing user db reference")
+            val dbUser =
+                userApi.getUser(authUser.uid) ?: throw Exception("missing user db reference")
             val user = CurrentUserDto(dbUser = dbUser, authUser = authUser).toUser()
             Success(user)
         } catch (e: Exception) {

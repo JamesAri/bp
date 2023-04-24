@@ -8,11 +8,25 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * API for Firestore user manipulation.
+ *
+ * @param db reference to Firestore [FirebaseFirestore] database.
+ * @constructor constructs user API with Firestore [FirebaseFirestore]
+ *     database reference.
+ */
 class UserApi @Inject constructor(
     db: FirebaseFirestore,
 ) {
+    /** Collection reference with users */
     private val collectionRef = db.collection(USER_COLLECTION_KEY)
 
+    /**
+     * Gets user from Firestore database based on the passed [id].
+     *
+     * @param id id of user.
+     * @return Firestore DTO user [DbUserDto].
+     */
     suspend fun getUser(id: String): DbUserDto? {
         return withContext(Dispatchers.IO) {
             return@withContext collectionRef
@@ -23,6 +37,12 @@ class UserApi @Inject constructor(
         }
     }
 
+    /**
+     * Updates user from Firestore database based on the passed [user]
+     * reference.
+     *
+     * @param user Firestore DTO user [DbUserDto].
+     */
     suspend fun updateDbUser(user: DbUserDto) {
         withContext(Dispatchers.IO) {
             return@withContext collectionRef

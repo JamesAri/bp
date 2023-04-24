@@ -10,6 +10,25 @@ import cz.zcu.students.lostandfound.common.util.Response
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+/**
+ * General function used by UI to properly handle network requests. Based
+ * on the passed [coroutineScope], the potential error snackbar will live
+ * in that scope.
+ *
+ * This function is used when you want to show some Composable based on the
+ * [response] result. If you want show snackbar based on the response, see
+ * [ResponseSnackBarHandler].
+ *
+ * @param response response to observe.
+ * @param snackbarHostState state for snackbar host.
+ * @param coroutineScope coroutine scope in which error snackbar messages
+ *     are preserved.
+ * @param loadingComponent component to show when response is
+ *     [Response.Loading].
+ * @param onSuccessNullContent on [Response.Success] `null` resource.
+ * @param onSuccessContent on [Response.Success] `non-null` resource.
+ * @param T resource that the response carries.
+ */
 @Composable
 fun <T> ResponseHandler(
     response: Response<T?>,
@@ -42,6 +61,29 @@ fun <T> ResponseHandler(
 
 }
 
+/**
+ * General function used by UI to properly handle network requests. The
+ * passed [coroutineScope] determines in which context will snackbar
+ * messages live.
+ *
+ * This function is used when you want to call callback function or/and
+ * some snackbar message to the user based on the [response] result.
+ *
+ * @param response response to observe.
+ * @param coroutineScope coroutine scope in which snackbar messages are
+ *     preserved.
+ * @param loadingComponent component to show when response is [Response.Loading].
+ * @param onTrueMessage message to show on [Response.Success] being `true`.
+ * @param onFalseMessage message to show on [Response.Success] being
+ *     `false`.
+ * @param onNullMessage message to show on [Response.Success] being
+ *     `null`.
+ * @param onTrueAction callback on [Response.Success] being `true`.
+ * @param onFalseAction callback on [Response.Success] being `false`.
+ * @param onNullAction callback on [Response.Success] being `null`.
+ * @param snackbarDuration duration of snackbar message.
+ * @param snackbarHostState state for snackbar host.
+ */
 @Composable
 fun ResponseSnackBarHandler(
     response: Response<Boolean>,

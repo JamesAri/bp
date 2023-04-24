@@ -11,6 +11,12 @@ import com.google.android.gms.location.LocationServices
 import cz.zcu.students.lostandfound.common.extensions.findActivity
 import cz.zcu.students.lostandfound.common.features.map.presentation.MapViewModel
 
+/**
+ * Sets up an side effect for locating current user, based on the last
+ * available location or if location access allowed, based on GPS.
+ *
+ * @param mapViewModel maps viewmodel.
+ */
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CurrentLocationLocator(
@@ -30,7 +36,8 @@ fun CurrentLocationLocator(
     }
 
     if (locationPermissionsState.revokedPermissions.size
-        != locationPermissionsState.permissions.size) {
+        != locationPermissionsState.permissions.size
+    ) {
         val context = LocalContext.current
         LaunchedEffect(Unit) {
             val activity = context.findActivity()

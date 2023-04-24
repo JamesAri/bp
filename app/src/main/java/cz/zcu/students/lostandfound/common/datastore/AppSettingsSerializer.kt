@@ -6,8 +6,14 @@ import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
 
+
+/**
+ * Serialization logic object, implementing DataStore [Serializer]
+ * interface.
+ */
 @Suppress("BlockingMethodInNonBlockingContext")
 object AppSettingsSerializer : Serializer<AppSettings> {
+
     override val defaultValue: AppSettings
         get() = AppSettings()
 

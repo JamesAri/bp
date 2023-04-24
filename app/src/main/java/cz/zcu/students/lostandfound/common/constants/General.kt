@@ -1,11 +1,13 @@
 package cz.zcu.students.lostandfound.common.constants
 
+/** General constants. */
 class General {
     companion object {
-        // App version
+        // APP VERSION
         const val APP_VERSION = "1.0.0"
 
-        // Screens
+
+        // SCREENS
         const val AUTH_SCREEN = "auth"
         const val FIND_ITEM_SCREEN = "findItem"
         const val UPDATE_LOST_ITEM_SCREEN = "updateLostItem"

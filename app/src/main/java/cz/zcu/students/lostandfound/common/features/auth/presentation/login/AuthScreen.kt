@@ -12,12 +12,14 @@ import cz.zcu.students.lostandfound.common.components.ProgressBar
 import cz.zcu.students.lostandfound.common.util.Response
 
 
-val PROVIDERS = listOf(
+/** Different options for registration/login from Firebase Auth. */
+private val PROVIDERS = listOf(
     AuthUI.IdpConfig.EmailBuilder().build(),
     AuthUI.IdpConfig.GoogleBuilder().build(),
 )
 
-val SIGN_IN_INTENT = AuthUI.getInstance()
+/** Firebase Auth auth process intent. */
+private val SIGN_IN_INTENT = AuthUI.getInstance()
     .createSignInIntentBuilder()
     .setAvailableProviders(PROVIDERS)
     .setLogo(R.drawable.login_logo)
@@ -25,6 +27,14 @@ val SIGN_IN_INTENT = AuthUI.getInstance()
     .build()
 
 
+/**
+ * Authentication screen.
+ *
+ * Contains login and register forms.
+ *
+ * @param authViewModel authentication viewmodel.
+ * @param navigateToMainScreen navigates to home screen of the app.
+ */
 @Composable
 fun AuthScreen(
     authViewModel: AuthViewModel = hiltViewModel(),

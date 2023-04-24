@@ -20,14 +20,26 @@ import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
+/** Viewmodel for maps UI. */
 @Suppress("DEPRECATION")
 @HiltViewModel
 class MapViewModel @Inject constructor() : ViewModel() {
+
+    /** State of last known location. */
     var lastKnownLocation by mutableStateOf<LocationCoordinates?>(null)
         private set
 
+    /** State of searched location. */
     var searchLocation by mutableStateOf<LocationCoordinates?>(null)
 
+    /**
+     * Updates [searchLocation] based on the searched [text], representing
+     * some location in the world based on the [locale].
+     *
+     * @param context context in which geo coder works.
+     * @param locale locale for correct string interpretation.
+     * @param text text of location to find.
+     */
     fun getLatitudeFromName(context: Context, locale: Locale?, text: String) {
         if (text.isEmpty()) return
         viewModelScope.launch {
@@ -38,7 +50,8 @@ class MapViewModel @Inject constructor() : ViewModel() {
                         // do something with the addresses list
                         if (addresses.isNotEmpty()) {
                             val address: Address = addresses[0]
-                            searchLocation = LocationCoordinates(address.latitude, address.longitude)
+                            searchLocation =
+                                LocationCoordinates(address.latitude, address.longitude)
                         }
                     }
                     // declare here the geocodeListener, as it requires Android API 33
@@ -55,6 +68,11 @@ class MapViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    /**
+     * Tries to get device location and set it in [lastKnownLocation].
+     *
+     * @param fusedLocationProviderClient [FusedLocationProviderClient] interface.
+     */
     fun getDeviceLocation(
         fusedLocationProviderClient: FusedLocationProviderClient
     ) {

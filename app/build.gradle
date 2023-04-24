@@ -13,8 +13,8 @@ plugins {
     id "com.google.gms.google-services"
     // Serialization for Proto Datastore
     id "org.jetbrains.kotlin.plugin.serialization"
+    id("org.jetbrains.dokka")
 }
-
 
 android {
     namespace "cz.zcu.students.lostandfound"
@@ -68,6 +68,14 @@ android {
 // Hilt - Allow references to generated code
 kapt {
     correctErrorTypes = true
+}
+
+dokkaHtml.configure {
+    dokkaSourceSets {
+        configureEach {
+            includes.from("MODULES.md")
+        }
+    }
 }
 
 dependencies {
@@ -178,3 +186,4 @@ tasks.withType(KotlinCompile).configureEach {
         freeCompilerArgs += "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
     }
 }
+
