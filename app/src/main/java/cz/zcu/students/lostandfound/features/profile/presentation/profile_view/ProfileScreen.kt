@@ -1,6 +1,8 @@
 package cz.zcu.students.lostandfound.features.profile.presentation.profile_view
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
@@ -61,46 +63,43 @@ fun DisplayUserData(
     navigateToChangePhoneNumber: () -> Unit,
 ) {
     Column(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxSize(),
     ) {
-        Column(
-            Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+
+        EditableProfileImageIcon(user)
+
+        ProfileField(
+            icon = Icons.Default.Person,
+            title = stringResource(R.string.screen_profile_name),
+            value = user.name,
+        )
+
+        ProfileField(
+            icon = Icons.Default.Email,
+            title = stringResource(R.string.screen_profile_email),
+            value = user.email,
+        )
+
+        val phoneNumber =
+            if (user.phoneNumber.isNullOrBlank())
+                stringResource(R.string.screen_profile_not_added_yet)
+            else user.phoneNumber
+
+        ProfileField(
+            icon = Icons.Default.Phone,
+            title = stringResource(R.string.screen_profile_phone_number),
+            value = phoneNumber,
         ) {
-
-            EditableProfileImageIcon(user)
-
-            ProfileField(
-                icon = Icons.Default.Person,
-                title = stringResource(R.string.screen_profile_name),
-                value = user.name,
-            )
-
-            ProfileField(
-                icon = Icons.Default.Email,
-                title = stringResource(R.string.screen_profile_email),
-                value = user.email,
-            )
-
-            val phoneNumber =
-                if (user.phoneNumber.isNullOrBlank())
-                    stringResource(R.string.screen_profile_not_added_yet)
-                else user.phoneNumber
-
-            ProfileField(
-                icon = Icons.Default.Phone,
-                title = stringResource(R.string.screen_profile_phone_number),
-                value = phoneNumber,
+            TextButton(
+                onClick = navigateToChangePhoneNumber,
             ) {
-                TextButton(
-                    onClick = navigateToChangePhoneNumber,
-                ) {
-                    Text(text = stringResource(R.string.screen_profile_change_action))
-                }
+                Text(text = stringResource(R.string.screen_profile_change_action))
             }
         }
+        Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraLarge))
         Button(
             modifier = Modifier
                 .fillMaxWidth(0.5f)
