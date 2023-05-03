@@ -6,6 +6,10 @@ import cz.zcu.students.lostandfound.common.util.Response
 /**
  * Authorization repository.
  *
+ * This repository provides multiple user operations like checking current
+ * state of the logged in user, logging in user, logging out user,
+ * creating new users, finding specific users by id, etc.
+ *
  * @see Response
  */
 interface AuthRepository {

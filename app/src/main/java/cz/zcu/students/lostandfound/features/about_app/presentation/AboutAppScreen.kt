@@ -11,6 +11,11 @@ import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.constants.General.Companion.APP_VERSION
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Title component.
+ *
+ * @param text text to display.
+ */
 @Composable
 private fun TitleText(
     text: String,
@@ -23,6 +28,11 @@ private fun TitleText(
     Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
 }
 
+/**
+ * Subtitle component.
+ *
+ * @param text text to display.
+ */
 @Composable
 private fun SubTitleText(
     text: String,
@@ -33,6 +43,12 @@ private fun SubTitleText(
     )
 }
 
+
+/**
+ * Text (body) component.
+ *
+ * @param text text to display.
+ */
 @Composable
 private fun BodyText(
     text: String,
@@ -44,7 +60,7 @@ private fun BodyText(
     )
 }
 
-
+/** Screen with about app info. */
 @Composable
 fun AboutAppScreen() {
     Column(

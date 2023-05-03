@@ -14,7 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import cz.zcu.students.lostandfound.common.constants.Settings.Companion.CZECH_ISO
 import cz.zcu.students.lostandfound.common.constants.Settings.Companion.ENGLISH_ISO
 import cz.zcu.students.lostandfound.common.constants.Settings.Companion.SPLASHSCREEN_DURATION
-import cz.zcu.students.lostandfound.features.settings.domain.language.LanguageOptions
+import cz.zcu.students.lostandfound.features.settings.domain.model.LanguageOptions
 import cz.zcu.students.lostandfound.features.settings.presentation.settings.SettingsViewModel
 import cz.zcu.students.lostandfound.navigation.App
 import cz.zcu.students.lostandfound.ui.theme.LostAndFoundTheme

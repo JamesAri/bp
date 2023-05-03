@@ -17,20 +17,26 @@ import com.maxkeppeler.sheets.list.ListDialog
 import com.maxkeppeler.sheets.list.models.ListOption
 import com.maxkeppeler.sheets.list.models.ListSelection
 import cz.zcu.students.lostandfound.R
-import cz.zcu.students.lostandfound.features.settings.domain.language.LanguageOptions
+import cz.zcu.students.lostandfound.features.settings.domain.model.LanguageOptions
 import cz.zcu.students.lostandfound.features.settings.domain.model.ThemeOptions
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/** Screen with app settings. */
 @Composable
 fun SettingsScreen() {
 
     Column(modifier = Modifier.fillMaxSize()) {
-        ThemeSettingsItem()
+        SettingsList()
     }
 }
 
+/**
+ * List of all app settings.
+ *
+ * @param appSettingsViewModel app settings viewmodel.
+ */
 @Composable
-fun ThemeSettingsItem(
+fun SettingsList(
     appSettingsViewModel: SettingsViewModel = hiltViewModel(),
 ) {
     var currentThemeText by remember { mutableStateOf("") }
@@ -82,6 +88,12 @@ fun ThemeSettingsItem(
     )
 }
 
+/**
+ * Dialog to show when user wants to change the app language.
+ *
+ * @param dialogState dialog state, i.e. closed/open.
+ * @param appSettingsViewModel app settings viewmodel.
+ */
 @Composable
 fun LanguageDialog(
     dialogState: SheetState,
@@ -127,6 +139,12 @@ fun LanguageDialog(
 }
 
 
+/**
+ * Dialog to show when user wants to change the app theme.
+ *
+ * @param dialogState dialog state, i.e. closed/open.
+ * @param appSettingsViewModel app settings viewmodel.
+ */
 @Composable
 fun ThemeDialog(
     dialogState: SheetState,
@@ -179,6 +197,13 @@ fun ThemeDialog(
     )
 }
 
+/**
+ * Represents one item in the list of available settings.
+ *
+ * @param title title with app setting.
+ * @param currentValue current value fo the app setting.
+ * @param onClick will be called when user clicks on the element.
+ */
 @Composable
 fun SettingsItem(
     title: String,
