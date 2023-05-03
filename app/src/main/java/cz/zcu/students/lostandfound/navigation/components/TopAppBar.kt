@@ -25,6 +25,14 @@ import cz.zcu.students.lostandfound.navigation.NavItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+/**
+ * Top app bar navigation component.
+ *
+ * @param drawerState drawer state, i.e. closed/open.
+ * @param coroutineScope coroutine scope to run blocking code.
+ * @param navController app's navigation controller.
+ * @param mappedRouteNamesState mapped screen routes to screen names.
+ */
 @Composable
 fun TopAppBar(
     drawerState: DrawerState,

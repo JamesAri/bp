@@ -2,6 +2,10 @@ package cz.zcu.students.lostandfound.ui.theme
 
 import androidx.compose.material3.Typography
 
+//================================================================================================//
+//                                       TYPOGRAPHY                                               //
+//================================================================================================//
+
 // TODO: custom font family
 // Follow guidelines: https://m3.material.io/styles/typography/type-scale-tokens
 

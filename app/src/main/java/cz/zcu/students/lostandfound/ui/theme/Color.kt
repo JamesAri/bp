@@ -2,6 +2,11 @@ package cz.zcu.students.lostandfound.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+//================================================================================================//
+//                                       COLOR PALETTES                                           //
+//================================================================================================//
+
+
 val BlueGrey10 = Color(0xFF001433)
 val BlueGrey20 = Color(0xFF002966)
 val BlueGrey25 = Color(0xFF003380)

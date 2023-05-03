@@ -21,6 +21,7 @@ import cz.zcu.students.lostandfound.ui.theme.LostAndFoundTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+/** Main activity of the app, where we inject our dependencies. */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
@@ -36,6 +37,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Listener for app locale (language) changes and updates states accordingly.
+     *
+     * @param appSettingsViewModel viewmodel with app settings.
+     */
     @Suppress("DEPRECATION")
     @Composable
     fun ConfigChangeListener(
@@ -59,6 +65,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
+    /** Handles custom splash screen, with duration set to [SPLASHSCREEN_DURATION]. */
     private fun handleSplashScreen() {
         var splashScreenStays = true
 

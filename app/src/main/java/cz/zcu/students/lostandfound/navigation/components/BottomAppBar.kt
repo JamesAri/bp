@@ -8,6 +8,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import cz.zcu.students.lostandfound.navigation.NavItem
 
+/**
+ * Bottom app bar navigation component.
+ *
+ * @param navController app's navigation controller.
+ * @param mappedRouteNamesState mapped screen routes to screen names.
+ */
 @Composable
 fun BottomAppBar(
     navController: NavHostController,

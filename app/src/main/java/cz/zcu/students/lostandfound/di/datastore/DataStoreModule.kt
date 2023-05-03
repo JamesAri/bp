@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
 
+/** Proto DataStore module */
 @InstallIn(SingletonComponent::class)
 @Module
 object DataStoreModule {

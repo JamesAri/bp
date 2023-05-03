@@ -18,6 +18,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
+/**
+ * App's navigation drawer component.
+ *
+ * @param drawerState drawer state, i.e. closed/open.
+ * @param coroutineScope coroutine scope to run blocking code.
+ * @param navController app's navigation controller.
+ * @param gesturesEnabled state to determine if gestures are enabled.
+ * @param mappedRouteNamesState mapped screen routes to screen names.
+ * @param content content inside of this component.
+ */
 @Composable
 fun NavigationDrawer(
     drawerState: DrawerState,
@@ -82,8 +92,19 @@ fun NavigationDrawer(
     )
 }
 
+/**
+ * Creates group of navigation elements.
+ *
+ * @param items [NavItem] items to create in group list.
+ * @param navController app's navigation controller.
+ * @param coroutineScope coroutine scope to run blocking code.
+ * @param drawerState drawer state, i.e. closed/open.
+ * @param mappedRouteNamesState mapped screen routes to screen names.
+ * @param backStackEntryState navigation's back stack entry for retrieving
+ *     route parameters.
+ */
 @Composable
-fun IterateGroup(
+private fun IterateGroup(
     items: List<NavItem>,
     navController: NavHostController,
     coroutineScope: CoroutineScope,

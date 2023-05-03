@@ -10,6 +10,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Storage module
+ *
+ * Provides Firebase storage and image storage API
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object StorageModule {

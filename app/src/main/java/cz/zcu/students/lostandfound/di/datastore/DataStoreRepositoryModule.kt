@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/** App settings repository module */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataStoreRepositoryModule {

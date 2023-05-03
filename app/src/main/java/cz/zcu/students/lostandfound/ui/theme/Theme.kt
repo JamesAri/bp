@@ -10,6 +10,12 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import cz.zcu.students.lostandfound.features.settings.domain.model.ThemeOptions
 import cz.zcu.students.lostandfound.features.settings.presentation.settings.SettingsViewModel
 
+//================================================================================================//
+//                                         APP'S THEME                                            //
+//================================================================================================//
+
+
+/** Dark theme color scheme */
 private val DarkColorScheme = darkColorScheme(
     primary = BlueGrey70,
     onPrimary = BlueGrey20,
@@ -39,6 +45,7 @@ private val DarkColorScheme = darkColorScheme(
     outline = Grey80
 )
 
+/** Light theme color scheme */
 private val LightColorScheme = lightColorScheme(
     primary = BlueGrey45,
     onPrimary = Grey99,
@@ -68,6 +75,12 @@ private val LightColorScheme = lightColorScheme(
     outline = Grey35
 )
 
+/**
+ * App's theme provider.
+ *
+ * @param appSettingsViewModel viewmodel with app settings.
+ * @param content App's content (content to be themed).
+ */
 @Composable
 fun LostAndFoundTheme(
     appSettingsViewModel: SettingsViewModel = hiltViewModel(),
@@ -105,14 +118,6 @@ fun LostAndFoundTheme(
         )
     }
 
-//    val view = LocalView.current
-//    if (!view.isInEditMode) {
-//        SideEffect {
-//            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-//            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
-//        }
-//    }
-
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
@@ -120,7 +125,7 @@ fun LostAndFoundTheme(
     )
 }
 
-// Used for UI development
+// (DEV env) Used for UI development
 @Suppress("unused")
 @Composable
 fun PreviewTheme(

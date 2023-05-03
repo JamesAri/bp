@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/** Lost items repository module */
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class LostItemsRepositoryModule {

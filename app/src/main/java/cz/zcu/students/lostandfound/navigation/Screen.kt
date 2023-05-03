@@ -16,6 +16,11 @@ import cz.zcu.students.lostandfound.common.constants.General.Companion.PROFILE_S
 import cz.zcu.students.lostandfound.common.constants.General.Companion.SETTINGS_SCREEN
 import cz.zcu.students.lostandfound.common.constants.General.Companion.UPDATE_LOST_ITEM_SCREEN
 
+/**
+ * All individual app screens.
+ *
+ * @property route route for navigation in the [NavGraph].
+ */
 sealed class Screen(val route: String) {
     object AuthScreen : Screen(AUTH_SCREEN)
     object FindLostItemScreen : Screen(FIND_ITEM_SCREEN)
@@ -32,6 +37,12 @@ sealed class Screen(val route: String) {
     object MarkLostItemScreen : Screen(MARK_LOST_ITEM_SCREEN)
 }
 
+/**
+ * Creates mapped route names respecting current context (locale) settings.
+ *
+ * @param context interface to global information about an application environment.
+ * @return mapped [Screen.route]s to screen names (titles).
+ */
 fun mappedRouteNamesFactory(context: Context): Map<String, String> {
     return mapOf(
         Screen.AuthScreen.route to context.getString(R.string.navigation_auth),

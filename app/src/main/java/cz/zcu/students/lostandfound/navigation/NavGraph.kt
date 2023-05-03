@@ -28,6 +28,19 @@ import cz.zcu.students.lostandfound.features.profile.presentation.profile_view.P
 import cz.zcu.students.lostandfound.features.settings.presentation.settings.SettingsScreen
 import kotlinx.coroutines.CoroutineScope
 
+/**
+ * App navigation graph.
+ *
+ * Each screen has it's [Screen.route] to properly navigate between
+ * screens.
+ *
+ * @param modifier the modifier to be applied to the layout.
+ * @param navController app's navigation controller.
+ * @param startDestination starting [Screen.route] to navigate to after
+ *     successful authentication.
+ * @param coroutineScope coroutine scope to run blocking code.
+ * @see mappedRouteNamesFactory
+ */
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
@@ -99,7 +112,7 @@ fun NavGraph(
                 navController = navController,
                 navigateToMarkLostItemScreen = {
                     navController.navigate(Screen.MarkLostItemScreen.route)
-                }            )
+                })
         }
         composable(
             route = Screen.AddLostItemScreen.route

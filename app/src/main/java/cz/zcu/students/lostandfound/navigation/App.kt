@@ -15,10 +15,20 @@ import cz.zcu.students.lostandfound.navigation.components.NavigationDrawer
 import cz.zcu.students.lostandfound.navigation.components.TopAppBar
 import kotlinx.coroutines.CoroutineScope
 
+/** Provider for global snackbar host state. */
 val LocalSnackbarHostState: ProvidableCompositionLocal<SnackbarHostState> =
     compositionLocalOf { error("No SnackbarHostState provided") }
 
-
+/**
+ * App's top-level component with all navigation elements.
+ *
+ * This composable is the wrapper for the whole application UI.
+ *
+ * Later on, this component should be wrapped in a theme and set as a
+ * main content.
+ *
+ * @param appSettingsViewModel viewmodel with app settings.
+ */
 @Composable
 fun App(
     appSettingsViewModel: SettingsViewModel = hiltViewModel(),

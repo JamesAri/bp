@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/** Cloud Firestore database module */
 @Module
 @InstallIn(SingletonComponent::class)
 object DbModule {
