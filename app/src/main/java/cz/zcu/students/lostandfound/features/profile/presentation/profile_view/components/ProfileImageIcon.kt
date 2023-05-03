@@ -24,6 +24,12 @@ import coil.compose.AsyncImage
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Composable with profile image and edit action button.
+ *
+ * @param photoUri uri of the user's profile photo.
+ * @param onEditClick will be called when user clicks on the edit action button.
+ */
 @Composable
 fun ProfileImageIcon(
     photoUri: Uri?,
@@ -65,5 +71,4 @@ fun ProfileImageIcon(
             )
         }
     }
-
 }

@@ -70,7 +70,7 @@ fun MyPostsScreen(
 }
 
 @Composable
-fun EmptyLostItemList() {
+private fun EmptyLostItemList() {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -94,7 +94,7 @@ fun EmptyLostItemList() {
 }
 
 @Composable
-fun PostDivider() {
+private fun PostDivider() {
     Divider(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.primary,
@@ -103,7 +103,7 @@ fun PostDivider() {
 }
 
 @Composable
-fun RenderEditableLostItemList(
+private fun RenderEditableLostItemList(
     lostItemList: LostItemList,
     navigateToUpdateScreen: (String) -> Unit,
 ) {
@@ -133,7 +133,7 @@ fun RenderEditableLostItemList(
 }
 
 @Composable
-fun MyPosts(
+private fun MyPosts(
     viewModel: LostItemViewModel = hiltViewModel(),
     navigateToUpdateScreen: (String) -> Unit,
 ) {
@@ -153,7 +153,7 @@ fun MyPosts(
 }
 
 @Composable
-fun EditPostDropdownMenu(
+private fun EditPostDropdownMenu(
     modifier: Modifier = Modifier,
     expanded: Boolean,
     onExpandRequest: () -> Unit,
@@ -202,7 +202,7 @@ fun EditPostDropdownMenu(
 
 
 @Composable
-fun LostItemField(
+private fun LostItemField(
     lostItem: LostItem,
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
     navigateToUpdateScreen: (String) -> Unit,

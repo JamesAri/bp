@@ -27,9 +27,7 @@ import cz.zcu.students.lostandfound.common.features.map.presentation.MapViewMode
 import cz.zcu.students.lostandfound.common.features.map.presentation.components.CurrentLocationLocator
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.centerOnLocation
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.toLatLng
-import cz.zcu.students.lostandfound.common.util.Response
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
-import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItemList
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.components.LostItemsFetchErrorComponent
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
@@ -37,7 +35,7 @@ import cz.zcu.students.lostandfound.ui.theme.spacing
 
 
 @Composable
-fun Map(
+private fun Map(
     mapViewModel: MapViewModel = hiltViewModel(),
     lostItems: List<LostItem>,
     focusLocation: LocationCoordinates?,
@@ -123,7 +121,7 @@ fun Map(
 }
 
 @Composable
-fun LoadMapWithMarkers(
+private fun LoadMapWithMarkers(
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
     focusLocation: LocationCoordinates?,
 ) {
@@ -145,7 +143,7 @@ fun LoadMapWithMarkers(
 }
 
 @Composable
-fun LostItemsMap(
+fun LostItemsMapScreen(
     location: LocationCoordinates?,
 ) {
     CurrentLocationLocator()

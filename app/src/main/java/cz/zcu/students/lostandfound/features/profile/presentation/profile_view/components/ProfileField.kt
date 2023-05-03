@@ -14,6 +14,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Component representing one profile item.
+ *
+ * @param icon icon representing profile field.
+ * @param title title of the profile field.
+ * @param value value of the profile field.
+ * @param endComponent end component to use, e.g. button.
+ */
 @Composable
 fun ProfileField(
     icon: ImageVector,
@@ -48,7 +56,7 @@ fun ProfileField(
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-            EditableRow(
+            ProfileFieldEndRow(
                 title = title,
                 value = value,
                 endComponent = endComponent,
@@ -57,8 +65,15 @@ fun ProfileField(
     }
 }
 
+/**
+ * Helper component for [ProfileField].
+ *
+ * @param title title of the profile field.
+ * @param value value of the profile field.
+ * @param endComponent end component to use, e.g. button.
+ */
 @Composable
-fun EditableRow(
+private fun ProfileFieldEndRow(
     title: String,
     value: String,
     endComponent: @Composable () -> Unit,

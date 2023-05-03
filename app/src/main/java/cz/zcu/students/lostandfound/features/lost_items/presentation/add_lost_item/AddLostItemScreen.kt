@@ -54,7 +54,7 @@ fun AddLostItemScreen(
 }
 
 @Composable
-fun LostItemEditor(
+private fun LostItemEditor(
     addLostItemViewModel: AddLostItemViewModel = hiltViewModel(),
     navController: NavHostController,
     navigateToMarkLostItemScreen: () -> Unit,
@@ -79,7 +79,7 @@ fun LostItemEditor(
 }
 
 @Composable
-fun ImagePlaceholder(
+private fun ImagePlaceholder(
     openGallery: () -> Unit,
     uriState: Uri?,
 ) {
@@ -118,7 +118,7 @@ fun ImagePlaceholder(
 }
 
 @Composable
-fun LostItemForm(
+private fun LostItemForm(
     modifier: Modifier = Modifier,
     addLostItemViewModel: AddLostItemViewModel = hiltViewModel(),
     openGallery: () -> Unit,
@@ -225,7 +225,7 @@ fun LostItemForm(
 
 
 @Composable
-fun CreateLostItemListener(
+private fun CreateLostItemListener(
     viewModel: LostItemViewModel = hiltViewModel(),
     coroutineScope: CoroutineScope,
     navigateBack: () -> Unit,

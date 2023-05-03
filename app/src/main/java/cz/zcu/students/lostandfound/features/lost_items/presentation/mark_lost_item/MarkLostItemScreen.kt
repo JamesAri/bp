@@ -30,7 +30,7 @@ import cz.zcu.students.lostandfound.ui.theme.spacing
 
 
 @Composable
-fun Map(
+private fun Map(
     mapViewModel: MapViewModel = hiltViewModel(),
     navigateBack: (LocationCoordinates?) -> Unit,
 ) {

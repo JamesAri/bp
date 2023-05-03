@@ -46,7 +46,7 @@ fun LostItemDetailScreen(
 }
 
 @Composable
-fun LoadLostItem(
+private fun LoadLostItem(
     viewModel: LostItemViewModel = hiltViewModel(),
     authViewModel: AuthViewModel = hiltViewModel(),
     lostItemId: String,
@@ -76,7 +76,7 @@ fun LoadLostItem(
 }
 
 @Composable
-fun LostItemDetail(
+private fun LostItemDetail(
     lostItem: LostItem,
     postOwner: User,
     navigateToMapMarker: (Double, Double) -> Unit,

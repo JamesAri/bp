@@ -19,7 +19,7 @@ import cz.zcu.students.lostandfound.features.about_app.presentation.AboutAppScre
 import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.AddLostItemScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.FindLostItemScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.lost_item_detail.LostItemDetailScreen
-import cz.zcu.students.lostandfound.features.lost_items.presentation.lost_items_map.LostItemsMap
+import cz.zcu.students.lostandfound.features.lost_items.presentation.lost_items_map.LostItemsMapScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.mark_lost_item.MarkLostItemScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.my_posts.MyPostsScreen
 import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost_item.UpdatePostScreen
@@ -171,11 +171,6 @@ fun NavGraph(
             AboutAppScreen()
         }
         composable(
-            route = Screen.AboutAppScreen.route
-        ) {
-            AboutAppScreen()
-        }
-        composable(
             route = "${Screen.LostItemsMapScreen.route}?$LATITUDE={$LATITUDE}&$LONGITUDE={$LONGITUDE}",
             arguments = listOf(
                 navArgument(LATITUDE) {
@@ -196,7 +191,7 @@ fun NavGraph(
             if (latitude != null && longitude != null) {
                 location = LocationCoordinates(latitude, longitude)
             }
-            LostItemsMap(location = location)
+            LostItemsMapScreen(location = location)
         }
         composable(
             route = Screen.MarkLostItemScreen.route

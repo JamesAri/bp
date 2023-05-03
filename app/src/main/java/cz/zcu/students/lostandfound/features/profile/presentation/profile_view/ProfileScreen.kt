@@ -25,6 +25,12 @@ import cz.zcu.students.lostandfound.features.profile.presentation.profile_view.c
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Profile screen.
+ *
+ * @param navigateToLoginScreen navigates to login screen (when user is logged out).
+ * @param navigateToChangePhoneNumber navigates to change phone number form screen.
+ */
 @Composable
 fun ProfileScreen(
     navigateToLoginScreen: () -> Unit,
@@ -36,8 +42,15 @@ fun ProfileScreen(
     )
 }
 
+/**
+ * Loads and displays user info page (screen).
+ *
+ * @param authViewModel
+ * @param navigateToLoginScreen
+ * @param navigateToChangePhoneNumber
+ */
 @Composable
-fun LoadUserPreview(
+private fun LoadUserPreview(
     authViewModel: AuthViewModel = hiltViewModel(),
     navigateToLoginScreen: () -> Unit,
     navigateToChangePhoneNumber: () -> Unit,
@@ -46,7 +59,7 @@ fun LoadUserPreview(
         response = authViewModel.currentUser,
         snackbarHostState = LocalSnackbarHostState.current
     ) { user ->
-        DisplayUserData(
+        UserDataView(
             user = user,
             navigateToLoginScreen = navigateToLoginScreen,
             navigateToChangePhoneNumber = navigateToChangePhoneNumber,
@@ -54,9 +67,16 @@ fun LoadUserPreview(
     }
 }
 
-
+/**
+ * Composable with user data like email, phone number, name, etc..
+ *
+ * @param user user to display.
+ * @param authViewModel authentication viewmodel.
+ * @param navigateToLoginScreen navigates to login screen (when user is logged out).
+ * @param navigateToChangePhoneNumber navigates to change phone number form screen.
+ */
 @Composable
-fun DisplayUserData(
+private fun UserDataView(
     user: User,
     authViewModel: AuthViewModel = hiltViewModel(),
     navigateToLoginScreen: () -> Unit,

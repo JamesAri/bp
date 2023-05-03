@@ -67,7 +67,7 @@ fun FindLostItemScreen(
 
 
 @Composable
-fun LostItemsResponseContent(
+private fun LostItemsResponseContent(
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
     authViewModel: AuthViewModel = hiltViewModel(),
     navigateToLostItemDetail: (String) -> Unit,

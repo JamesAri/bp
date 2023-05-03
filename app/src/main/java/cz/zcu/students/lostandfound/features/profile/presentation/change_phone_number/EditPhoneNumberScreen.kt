@@ -19,6 +19,12 @@ import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 import kotlinx.coroutines.CoroutineScope
 
+/**
+ * Screen with edit phone number form.
+ *
+ * @param coroutineScope coroutine scope to run blocking code.
+ * @param navigateToProfile to call when navigating back to profile.
+ */
 @Composable
 fun EditPhoneNumberScreen(
     coroutineScope: CoroutineScope,
@@ -26,14 +32,23 @@ fun EditPhoneNumberScreen(
 ) {
     ChangePhoneNumberForm()
 
-    EmailChangeListener(
+    PhoneNumberChangeListener(
         navigateToProfile = navigateToProfile,
         coroutineScope = coroutineScope,
     )
 }
 
+/**
+ * Listens for phone number changes and shows appropriate snackbar message
+ * on change.
+ *
+ * @param coroutineScope coroutine scope to run blocking code.
+ * @param navigateToProfile navigateToProfile to call when navigating back
+ *     to profile.
+ * @param authViewModel authentication viewmodel.
+ */
 @Composable
-fun EmailChangeListener(
+private fun PhoneNumberChangeListener(
     coroutineScope: CoroutineScope,
     navigateToProfile: () -> Unit,
     authViewModel: AuthViewModel = hiltViewModel(),
@@ -48,8 +63,9 @@ fun EmailChangeListener(
     )
 }
 
+/** Phone number change form. */
 @Composable
-fun ChangePhoneNumberForm(
+private fun ChangePhoneNumberForm(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,13 +74,18 @@ fun ChangePhoneNumberForm(
             .fillMaxSize()
             .padding(MaterialTheme.spacing.medium)
     ) {
-        ChangeControls()
+        ChangePhoneNumberFields()
         RemoveButton()
     }
 }
 
+/**
+ * Component that handles removing of the phone number.
+ *
+ * @param authViewModel authentication viewmodel.
+ */
 @Composable
-fun RemoveButton(
+private fun RemoveButton(
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     Button(
@@ -80,8 +101,13 @@ fun RemoveButton(
     }
 }
 
+/**
+ * Fields of the phone number form.
+ *
+ * @param authViewModel authentication viewmodel.
+ */
 @Composable
-fun ChangeControls(
+private fun ChangePhoneNumberFields(
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     var phoneNumber by remember { mutableStateOf("") }

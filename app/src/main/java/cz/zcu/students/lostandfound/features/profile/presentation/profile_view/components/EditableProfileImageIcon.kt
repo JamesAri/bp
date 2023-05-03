@@ -13,6 +13,12 @@ import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.common.features.auth.presentation.login.AuthViewModel
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 
+/**
+ * Composable that handles rendering and editing of the profile image.
+ *
+ * @param user user to display.
+ * @param authViewModel authentication viewmodel.
+ */
 @Composable
 fun EditableProfileImageIcon(
     user: User,
@@ -45,8 +51,13 @@ fun EditableProfileImageIcon(
     UpdateProfileListener()
 }
 
+/**
+ * Listens for profile changes and shows appropriate snackbar message on change.
+ *
+ * @param authViewModel
+ */
 @Composable
-fun UpdateProfileListener(
+private fun UpdateProfileListener(
     authViewModel: AuthViewModel = hiltViewModel(),
 ) {
     ResponseSnackBarHandler(

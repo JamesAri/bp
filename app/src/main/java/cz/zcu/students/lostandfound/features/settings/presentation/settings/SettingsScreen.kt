@@ -36,7 +36,7 @@ fun SettingsScreen() {
  * @param appSettingsViewModel app settings viewmodel.
  */
 @Composable
-fun SettingsList(
+private fun SettingsList(
     appSettingsViewModel: SettingsViewModel = hiltViewModel(),
 ) {
     var currentThemeText by remember { mutableStateOf("") }
@@ -95,7 +95,7 @@ fun SettingsList(
  * @param appSettingsViewModel app settings viewmodel.
  */
 @Composable
-fun LanguageDialog(
+private fun LanguageDialog(
     dialogState: SheetState,
     appSettingsViewModel: SettingsViewModel = hiltViewModel(),
 ) {
@@ -146,7 +146,7 @@ fun LanguageDialog(
  * @param appSettingsViewModel app settings viewmodel.
  */
 @Composable
-fun ThemeDialog(
+private fun ThemeDialog(
     dialogState: SheetState,
     appSettingsViewModel: SettingsViewModel = hiltViewModel(),
 ) {
@@ -205,7 +205,7 @@ fun ThemeDialog(
  * @param onClick will be called when user clicks on the element.
  */
 @Composable
-fun SettingsItem(
+private fun SettingsItem(
     title: String,
     currentValue: String,
     onClick: () -> Unit,

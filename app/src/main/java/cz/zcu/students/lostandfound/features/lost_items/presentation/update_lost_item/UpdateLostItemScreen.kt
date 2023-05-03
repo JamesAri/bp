@@ -65,7 +65,7 @@ fun UpdatePostScreen(
 }
 
 @Composable
-fun LostItemEditor(
+private fun LostItemEditor(
     updateLostItemViewModel: UpdateLostItemViewModel = hiltViewModel(),
     navController: NavHostController,
     lostItem: LostItem,
@@ -91,7 +91,7 @@ fun LostItemEditor(
 }
 
 @Composable
-fun LostItemForm(
+private fun LostItemForm(
     modifier: Modifier = Modifier,
     updateLostItemViewModel: UpdateLostItemViewModel = hiltViewModel(),
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
@@ -202,7 +202,7 @@ fun LostItemForm(
 
 
 @Composable
-fun UpdateLostItemListener(
+private fun UpdateLostItemListener(
     viewModel: LostItemViewModel = hiltViewModel(),
     coroutineScope: CoroutineScope,
     navigateBack: () -> Unit,
