@@ -17,6 +17,11 @@ import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Chips with terms of the filtered lost items.
+ *
+ * @param viewModel lost items viewmodel.
+ */
 @Composable
 fun ChipFilters(
     viewModel: LostItemViewModel = hiltViewModel()

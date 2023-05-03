@@ -31,32 +31,48 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
+/**
+ * Viewmodel for lost items.
+ *
+ * @property lostItemsRepo lost items repository [LostItemRepository].
+ * @property storageRepo storage repository [ImageStorageRepository].
+ * @property authRepo authentication repository [AuthRepository].
+ */
 @HiltViewModel
 class LostItemViewModel @Inject constructor(
-    private val dbRepo: LostItemRepository,
+    private val lostItemsRepo: LostItemRepository,
     private val storageRepo: ImageStorageRepository,
     private val authRepo: AuthRepository,
 ) : ViewModel() {
 
+    /** SSoC lost items list state object. */
     private val _lostItemListState =
         MutableStateFlow<Response<LostItemList>>(Success(null))
+
+    /** Lost items list state. */
     val lostItemListState = _lostItemListState.asStateFlow()
 
+    /** State with reflects CRUD lost items operations. */
     var crudLostItemState by mutableStateOf<Response<Boolean>>(Success(null))
         private set
 
+    /** State for one WIP lost item object. */
     var lostItemState by mutableStateOf<Response<LostItem>>(Success(null))
         private set
 
+    /** Applied full-text search filters. */
     val filters = mutableStateListOf<String>()
 
     /**
-     * Future application should use a dedicated third-party search service.
-     * These services provide advanced indexing and search capabilities far beyond
-     * what any simple database query can offer and what in this case is an overkill.
+     * Fulltext search.
      *
-     * As temporary solution (as we except small user base) we will compute these
-     * queries locally.
+     * Future application should use a dedicated third-party search service.
+     * These services provide advanced indexing and search capabilities far
+     * beyond what any simple database query can offer and what in this case is
+     * an overkill.
+     *
+     * As temporary solution (as we except small user base) we will compute
+     * these queries locally.
      *
      * Empty [filters] results in loading the whole dataset.
      */
@@ -74,6 +90,11 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Fetches sorted (by date) lost items and filters them by [filters].
+     *
+     * @param repoCall repository call with [LostItemList].
+     */
     private fun fetchLostItems(
         repoCall: suspend () -> Response<Flow<LostItemList>>
     ) {
@@ -111,20 +132,35 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Fetches all lost items that are sorted by date and filtered by
+     * [filters].
+     */
     fun loadLostItems() {
-        fetchLostItems { dbRepo.getLostItemListFlow() }
+        fetchLostItems { lostItemsRepo.getLostItemListFlow() }
     }
 
+    /** Fetches current user's posts with lost items. */
     fun loadMyItems() {
-        fetchLostItems { dbRepo.getLostItemListFlowFromCurrentUser() }
+        fetchLostItems { lostItemsRepo.getLostItemListFlowFromCurrentUser() }
     }
 
+    /**
+     * Gets lost item based on the passed [id].
+     *
+     * @param id of lost item.
+     */
     fun getLostItem(id: String) {
         viewModelScope.launch {
-            lostItemState = dbRepo.getLostItem(id)
+            lostItemState = lostItemsRepo.getLostItem(id)
         }
     }
 
+    /**
+     * Deletes lost item [lostItem].
+     *
+     * @param lostItem to delete.
+     */
     fun deleteLostItem(lostItem: LostItem) {
         viewModelScope.launch {
             updateLostItem(
@@ -135,6 +171,14 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Creates new lost item.
+     *
+     * @param title of the new lost item post.
+     * @param description of the new lost item post.
+     * @param localImageUri of the lost item.
+     * @param location of the item that was found.
+     */
     fun createLostItem(
         title: String,
         description: String,
@@ -165,12 +209,17 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Creates/updates lost item [lostItem] with local image uri.
+     *
+     * @param lostItem to write.
+     */
     private fun writeLostItemWithLocalImage(lostItem: LostItem) {
         viewModelScope.launch {
             val imageUri = lostItem.imageUri
             crudLostItemState = Loading
             if (imageUri == null) {
-                crudLostItemState = dbRepo.createLostItem(lostItem = lostItem)
+                crudLostItemState = lostItemsRepo.createLostItem(lostItem = lostItem)
             } else {
                 when (val remoteImageUriResponse = storageRepo.addImageToStorage(
                     imageUri = imageUri,
@@ -184,7 +233,7 @@ class LostItemViewModel @Inject constructor(
                         val lostItemWithAssignedUri =
                             lostItem.copy(imageUri = remoteImageUriResponse.data)
                         crudLostItemState =
-                            dbRepo.createLostItem(lostItem = lostItemWithAssignedUri)
+                            lostItemsRepo.createLostItem(lostItem = lostItemWithAssignedUri)
                     }
                     is Error -> crudLostItemState = Error(remoteImageUriResponse.error)
                 }
@@ -192,6 +241,11 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Creates/updates lost item [lostItem] with remote image uri.
+     *
+     * @param lostItem to write.
+     */
     private fun writeLostItemWithRemoteImage(lostItem: LostItem) {
         viewModelScope.launch {
             crudLostItemState = Loading
@@ -202,14 +256,20 @@ class LostItemViewModel @Inject constructor(
                     crudLostItemState = if (currentUser.data == null) {
                         Error(Exception("user not logged in"))
                     } else {
-                        dbRepo.updateLostItem(lostItem)
+                        lostItemsRepo.updateLostItem(lostItem)
                     }
                 }
             }
         }
     }
 
-
+    /**
+     * Updates lost items [lostItem].
+     *
+     * @param lostItem to update.
+     * @param hasRemoteUri `true` if the image has remote uri, `false` if the
+     *     image has local uri.
+     */
     fun updateLostItem(lostItem: LostItem, hasRemoteUri: Boolean = true) {
         if (hasRemoteUri) {
             writeLostItemWithRemoteImage(lostItem = lostItem)
@@ -218,6 +278,13 @@ class LostItemViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Gets [LocaleTimeString] with correct locale datetime utils.
+     *
+     * @param context interface to global information about an application
+     *     environment.
+     * @return instance of datetime utils [LocaleTimeString].
+     */
     fun getLocaleTimeString(context: Context): LocaleTimeString {
         return LocaleTimeStringImpl(context)
     }

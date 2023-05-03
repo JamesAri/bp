@@ -32,15 +32,21 @@ import cz.zcu.students.lostandfound.features.lost_items.presentation.update_lost
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
-
+/**
+ * Screen with the list of all posts by the currently logged in user.
+ *
+ * @param lostItemViewModel lost items viewmodel.
+ * @param navigateToAddPosts navigates to add post (lost item) screen.
+ * @param navigateToUpdateScreen navigates to update lost item screen.
+ */
 @Composable
 fun MyPostsScreen(
-    viewModel: LostItemViewModel = hiltViewModel(),
+    lostItemViewModel: LostItemViewModel = hiltViewModel(),
     navigateToAddPosts: () -> Unit,
     navigateToUpdateScreen: (String) -> Unit,
 ) {
     LaunchedEffect(Unit) {
-        viewModel.loadMyItems()
+        lostItemViewModel.loadMyItems()
     }
 
     Scaffold(
@@ -64,11 +70,12 @@ fun MyPostsScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            MyPosts(navigateToUpdateScreen = navigateToUpdateScreen)
+            MyPostsListener(navigateToUpdateScreen = navigateToUpdateScreen)
         }
     }
 }
 
+/** Empty lost item list component. */
 @Composable
 private fun EmptyLostItemList() {
     Box(
@@ -93,6 +100,7 @@ private fun EmptyLostItemList() {
     }
 }
 
+/** Post divider component. */
 @Composable
 private fun PostDivider() {
     Divider(
@@ -102,6 +110,13 @@ private fun PostDivider() {
     )
 }
 
+/**
+ * Renders editable lost item list of the current user posts.
+ *
+ * @param lostItemList current user posts.
+ * @param navigateToUpdateScreen navigates to update screen of the passed
+ *     lost item id.
+ */
 @Composable
 private fun RenderEditableLostItemList(
     lostItemList: LostItemList,
@@ -132,13 +147,21 @@ private fun RenderEditableLostItemList(
 
 }
 
+/**
+ * Listens for current owner's posts changes and shows appropriate snackbar
+ * message on change.
+ *
+ * @param lostItemViewModel lost items viewmodel.
+ * @param navigateToUpdateScreen navigates to update screen of the passed
+ *     lost item id.
+ */
 @Composable
-private fun MyPosts(
-    viewModel: LostItemViewModel = hiltViewModel(),
+private fun MyPostsListener(
+    lostItemViewModel: LostItemViewModel = hiltViewModel(),
     navigateToUpdateScreen: (String) -> Unit,
 ) {
     ResponseHandler(
-        response = viewModel.lostItemListState.collectAsStateWithLifecycle().value,
+        response = lostItemViewModel.lostItemListState.collectAsStateWithLifecycle().value,
         snackbarHostState = LocalSnackbarHostState.current,
         onSuccessContent = { lostItemList ->
             RenderEditableLostItemList(
@@ -152,6 +175,17 @@ private fun MyPosts(
     )
 }
 
+/**
+ * Dropdown menu with actions like edit and delete.
+ *
+ * @param modifier the modifier to be applied to the layout.
+ * @param expanded `true` if the dropdown menu is expanded, `false`
+ *     otherwise.
+ * @param onExpandRequest action on expand request.
+ * @param onCloseRequest action on close request.
+ * @param onEditRequest action on edit request.
+ * @param onDeleteRequest action on delete request.
+ */
 @Composable
 private fun EditPostDropdownMenu(
     modifier: Modifier = Modifier,
@@ -200,7 +234,13 @@ private fun EditPostDropdownMenu(
     }
 }
 
-
+/**
+ * One field of lost item in the list.
+ *
+ * @param lostItem to display.
+ * @param lostItemViewModel lost items viewmodel.
+ * @param navigateToUpdateScreen navigates to update lost item screen.
+ */
 @Composable
 private fun LostItemField(
     lostItem: LostItem,
@@ -231,7 +271,12 @@ private fun LostItemField(
                 .align(Alignment.CenterStart)
         )
         Text(
-            text = lostItem.createdAt?.let { getFormattedDateString(it, lostItemViewModel.getLocaleTimeString(context)) }
+            text = lostItem.createdAt?.let {
+                getFormattedDateString(
+                    it,
+                    lostItemViewModel.getLocaleTimeString(context)
+                )
+            }
                 ?: stringResource(R.string.screen_lost_item_unknown_date),
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.align(Alignment.TopEnd),

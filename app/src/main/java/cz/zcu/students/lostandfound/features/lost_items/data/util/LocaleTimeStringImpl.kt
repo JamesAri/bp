@@ -4,6 +4,12 @@ import android.content.Context
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.util.datetime.LocaleTimeString
 
+/**
+ * Implementation of [LocaleTimeString].
+ *
+ * @property context interface to global information about an application
+ *     environment.
+ */
 class LocaleTimeStringImpl(val context: Context) : LocaleTimeString {
     override fun getMomentAgo(): String {
         return context.getString(R.string.locale_time_string_few_moments_ago)

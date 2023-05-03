@@ -28,6 +28,13 @@ import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.comp
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Screen with the list of all lost items.
+ *
+ * @param lostItemViewModel lost item viewmodel.
+ * @param navigateToLostItemDetail navigates to lost item detail.
+ * @param navigateToMapMarker navigates to map marker based on the passed location.
+ */
 @Composable
 fun FindLostItemScreen(
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
@@ -65,7 +72,14 @@ fun FindLostItemScreen(
     }
 }
 
-
+/**
+ * Listens for lost item list changes and renders accordingly.
+ *
+ * @param lostItemViewModel lost item viewmodel.
+ * @param authViewModel authentication viewmodel.
+ * @param navigateToLostItemDetail navigates to lost item detail.
+ * @param navigateToMapMarker navigates to map marker based on the passed location.
+ */
 @Composable
 private fun LostItemsResponseContent(
     lostItemViewModel: LostItemViewModel = hiltViewModel(),

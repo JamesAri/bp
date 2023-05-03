@@ -10,7 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import cz.zcu.students.lostandfound.R
 
-
+/**
+ * General confirm delete dialog.
+ *
+ * @param openDialogState dialog open state.
+ * @param onDismissRequest to call when dismiss is requested.
+ * @param onConfirmRequest to call when delete is confirmed.
+ * @param title of the dialog.
+ * @param text description/text of the dialog. Should contain info about
+ *     the deleting item.
+ */
 @Composable
 fun ConfirmDeleteDialog(
     openDialogState: Boolean,

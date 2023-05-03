@@ -13,6 +13,13 @@ import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.common.features.auth.domain.model.User
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Shows contact dialog of the [postOwner].
+ *
+ * @param openDialogState dialog open state.
+ * @param onDismissRequest to call when dialog dismiss requested.
+ * @param postOwner [User] who is owner of the post.
+ */
 @Composable
 fun ContactPersonDialog(
     openDialogState: Boolean,

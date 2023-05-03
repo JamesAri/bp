@@ -13,6 +13,15 @@ import com.google.accompanist.flowlayout.FlowRow
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Assist chips for show on map action and show contact action.
+ *
+ * @param modifier the modifier to be applied to the layout.
+ * @param mainAxisAlignment main axis alignment.
+ * @param onContactPerson function to run on show contact action click.
+ * @param onShowMapMarker function to run on show on map action click.
+ * @param locationProvided `true` if location of the lost item is provided, `false` otherwise.
+ */
 @Composable
 fun ContactAndMapMarkerAssistChips(
     modifier: Modifier = Modifier,

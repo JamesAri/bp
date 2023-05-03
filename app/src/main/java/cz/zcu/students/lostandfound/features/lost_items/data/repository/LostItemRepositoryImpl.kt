@@ -20,13 +20,25 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Implementation of lost items repository [LostItemRepository].
+ *
+ * @property api lost items API [LostItemApi]
+ */
 @Singleton
 class LostItemRepositoryImpl @Inject constructor(
     private val api: LostItemApi,
 ) : LostItemRepository {
 
+    /** Instance of Firebase auth. */
     private val authInstance = FirebaseAuth.getInstance()
 
+    /**
+     * Maps DTO object [LostItemListDto] to [LostItemList] from domain layer.
+     *
+     * @param fetchLostItemListDto function with emitting lost item lists.
+     * @return domain layer [LostItemList] with recent (up-to-date) lost items.
+     */
     private suspend fun mapLostItemListDto(
         fetchLostItemListDto: suspend () -> Flow<LostItemListDto>
     ): Response<Flow<LostItemList>> {

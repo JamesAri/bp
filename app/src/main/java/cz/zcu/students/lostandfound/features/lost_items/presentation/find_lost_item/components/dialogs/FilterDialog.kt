@@ -11,6 +11,13 @@ import cz.zcu.students.lostandfound.common.constants.Validations.Companion.MAX_S
 import cz.zcu.students.lostandfound.features.lost_items.domain.util.SearchTermValidator
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Shows filter dialog for lost item list state.
+ *
+ * @param openDialogState dialog open state.
+ * @param onDismissRequest to call when dialog dismiss requested.
+ * @param onAddNewFilter to call when new filter added.
+ */
 @Composable
 fun FilterDialog(
     openDialogState: Boolean,

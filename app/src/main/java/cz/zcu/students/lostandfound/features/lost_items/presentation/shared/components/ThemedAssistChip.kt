@@ -5,6 +5,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 
+/**
+ * General assist chip component with themed design.
+ *
+ * @param modifier the modifier to be applied to the layout.
+ * @param text to show on the assist chip.
+ * @param icon to show on the assist chip.
+ * @param enabled `true` if assist chip is enabled, `false` otherwise.
+ * @param onClick will be called when user clicks on the element.
+ */
 @Composable
 fun ThemedAssistChip(
     modifier: Modifier = Modifier,

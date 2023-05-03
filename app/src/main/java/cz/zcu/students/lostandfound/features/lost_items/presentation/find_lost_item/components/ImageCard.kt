@@ -32,6 +32,14 @@ import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_i
 import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.components.ContactAndMapMarkerAssistChips
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Image card component.
+ *
+ * @param modifier the modifier to be applied to the layout.
+ * @param lostItemData paired lost items and their corresponding post owners.
+ * @param navigateToLostItemDetail navigates to lost item detail.
+ * @param navigateToMapMarker navigates to marker on the map based on the location.
+ */
 @Composable
 fun ImageCard(
     modifier: Modifier = Modifier,
@@ -50,8 +58,17 @@ fun ImageCard(
     )
 }
 
+/**
+ * Image card component with post contact info.
+ *
+ * @param modifier the modifier to be applied to the layout.
+ * @param lostItem lost item to display.
+ * @param postOwner owner of the post.
+ * @param navigateToLostItemDetail navigates to lost item detail.
+ * @param navigateToMapMarker navigates to marker on the map based on the location.
+ */
 @Composable
-fun ImageCardWithPostInfo(
+private fun ImageCardWithPostInfo(
     modifier: Modifier = Modifier,
     lostItem: LostItem,
     postOwner: User,
@@ -92,8 +109,15 @@ fun ImageCardWithPostInfo(
     }
 }
 
+/**
+ * Card footer component.
+ *
+ * @param lostItem lost item to display.
+ * @param postOwner owner of the post.
+ * @param navigateToMapMarker navigates to marker on the map based on the location.
+ */
 @Composable
-fun CardFooter(
+private fun CardFooter(
     lostItem: LostItem,
     postOwner: User,
     navigateToMapMarker: (Double, Double) -> Unit,
@@ -146,9 +170,14 @@ fun CardFooter(
     )
 }
 
-
+/**
+ * Card header component.
+ *
+ * @param owner post owner.
+ * @param lostItem lost item to display.
+ */
 @Composable
-fun CardHeader(
+private fun CardHeader(
     owner: User,
     lostItem: LostItem,
 ) {
@@ -166,8 +195,14 @@ fun CardHeader(
     }
 }
 
+/**
+ * Item post date component.
+ *
+ * @param postTimestamp of the lost item.
+ * @param lostItemViewModel lost item viewmodel.
+ */
 @Composable
-fun ItemPostDate(
+private fun ItemPostDate(
     postTimestamp: Long?,
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
 ) {
@@ -190,8 +225,13 @@ fun ItemPostDate(
     }
 }
 
+/**
+ * Post owner contact info component.
+ *
+ * @param owner with contact information.
+ */
 @Composable
-fun PostOwnerInfo(owner: User) {
+private fun PostOwnerInfo(owner: User) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {

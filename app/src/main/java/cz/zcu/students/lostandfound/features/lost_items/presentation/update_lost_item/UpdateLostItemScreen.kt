@@ -26,11 +26,22 @@ import cz.zcu.students.lostandfound.common.constants.Navigation
 import cz.zcu.students.lostandfound.common.features.map.domain.model.LocationCoordinates
 import cz.zcu.students.lostandfound.features.lost_items.domain.model.LostItem
 import cz.zcu.students.lostandfound.features.lost_items.presentation.LostItemViewModel
-import cz.zcu.students.lostandfound.features.lost_items.presentation.add_lost_item.ImagePlaceholder
+import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.components.ImagePlaceholder
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 import kotlinx.coroutines.CoroutineScope
 
+/**
+ * Update lost item screen.
+ *
+ * @param updateLostItemViewModel update lost item viewmodel.
+ * @param lostItemId lost item id.
+ * @param coroutineScope coroutine scope to run blocking code.
+ * @param navigateBack navigates back one screen in the navigation.
+ * @param navController app's navigation controller.
+ * @param navigateToMarkLostItemScreen navigates to mark lost item screen,
+ *     where user can change the location of the found item.
+ */
 @Composable
 fun UpdatePostScreen(
     updateLostItemViewModel: UpdateLostItemViewModel = hiltViewModel(),
@@ -64,6 +75,16 @@ fun UpdatePostScreen(
     )
 }
 
+/**
+ * Editor component with the passed [lostItem]. Functions as intent
+ * launcher and form renderer.
+ *
+ * @param updateLostItemViewModel update lost item viewmodel.
+ * @param navController app's navigation controller.
+ * @param lostItem to edit.
+ * @param navigateToMarkLostItemScreen navigates to mark lost item screen,
+ *     where user can change the location of the found item.
+ */
 @Composable
 private fun LostItemEditor(
     updateLostItemViewModel: UpdateLostItemViewModel = hiltViewModel(),
@@ -90,6 +111,18 @@ private fun LostItemEditor(
     )
 }
 
+/**
+ * Lost item form to update the passed lost item [lostItem].
+ *
+ * @param modifier
+ * @param updateLostItemViewModel update lost item viewmodel.
+ * @param lostItemViewModel lostItemViewModel lost items viewmodel.
+ * @param openGallery function to call to open gallery with intent.
+ * @param lostItem to edit.
+ * @param navController app's navigation controller.
+ * @param navigateToMarkLostItemScreen navigates to mark lost item screen,
+ *     where user can change the location of the found item.
+ */
 @Composable
 private fun LostItemForm(
     modifier: Modifier = Modifier,
@@ -200,15 +233,22 @@ private fun LostItemForm(
     }
 }
 
-
+/**
+ * Listens for lost item update changes and shows appropriate snackbar
+ * message on change.
+ *
+ * @param lostItemViewModel lost items viewmodel.
+ * @param coroutineScope coroutine scope to run blocking code.
+ * @param navigateBack navigates back one screen in the navigation.
+ */
 @Composable
 private fun UpdateLostItemListener(
-    viewModel: LostItemViewModel = hiltViewModel(),
+    lostItemViewModel: LostItemViewModel = hiltViewModel(),
     coroutineScope: CoroutineScope,
     navigateBack: () -> Unit,
 ) {
     ResponseSnackBarHandler(
-        response = viewModel.crudLostItemState,
+        response = lostItemViewModel.crudLostItemState,
         onTrueMessage = stringResource(R.string.screen_lost_item_update_success),
         onFalseMessage = stringResource(R.string.screen_lost_item_update_failur),
         snackbarHostState = LocalSnackbarHostState.current,

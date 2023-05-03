@@ -17,13 +17,28 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * API for Firestore lost item manipulation.
+ *
+ * @param db reference to Firestore [FirebaseFirestore] database.
+ * @constructor constructs lost item API with Firestore [FirebaseFirestore]
+ *     database reference.
+ */
 class LostItemApi @Inject constructor(
     db: FirebaseFirestore,
 ) {
+
+    /** Lost items db collection reference. */
     private val collectionRef = db.collection(
         LOST_ITEM_COLLECTION_KEY
     )
 
+    /**
+     * Fetches all lost items and maps them to DTO object [LostItemListDto].
+     *
+     * @param query Firestore query for lost items.
+     * @return emitting flow of lost item lists (real-time listening).
+     */
     private suspend fun lostItemListFlowQueryFetch(
         query: Query
     ): Flow<LostItemListDto> {
@@ -45,17 +60,30 @@ class LostItemApi @Inject constructor(
         }
     }
 
+    /**
+     * Calls query for all non-deleted, non-found lost items.
+     *
+     * @return emitting flow of lost item lists (real-time listening).
+     */
     suspend fun getLostItemList(): Flow<LostItemListDto> {
         return lostItemListFlowQueryFetch(
             collectionRef
                 .whereEqualTo(LOST_ITEM_IS_DELETED_KEY, false)
                 .whereEqualTo(LOST_ITEM_IS_FOUND_KEY, false)
-                .orderBy(LOST_ITEM_CREATED_AT_KEY,
+                .orderBy(
+                    LOST_ITEM_CREATED_AT_KEY,
                     Query.Direction.DESCENDING
                 )
         )
     }
 
+    /**
+     * Calls query for non-deleted, non-found lost item with specific owner
+     * [id].
+     *
+     * @param id of lost item.
+     * @return emitting flow of lost item lists (real-time listening).
+     */
     suspend fun getLostItemListByOwnerId(id: String): Flow<LostItemListDto> {
         return lostItemListFlowQueryFetch(
             collectionRef
@@ -66,6 +94,13 @@ class LostItemApi @Inject constructor(
         )
     }
 
+    /**
+     * Calls query for lost item with specific [id] that is non-deleted and
+     * non-found.
+     *
+     * @param id of lost item.
+     * @return emitting flow of lost item lists (real-time listening).
+     */
     suspend fun getLostItem(id: String): LostItemDto? {
         return withContext(Dispatchers.IO) {
             return@withContext collectionRef
@@ -76,6 +111,11 @@ class LostItemApi @Inject constructor(
         }
     }
 
+    /**
+     * Updates passed lost item.
+     *
+     * @param lostItemDto lost item to update.
+     */
     suspend fun updateLostItem(lostItemDto: LostItemDto) {
         withContext(Dispatchers.IO) {
             return@withContext collectionRef
@@ -85,6 +125,12 @@ class LostItemApi @Inject constructor(
         }
     }
 
+    /**
+     * Creates new lost item.
+     *
+     * @param lostItemDto item to create (or update, because of how the Firebase
+     *     db works).
+     */
     suspend fun createLostItem(lostItemDto: LostItemDto) {
         updateLostItem(lostItemDto)
     }

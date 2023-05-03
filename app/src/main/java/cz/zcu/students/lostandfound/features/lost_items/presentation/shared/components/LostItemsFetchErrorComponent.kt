@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import cz.zcu.students.lostandfound.R
 
+/** Component with error message when loading of the lost items failed. */
 @Composable
 fun LostItemsFetchErrorComponent() {
     Box(

@@ -27,6 +27,12 @@ import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.comp
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
+/**
+ * Screen with lost item detail.
+ *
+ * @param lostItemId id of the lost item.
+ * @param navigateToMapMarker navigates to map marker with passed location.
+ */
 @Composable
 fun LostItemDetailScreen(
     lostItemId: String?,
@@ -45,19 +51,27 @@ fun LostItemDetailScreen(
     }
 }
 
+/**
+ * Loads and listens for the lost item.
+ *
+ * @param lostItemViewModel lost items viewmodel.
+ * @param authViewModel authentication viewmodel.
+ * @param lostItemId id of the lost item.
+ * @param navigateToMapMarker navigates to map marker with passed location.
+ */
 @Composable
 private fun LoadLostItem(
-    viewModel: LostItemViewModel = hiltViewModel(),
+    lostItemViewModel: LostItemViewModel = hiltViewModel(),
     authViewModel: AuthViewModel = hiltViewModel(),
     lostItemId: String,
     navigateToMapMarker: (Double, Double) -> Unit,
 ) {
     LaunchedEffect(Unit) {
-        viewModel.getLostItem(lostItemId)
+        lostItemViewModel.getLostItem(lostItemId)
     }
 
     ResponseHandler(
-        response = viewModel.lostItemState,
+        response = lostItemViewModel.lostItemState,
         snackbarHostState = LocalSnackbarHostState.current,
         onSuccessContent = { lostItem ->
             var postOwner by remember { mutableStateOf<User?>(null) }
@@ -75,6 +89,13 @@ private fun LoadLostItem(
     )
 }
 
+/**
+ * Component with the lost item detail.
+ *
+ * @param lostItem lost item to display.
+ * @param postOwner owner of the post.
+ * @param navigateToMapMarker navigates to map marker with passed location.
+ */
 @Composable
 private fun LostItemDetail(
     lostItem: LostItem,

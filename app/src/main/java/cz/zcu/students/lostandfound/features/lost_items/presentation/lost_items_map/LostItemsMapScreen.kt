@@ -33,7 +33,13 @@ import cz.zcu.students.lostandfound.features.lost_items.presentation.shared.comp
 import cz.zcu.students.lostandfound.navigation.LocalSnackbarHostState
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
-
+/**
+ * Map component with GOOGLE SDK MAP service.
+ *
+ * @param mapViewModel map viewmodel.
+ * @param lostItems lost items.
+ * @param focusLocation location to focus on when initialized.
+ */
 @Composable
 private fun Map(
     mapViewModel: MapViewModel = hiltViewModel(),
@@ -120,6 +126,12 @@ private fun Map(
     }
 }
 
+/**
+ * Loads all lost item markers.
+ *
+ * @param lostItemViewModel lost items viewmodel.
+ * @param focusLocation location to focus on when initialized.
+ */
 @Composable
 private fun LoadMapWithMarkers(
     lostItemViewModel: LostItemViewModel = hiltViewModel(),
@@ -142,6 +154,11 @@ private fun LoadMapWithMarkers(
     )
 }
 
+/**
+ * Lost items map screen.
+ *
+ * @param location location to focus on when map opens.
+ */
 @Composable
 fun LostItemsMapScreen(
     location: LocationCoordinates?,

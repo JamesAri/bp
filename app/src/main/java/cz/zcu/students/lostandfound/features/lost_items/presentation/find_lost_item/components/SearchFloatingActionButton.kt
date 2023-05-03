@@ -11,6 +11,11 @@ import androidx.compose.ui.res.stringResource
 import cz.zcu.students.lostandfound.R
 import cz.zcu.students.lostandfound.features.lost_items.presentation.find_lost_item.components.dialogs.FilterDialog
 
+/**
+ * Floating action button for search dialog.
+ *
+ * @param onAddNewFilter to call when new filter (term) is added.
+ */
 @Composable
 fun SearchFloatingActionButton(
     onAddNewFilter: (String) -> Unit,

@@ -28,7 +28,13 @@ import cz.zcu.students.lostandfound.common.features.map.presentation.util.center
 import cz.zcu.students.lostandfound.common.features.map.presentation.util.toLocationCoordinates
 import cz.zcu.students.lostandfound.ui.theme.spacing
 
-
+/**
+ * Map component with GOOGLE SDK MAP service.
+ *
+ * @param mapViewModel map viewmodel.
+ * @param navigateBack navigates back when user finishes adding/canceling
+ *     marker on the map.
+ */
 @Composable
 private fun Map(
     mapViewModel: MapViewModel = hiltViewModel(),
@@ -143,7 +149,12 @@ private fun Map(
     }
 }
 
-
+/**
+ * Screen with marking of lost item feature.
+ *
+ * @param navigateBack navigates back when user finishes adding/canceling
+ *     marker on the map.
+ */
 @Composable
 fun MarkLostItemScreen(
     navigateBack: (LocationCoordinates?) -> Unit,
