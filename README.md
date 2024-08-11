@@ -31,6 +31,4 @@ service cloud.firestore {
 }
 ```
 
-Accounted for: kubaslechtaaa@gmail.com
-
 ---
